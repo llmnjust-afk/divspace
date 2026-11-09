@@ -11,6 +11,21 @@ from torch import nn
 from .utils import find_layers, find_final_norm, parse_dtype, resolve_device
 
 
+def _dtype_kwarg(dtype: torch.dtype) -> dict:
+    """transformers renamed ``torch_dtype`` to ``dtype``; support both."""
+    import inspect
+
+    from transformers import AutoModelForCausalLM
+
+    try:
+        parameters = inspect.signature(AutoModelForCausalLM.from_pretrained).parameters
+    except (TypeError, ValueError):
+        return {"torch_dtype": dtype}
+    if "dtype" in parameters:
+        return {"dtype": dtype}
+    return {"torch_dtype": dtype}
+
+
 @dataclass
 class LM:
     name: str
@@ -57,11 +72,11 @@ class LM:
 
         model = AutoModelForCausalLM.from_pretrained(
             name,
-            torch_dtype=torch_dtype,
             device_map={"": dev.index if dev.type == "cuda" else "cpu"},
             trust_remote_code=trust_remote_code,
             attn_implementation=attn_implementation,
             local_files_only=local_files_only,
+            **_dtype_kwarg(torch_dtype),
         )
         model.eval()
         model.requires_grad_(False)
