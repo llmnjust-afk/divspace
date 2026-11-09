@@ -145,6 +145,11 @@ def cmd_sample(args) -> None:
 
 
 def cmd_extract(args) -> None:
+    if args.n_samples < args.min_samples:
+        raise SystemExit(
+            f"--n-samples {args.n_samples} is below --min-samples {args.min_samples}; "
+            "no prompt could yield a high/low contrast"
+        )
     lm = _load_model(args)
     prompts, _ = shard_with_ids(
         resolve_prompts(args.prompt_set, args.prompt_file, args.limit),

@@ -10,6 +10,7 @@ export MODELS=${MODELS:-"EleutherAI/pythia-2.8b Qwen/Qwen2.5-7B-Instruct allenai
 export GPUS=${GPUS:-4}
 export PROMPT_SET=${PROMPT_SET:-all}
 export N_SAMPLES=${N_SAMPLES:-16}
+export MIN_SAMPLES=${MIN_SAMPLES:-8}
 export BATCH_SIZE=${BATCH_SIZE:-4}
 export COEFS=${COEFS:--3 -2 -1 1 2 3}
 export PYTHON=${PYTHON:-python3}
