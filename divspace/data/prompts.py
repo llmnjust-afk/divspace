@@ -93,7 +93,11 @@ def load_prompt_file(path: str | Path) -> list[str]:
             line = line.strip()
             if not line:
                 continue
-            payload = json.loads(line)
+            try:
+                payload = json.loads(line)
+            except json.JSONDecodeError:
+                prompts.append(line)
+                continue
             prompts.append(payload["prompt"] if isinstance(payload, dict) else payload)
     return prompts
 

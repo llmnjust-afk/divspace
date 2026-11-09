@@ -8,6 +8,7 @@ from divspace.extract.directions import (
     split_half_stability,
     unit,
 )
+from divspace.data.prompts import load_prompt_file
 from divspace.extract.select import prompt_consistency, dispersion, select_within_prompt
 
 
@@ -95,3 +96,13 @@ def test_prompt_consistency_separates_shared_from_prompt_specific():
     result = prompt_consistency(acts, owner, split)
     assert result["n_prompts"] == n_prompts
     assert abs(result["mean_cosine"]) < 0.5
+
+
+def test_prompt_file_accepts_plain_text(tmp_path):
+    path = tmp_path / "prompts.txt"
+    path.write_text("first question\n\nsecond question\n", encoding="utf-8")
+    assert load_prompt_file(path) == ["first question", "second question"]
+
+    jsonl = tmp_path / "prompts.jsonl"
+    jsonl.write_text('{"prompt": "from json"}\n"bare string"\n', encoding="utf-8")
+    assert load_prompt_file(jsonl) == ["from json", "bare string"]
