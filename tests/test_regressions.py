@@ -21,6 +21,7 @@ from divspace.intervene.steer import control_directions, orthogonalised
 from divspace.controls import fit_contrast_direction
 from divspace.local import run_local
 from divspace.models import build_tiny
+from divspace.stability import within_prompt_stability
 
 
 def test_dispersion_has_no_constant_offset():
@@ -220,3 +221,15 @@ def test_degradation_analysis_flags_repetition_blowups(tmp_path):
     rows = [line for line in text.splitlines() if line.startswith("| model_x")]
     assert any("degraded" in row for row in rows)
     assert any("clean" in row for row in rows)
+
+
+def test_within_prompt_stability_reports_a_cosine_per_prompt():
+    lm = build_tiny(n_layers=4)
+    rows = within_prompt_stability(
+        lm, ["a prompt", "another prompt"], layer=2, embed_layer=2, n_samples=16,
+        temperature=1.0, top_p=1.0, max_new_tokens=6, batch_size=4, max_length=32,
+    )
+    assert rows, "expected at least one prompt to be scored"
+    for row in rows:
+        assert -1.0 <= row["cosine"] <= 1.0
+        assert row["n_samples"] >= 8

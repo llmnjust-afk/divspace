@@ -28,6 +28,7 @@ from .intervene.steer import (
 )
 from .controls import fit_contrast_direction, load_pairs, split_half_agreement
 from .local import run_local
+from .stability import within_prompt_stability
 from .metrics.aggregate import aggregate_by_cell, mauve
 from .models import LM
 from .utils import (
@@ -110,6 +111,44 @@ def cmd_contrast(args) -> None:
     for layer in layers:
         print(f"  layer {layer:>2d}  ||d||={artifact.norms[layer]:.3f}  split-half={agreement[layer]:+.3f}")
     print(f"{lm.name}: contrast direction over {len(positive)} pairs -> {args.out}")
+
+
+def cmd_local_stability(args) -> None:
+    lm = _load_model(args)
+    prompts, _ = shard_with_ids(
+        resolve_prompts(args.prompt_set, args.prompt_file, args.limit),
+        args.shard_id, args.num_shards,
+    )
+    layer = args.layer
+    embed_layer = layer
+    if args.artifact:
+        artifact = DirectionArtifact.load(args.artifact)
+        layer = layer if layer is not None else artifact.embed_layer
+        embed_layer = artifact.embed_layer
+    if layer is None:
+        layer = lm.n_layers // 2
+    rows = within_prompt_stability(
+        lm,
+        prompts,
+        layer=layer,
+        embed_layer=embed_layer,
+        n_samples=args.n_samples,
+        temperature=args.temperature,
+        top_p=args.top_p,
+        max_new_tokens=args.max_new_tokens,
+        batch_size=args.batch_size,
+        max_length=args.max_length,
+        pool=args.pool,
+        use_chat_template=not args.no_chat_template,
+        seed=args.seed,
+    )
+    for row in rows:
+        row["model"] = lm.name
+    if rows:
+        cosines = [row["cosine"] for row in rows]
+        mean = sum(cosines) / len(cosines)
+        print(f"{len(rows)} prompts, mean within-prompt split-half cosine {mean:+.3f}")
+    write_jsonl(args.out, rows)
 
 
 def cmd_local(args) -> None:
@@ -627,6 +666,26 @@ def build_parser() -> argparse.ArgumentParser:
     local.add_argument("--seed", type=int, default=0)
     local.add_argument("--out", required=True)
     local.set_defaults(func=cmd_local)
+
+    stab = sub.add_parser(
+        "local-stability",
+        help="split-half stability of a direction fitted from a single prompt",
+    )
+    _add_model_args(stab)
+    _add_prompt_args(stab)
+    _add_shard_args(stab)
+    stab.add_argument("--artifact", default=None)
+    stab.add_argument("--layer", type=int, default=None)
+    stab.add_argument("--pool", default="mean", choices=["mean", "last"])
+    stab.add_argument("--n-samples", type=int, default=32)
+    stab.add_argument("--temperature", type=float, default=0.9)
+    stab.add_argument("--top-p", type=float, default=0.95)
+    stab.add_argument("--max-new-tokens", type=int, default=160)
+    stab.add_argument("--max-length", type=int, default=768)
+    stab.add_argument("--batch-size", type=int, default=4)
+    stab.add_argument("--seed", type=int, default=0)
+    stab.add_argument("--out", required=True)
+    stab.set_defaults(func=cmd_local_stability)
 
     return parser
 
