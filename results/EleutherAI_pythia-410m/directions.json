@@ -1,0 +1,67 @@
+{
+  "model": "EleutherAI/pythia-410m",
+  "layers": [
+    6,
+    12,
+    18
+  ],
+  "embed_layer": 12,
+  "norms": {
+    "6": 27.619749069213867,
+    "12": 35.652587890625,
+    "18": 35.337379455566406
+  },
+  "stability": {
+    "6": {
+      "cosine": 0.9986401796340942,
+      "n_positive": 120,
+      "n_negative": 120
+    },
+    "12": {
+      "cosine": 0.9988007545471191,
+      "n_positive": 120,
+      "n_negative": 120
+    },
+    "18": {
+      "cosine": 0.9954264760017395,
+      "n_positive": 120,
+      "n_negative": 120
+    }
+  },
+  "n_positive": 120,
+  "n_negative": 120,
+  "meta": {
+    "extraction": {
+      "layers": "middle",
+      "pool": "mean",
+      "n_samples": 16,
+      "temperature": 0.9,
+      "top_p": 0.95,
+      "max_new_tokens": 160,
+      "hi_quantile": 0.8,
+      "lo_quantile": 0.2,
+      "min_samples": 8,
+      "embed_layer_frac": 0.5,
+      "normalize": true
+    },
+    "seed": 0,
+    "n_prompts": 40,
+    "n_generations": 640,
+    "n_positive": 120,
+    "n_negative": 120,
+    "max_length": 768,
+    "provenance": {
+      "python": "3.10.12",
+      "torch": "2.11.0+cu128",
+      "timestamp": "2026-11-09T09:21:31",
+      "transformers": "5.20.2",
+      "gpu": "NVIDIA GeForce RTX 4090",
+      "gpu_total_gb": 23.5
+    },
+    "gpu_stats": {
+      "peak_vram_gb": 1.98,
+      "seconds": 29.39,
+      "gpu_hours": 0.0082
+    }
+  }
+}
