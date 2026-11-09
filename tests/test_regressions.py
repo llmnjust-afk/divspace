@@ -10,7 +10,7 @@ from divspace.extract.directions import unit
 from divspace.extract.pipeline import response_activations
 from divspace.extract.select import dispersion
 from divspace.hooks import capture
-from divspace.intervene.steer import orthogonalised
+from divspace.intervene.steer import control_directions, orthogonalised
 from divspace.controls import fit_contrast_direction
 from divspace.local import run_local
 from divspace.models import build_tiny
@@ -141,3 +141,21 @@ def test_contrast_artifact_keeps_its_pairs_for_the_shuffled_control():
     artifact = fit_contrast_direction(lm, positive, negative, [2])
     assert artifact.positive_pairs == positive
     assert artifact.negative_pairs == negative
+
+
+def test_centroid_control_is_the_mean_response_activation():
+    lm = build_tiny(n_layers=4)
+    artifact = fit_contrast_direction(
+        lm, [[f"q{i}", "Yes"] for i in range(4)], [[f"q{i}", "No"] for i in range(4)], [2]
+    )
+    pos = response_activations(lm, [tuple(p) for p in artifact.positive_pairs], [2])
+    neg = response_activations(lm, [tuple(p) for p in artifact.negative_pairs], [2])
+    expected = torch.cat([pos[2], neg[2]], 0).mean(0)
+    chosen = control_directions(
+        lm,
+        artifact,
+        {2: artifact.directions[2]},
+        "centroid",
+        activations=lambda pairs, layers: response_activations(lm, pairs, layers),
+    )
+    assert torch.allclose(chosen[2], expected, atol=1e-6)

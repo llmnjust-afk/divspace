@@ -36,6 +36,52 @@ def orthogonalised(direction: torch.Tensor, basis: torch.Tensor) -> torch.Tensor
     return residual / residual.norm().clamp_min(1e-8)
 
 
+def control_directions(
+    lm,
+    artifact,
+    directions: dict[int, torch.Tensor],
+    control: str | None,
+    seed: int = 0,
+    activations=None,
+) -> dict[int, torch.Tensor]:
+    """Build the placebo arm: random, pairing-shuffled, orthogonalised, or centroid."""
+    if control in (None, "none"):
+        return directions
+    if control == "random":
+        return {
+            layer: random_direction(lm.hidden_size, seed=seed + layer) for layer in directions
+        }
+    if not artifact.positive_pairs:
+        raise SystemExit(f"{control} control needs an artifact with stored pairs")
+    if activations is None:
+        raise SystemExit("activations are required for this control")
+    layer_list = list(directions)
+    positive = activations([tuple(pair) for pair in artifact.positive_pairs[:32]], layer_list)
+    negative = activations([tuple(pair) for pair in artifact.negative_pairs[:32]], layer_list)
+    if control == "shuffled":
+        return {
+            layer: shuffled_direction(positive[layer], negative[layer], seed=seed)
+            for layer in layer_list
+        }
+    if control == "centroid":
+        return {
+            layer: torch.cat([positive[layer], negative[layer]], 0).mean(0)
+            for layer in layer_list
+        }
+    if control == "orthogonal":
+        keys = list(directions)
+        if len(keys) < 2:
+            raise SystemExit("the orthogonal control needs at least two layers")
+        return {
+            layer: orthogonalised(
+                directions[layer],
+                torch.stack([directions[other] for other in keys if other != layer]),
+            )
+            for layer in keys
+        }
+    raise SystemExit(f"unknown control {control}")
+
+
 @dataclass
 class Cell:
     layer: int

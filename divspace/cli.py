@@ -22,11 +22,9 @@ from .config import (
 from .data.prompts import resolve_prompts
 from .extract.pipeline import DirectionArtifact, extract_directions, response_activations
 from .intervene.steer import (
-    orthogonalised,
-    random_direction,
+    control_directions,
     run_baseline,
     run_grid,
-    shuffled_direction,
 )
 from .controls import fit_contrast_direction, load_pairs, split_half_agreement
 from .local import run_local
@@ -277,38 +275,14 @@ def cmd_steer(args) -> None:
     if not direction:
         raise SystemExit("artifact contains none of the requested layers")
 
-    if args.control == "random":
-        direction = {
-            layer: random_direction(lm.hidden_size, seed=args.seed + layer)
-            for layer in direction
-        }
-    elif args.control == "shuffled":
-        if not artifact.positive_pairs:
-            raise SystemExit("shuffled control needs an artifact with stored pairs")
-        layer_list = list(direction)
-        positive_acts = response_activations(
-            lm, [tuple(pair) for pair in artifact.positive_pairs[:32]], layer_list
-        )
-        negative_acts = response_activations(
-            lm, [tuple(pair) for pair in artifact.negative_pairs[:32]], layer_list
-        )
-        direction = {
-            layer: shuffled_direction(
-                positive_acts[layer], negative_acts[layer], seed=args.seed
-            )
-            for layer in layer_list
-        }
-    elif args.control == "orthogonal":
-        keys = list(direction)
-        if len(keys) < 2:
-            raise SystemExit("the orthogonal control needs at least two layers")
-        direction = {
-            layer: orthogonalised(
-                direction[layer],
-                torch.stack([direction[other] for other in keys if other != layer]),
-            )
-            for layer in keys
-        }
+    direction = control_directions(
+        lm,
+        artifact,
+        direction,
+        args.control,
+        seed=args.seed,
+        activations=lambda pairs, layers: response_activations(lm, pairs, layers),
+    )
 
     cfg = SamplingConfig(
         n_samples=args.n_samples,

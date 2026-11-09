@@ -26,3 +26,10 @@ def test_controls_do_not_inherit_the_full_sweep_grid():
     body = (SCRIPTS / "04_controls.sh").read_text(encoding="utf-8")
     assert "CONTROL_COEFS" in body
     assert "--coefs $CONTROL_COEFS" in body
+
+
+def test_block3_sweeps_layers_and_uses_the_centroid_control():
+    script = (SCRIPTS / "14_headroom_and_centroid.sh").read_text(encoding="utf-8")
+    assert "--layers $layers" in script
+    assert "for control in centroid random" in script
+    assert "--temperature" in script
