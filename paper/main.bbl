@@ -117,13 +117,14 @@ Deepanshu Raj. 2026.
 \newblock arXiv:2611.06001.
 
 \bibitem[{Rimsky et~al.(2024)Rimsky, Gabrieli, Schulz, Tong, Hubinger, and
-  Turner}]{panickssery2023steering}
+  Turner}]{rimsky2024steering}
 Nina Rimsky, Nick Gabrieli, Julian Schulz, Meg Tong, Evan Hubinger, and
-  Alexander Turner. 2024.
-\newblock \href {https://doi.org/10.18653/v1/2024.acl-long.828} {Steering llama
-  2 via contrastive activation addition}.
-\newblock \emph{Proceedings of the conference - Association for Computational
-  Linguistics. Meeting}.
+  Alexander~Matt Turner. 2024.
+\newblock \href {https://doi.org/10.18653/v1/2024.acl-long.828} {Steering
+  {Llama} 2 via contrastive activation addition}.
+\newblock In \emph{Proceedings of the 62nd Annual Meeting of the Association
+  for Computational Linguistics (Volume 1: Long Papers)}, pages 15504--15522.
+  Association for Computational Linguistics.
 
 \bibitem[{Tan et~al.(2024)Tan, Chanin, Lynch, Kanoulas, Paige, Garriga-Alonso,
   and Kirk}]{tan2024analyzing}
