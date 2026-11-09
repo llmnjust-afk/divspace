@@ -39,11 +39,17 @@ class RunRecord:
 
 
 def _build_inputs(lm: LM, prompt: str, response: str, max_length: int):
+    if max_length < 2:
+        raise ValueError("max_length must be at least 2")
     prompt_ids = _token_ids(lm.tokenizer, prompt, True)
     response_ids = _token_ids(lm.tokenizer, response, False)
     if not response_ids:
         response_ids = [lm.tokenizer.eos_token_id or 0]
-    seq = (prompt_ids + response_ids)[:max_length]
+    if len(prompt_ids) + len(response_ids) > max_length:
+        response_ids = response_ids[: max(1, max_length - len(prompt_ids))]
+    if len(prompt_ids) + len(response_ids) > max_length:
+        prompt_ids = prompt_ids[: max(1, max_length - len(response_ids))]
+    seq = prompt_ids + response_ids
     return seq, len(prompt_ids), len(seq)
 
 
@@ -92,6 +98,9 @@ def attribution_patching(
         logprobs = torch.log_softmax(logits.float(), dim=-1)
         picked = logprobs[:, :-1, :].gather(-1, targets.unsqueeze(-1)).squeeze(-1)
         lo, hi = max(start - 1, 0), max(end - 1, 1)
+        hi = min(hi, picked.shape[1])
+        if hi <= lo:
+            lo, hi = 0, picked.shape[1]
         return picked[:, lo:hi].mean(), (lo, hi)
 
     clean_metric, _ = metric_and_slice(clean_logits, clean_ids, clean_start, clean_end)

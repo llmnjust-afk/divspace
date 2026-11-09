@@ -22,10 +22,10 @@ def dispersion(embeddings: torch.Tensor, exclude_self: bool = True) -> torch.Ten
     if embeddings.shape[0] < 2:
         return torch.zeros(embeddings.shape[0])
     sim = normalise(embeddings) @ normalise(embeddings).T
-    dist = 1.0 - sim
+    dist = (1.0 - sim).clamp_min(0.0)
+    n = dist.shape[0]
     if exclude_self:
-        n = dist.shape[0]
-        dist = dist - torch.eye(n, device=dist.device, dtype=dist.dtype) * 2.0
+        dist = dist - torch.eye(n, device=dist.device, dtype=dist.dtype) * dist.diagonal()
         return dist.sum(dim=1) / (n - 1)
     return dist.mean(dim=1)
 

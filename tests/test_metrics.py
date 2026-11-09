@@ -8,7 +8,7 @@ from divspace.metrics.embedding import (
     mean_pairwise_distance,
     vendi_score,
 )
-from divspace.metrics.lexical import distinct_n, rep_n, self_bleu, sentence_bleu
+from divspace.metrics.lexical import distinct_n, rep_n, self_bleu, sentence_bleu, words
 from divspace.metrics.quality import completion_rate, degeneracy
 from divspace.metrics.semantic import cluster_by_embedding, semantic_diversity
 
@@ -92,3 +92,11 @@ def test_completion_rate():
 def test_rep_n_empty_text():
     assert rep_n([""], 2) == 0.0
     assert math.isclose(distinct_n([""], 2), 0.0)
+
+
+def test_tokeniser_keeps_non_latin_text():
+    chinese = ["海边的灯塔在夜里亮起", "灯塔的光扫过海面"]
+    latin = ["the lighthouse lit up", "the beam swept the sea"]
+    assert distinct_n(chinese, 1) > 0.0
+    assert distinct_n(latin, 1) > 0.0
+    assert len(set(words("海边的灯塔"))) == 5

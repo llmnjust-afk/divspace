@@ -60,6 +60,17 @@ class SamplingConfig:
     batch_size: int = 8
     seed: int = 0
 
+    def __post_init__(self) -> None:
+        if self.n_samples < 1:
+            raise ValueError("n_samples must be >= 1")
+        if self.temperature <= 0 and self.n_samples > 1:
+            raise ValueError(
+                "greedy decoding (temperature <= 0) cannot draw multiple samples; "
+                "either raise the temperature or set n_samples to 1"
+            )
+        if self.batch_size < 1:
+            raise ValueError("batch_size must be >= 1")
+
 
 def resolve_layers(spec: Any, n_layers: int) -> list[int]:
     """Turn a layer specification into an explicit sorted list of indices.
@@ -107,7 +118,13 @@ def load_models(path: str | Path) -> dict[str, ModelSpec]:
 
 
 def model_by_short(models: dict[str, ModelSpec], short: str) -> ModelSpec:
+    """Look up a model by YAML key, short name, or Hugging Face id."""
+    if short in models:
+        return models[short]
     for spec in models.values():
         if spec.short == short or spec.name == short:
             return spec
-    raise KeyError(f"unknown model {short!r}; available: {[m.short for m in models.values()]}")
+    raise KeyError(
+        f"unknown model {short!r}; available keys: {sorted(models)} "
+        f"or ids: {[m.name for m in models.values()]}"
+    )

@@ -7,11 +7,27 @@ import re
 from collections import Counter
 from typing import Sequence
 
-_WORD = re.compile(r"[A-Za-z0-9']+")
+_WORD = re.compile(r"[\w']+", re.UNICODE)
+_CJK = r"\u3400-\u4dbf\u4e00-\u9fff\u3040-\u30ff\uac00-\ud7af"
+_CJK_CHAR = re.compile(f"[{_CJK}]")
+_CJK_SPLIT = re.compile(f"[{_CJK}]|[^{_CJK}]+")
 
 
 def words(text: str) -> list[str]:
-    return _WORD.findall(text.lower())
+    """Whitespace/punctuation-free tokenisation that also works for CJK text.
+
+    Scripts without spaces are emitted character by character; alphabetic runs
+    stay whole. Without this split a Chinese sentence would collapse to a single
+    token and every distinct-n score would be meaningless.
+    """
+    tokens: list[str] = []
+    for match in _WORD.finditer(text.lower()):
+        token = match.group()
+        if _CJK_CHAR.search(token):
+            tokens.extend(piece for piece in _CJK_SPLIT.findall(token) if piece.strip())
+        else:
+            tokens.append(token)
+    return tokens
 
 
 def ngram_counts(tokens: Sequence[str], n: int) -> Counter:

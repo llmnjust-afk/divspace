@@ -5,8 +5,10 @@ cd "$(dirname "$0")/.."
 
 GPU=${GPU:-0}
 MAX_NEW=${MAX_NEW:-128}
+MODELS_LIST=${MODELS:-"EleutherAI/pythia-2.8b Qwen/Qwen2.5-7B-Instruct allenai/OLMo-2-1124-7B-Instruct HuggingFaceTB/SmolLM2-1.7B-Instruct"}
 
-for MODEL in "${MODELS:-EleutherAI/pythia-2.8b Qwen/Qwen2.5-7B-Instruct allenai/OLMo-2-1124-7B-Instruct HuggingFaceTB/SmolLM2-1.7B-Instruct}"; do
+read -r -a ARR <<< "$MODELS_LIST"
+for MODEL in "${ARR[@]}"; do
   SLUG=$(echo "$MODEL" | tr '/' '_')
   echo "== $MODEL =="
   CUDA_VISIBLE_DEVICES="$GPU" "${PYTHON:-python3}" -m divspace.cli probe \

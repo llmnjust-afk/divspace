@@ -24,6 +24,19 @@ def _dtype_kwarg(dtype: torch.dtype) -> dict:
     return {"torch_dtype": dtype}
 
 
+def _select_backbone(model: nn.Module) -> nn.Module:
+    """Return the transformer trunk so callers can skip the output projection.
+
+    Running a 7B causal LM without ``logits_to_keep`` materialises a
+    batch x sequence x vocabulary tensor, which dominates memory during activation
+    extraction. The trunk produces the same hidden states without that cost.
+    """
+    base = getattr(model, "base_model", None)
+    if isinstance(base, nn.Module) and base is not model:
+        return base
+    return model
+
+
 @dataclass
 class LM:
     name: str
@@ -34,6 +47,12 @@ class LM:
     layers: nn.ModuleList
     hidden_size: int
     final_norm: nn.Module | None = None
+    backbone: nn.Module | None = None
+
+    def run_backbone(self, **inputs):
+        """Forward through the trunk only: hidden states, no vocabulary logits."""
+        trunk = self.backbone if self.backbone is not None else self.model
+        return trunk(**inputs)
 
     @property
     def n_layers(self) -> int:
@@ -93,6 +112,7 @@ class LM:
             layers=layers,
             hidden_size=int(hidden),
             final_norm=find_final_norm(model),
+            backbone=_select_backbone(model),
         )
 
     def encode(
@@ -187,4 +207,5 @@ def build_tiny(dtype: str = "float32", n_layers: int = 4) -> LM:
         layers=find_layers(model),
         hidden_size=config.hidden_size,
         final_norm=find_final_norm(model),
+        backbone=_select_backbone(model),
     )

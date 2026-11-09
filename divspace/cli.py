@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from collections import defaultdict
 from pathlib import Path
 
 import torch
@@ -202,37 +203,37 @@ def cmd_steer(args) -> None:
         raise SystemExit("artifact contains none of the requested layers")
 
     if args.control == "random":
-        template = next(iter(direction.values()))
         direction = {
             layer: random_direction(lm.hidden_size, seed=args.seed + layer)
             for layer in direction
         }
-        del template
     elif args.control == "shuffled":
         if not artifact.positive_pairs:
             raise SystemExit("shuffled control needs an artifact with stored pairs")
-        positive = torch.stack(
-            [
-                response_activations(lm, [tuple(p)], [next(iter(direction))])[
-                    next(iter(direction))
-                ][0]
-                for p in artifact.positive_pairs[:32]
-            ]
+        layer_list = list(direction)
+        positive_acts = response_activations(
+            lm, [tuple(pair) for pair in artifact.positive_pairs[:32]], layer_list
         )
-        negative = torch.stack(
-            [
-                response_activations(lm, [tuple(p)], [next(iter(direction))])[
-                    next(iter(direction))
-                ][0]
-                for p in artifact.negative_pairs[:32]
-            ]
+        negative_acts = response_activations(
+            lm, [tuple(pair) for pair in artifact.negative_pairs[:32]], layer_list
         )
         direction = {
-            layer: shuffled_direction(positive, negative, seed=args.seed) for layer in direction
+            layer: shuffled_direction(
+                positive_acts[layer], negative_acts[layer], seed=args.seed
+            )
+            for layer in layer_list
         }
     elif args.control == "orthogonal":
-        basis = torch.stack([direction[layer] for layer in direction])
-        direction = {layer: orthogonalised(direction[layer], basis) for layer in direction}
+        keys = list(direction)
+        if len(keys) < 2:
+            raise SystemExit("the orthogonal control needs at least two layers")
+        direction = {
+            layer: orthogonalised(
+                direction[layer],
+                torch.stack([direction[other] for other in keys if other != layer]),
+            )
+            for layer in keys
+        }
 
     cfg = SamplingConfig(
         n_samples=args.n_samples,
@@ -252,13 +253,14 @@ def cmd_steer(args) -> None:
             row["shard"] = args.shard_id
         rows.extend(baseline.rows)
 
+    coefs = [0.0] if args.mode == "ablate" else args.coefs
     with gpu_clock(lm.device) as stats:
         grid, cells = run_grid(
             lm,
             prompts,
             direction,
             layers=list(direction),
-            coefs=args.coefs,
+            coefs=coefs,
             cfg=cfg,
             positions=args.positions,
             use_chat_template=not args.no_chat_template,
@@ -284,13 +286,31 @@ def cmd_attribute(args) -> None:
     layers = (
         resolve_layers(args.layers, lm.n_layers) if args.layers else artifact.layers
     )
-    n = min(args.n_pairs, len(artifact.positive_pairs), len(artifact.negative_pairs))
+
+    positive_by_prompt: dict[str, list[str]] = defaultdict(list)
+    for prompt, response in artifact.positive_pairs:
+        positive_by_prompt[prompt].append(response)
+    negative_by_prompt: dict[str, list[str]] = defaultdict(list)
+    for prompt, response in artifact.negative_pairs:
+        negative_by_prompt[prompt].append(response)
+
+    trials: list[tuple[str, str, str]] = []
+    for prompt in positive_by_prompt:
+        if prompt not in negative_by_prompt:
+            continue
+        positives = positive_by_prompt[prompt]
+        negatives = negative_by_prompt[prompt]
+        for i in range(min(len(positives), len(negatives))):
+            trials.append((prompt, positives[i], negatives[i]))
+    if not trials:
+        raise SystemExit("no prompt has both a positive and a negative response")
+    trials = trials[: args.n_pairs]
+
+    n = len(trials)
     totals = {layer: 0.0 for layer in layers}
     vectors = {layer: torch.zeros(lm.hidden_size) for layer in layers}
     deltas = []
-    for i in range(n):
-        prompt, positive = artifact.positive_pairs[i]
-        _, negative = artifact.negative_pairs[i]
+    for prompt, positive, negative in trials:
         report = attribution_patching(
             lm, prompt, positive, negative, layers, max_length=args.max_length
         )

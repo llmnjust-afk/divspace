@@ -22,7 +22,7 @@ for MODEL in "${ARR[@]}"; do
   CUDA_VISIBLE_DEVICES="$GPU" "${PYTHON:-python3}" -m divspace.cli steer \
     --model "$MODEL" --device cuda:0 \
     --artifact "results/${SLUG}/directions.pt" \
-    "${LAYER_ARG[@]}" --coefs $COEFS --n-samples "$N_SAMPLES" --include-baseline \
+    ${LAYER_ARG[@]+"${LAYER_ARG[@]}"} --coefs $COEFS --n-samples "$N_SAMPLES" --include-baseline \
     --out "results/${SLUG}/sweep.jsonl" \
     > "runs/steer_${SLUG}.log" 2>&1 &
   pids+=($!)

@@ -55,6 +55,9 @@ def capture(
     """
     handles = []
 
+    if pool not in (None, "mean", "last"):
+        raise ValueError(f"pool must be None, 'mean' or 'last', got {pool!r}")
+
     def make(index: int) -> Callable:
         def hook(module, args, output):
             hidden, _ = _split(output)

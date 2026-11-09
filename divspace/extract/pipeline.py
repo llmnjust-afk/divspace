@@ -38,6 +38,8 @@ def response_activations(
     pool: str = "mean",
 ) -> dict[int, torch.Tensor]:
     """Teacher-forced hidden states averaged (or last-token picked) over the response span."""
+    if max_length < 2:
+        raise ValueError("max_length must be at least 2")
     out: dict[int, list[torch.Tensor]] = {layer: [] for layer in layers}
 
     for start in range(0, len(pairs), batch_size):
@@ -48,27 +50,34 @@ def response_activations(
             response_ids = _token_ids(lm.tokenizer, response, False)
             if not response_ids:
                 response_ids = [lm.tokenizer.eos_token_id or 0]
+            if len(prompt_ids) + len(response_ids) > max_length:
+                response_ids = response_ids[: max(1, max_length - len(prompt_ids))]
+            if len(prompt_ids) + len(response_ids) > max_length:
+                prompt_ids = prompt_ids[: max(1, max_length - len(response_ids))]
             encoded.append((prompt_ids, response_ids))
 
-        width = min(max(len(p) + len(r) for p, r in encoded), max_length)
+        width = max(len(p) + len(r) for p, r in encoded)
         ids = torch.zeros(len(encoded), width, dtype=torch.long)
         mask = torch.zeros(len(encoded), width, dtype=torch.long)
         spans = []
         for row, (prompt_ids, response_ids) in enumerate(encoded):
-            keep = max(1, width - len(prompt_ids))
-            seq = (prompt_ids + response_ids[:keep])[:width]
+            seq = prompt_ids + response_ids
             ids[row, : len(seq)] = torch.tensor(seq, dtype=torch.long)
             mask[row, : len(seq)] = 1
             spans.append((len(prompt_ids), len(seq)))
 
         store: dict[int, torch.Tensor] = {}
         with capture(lm.layers, list(layers), store, positions="all", pool=None):
-            lm.model(input_ids=ids.to(lm.device), attention_mask=mask.to(lm.device))
+            lm.run_backbone(
+                input_ids=ids.to(lm.device), attention_mask=mask.to(lm.device)
+            )
 
         for layer in layers:
             hidden = store[layer]
             for row, (prompt_len, total) in enumerate(spans):
                 segment = hidden[row, prompt_len:total, :].float()
+                if segment.shape[0] == 0:
+                    segment = hidden[row, total - 1 : total, :].float()
                 value = segment.mean(dim=0) if pool == "mean" else segment[-1]
                 out[layer].append(value.cpu())
 
