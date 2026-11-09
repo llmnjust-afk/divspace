@@ -92,6 +92,10 @@ def resolve_layers(spec: Any, n_layers: int) -> list[int]:
         return sorted({n_layers // 4, n_layers // 2, (3 * n_layers) // 4})
     if spec == "last":
         return [n_layers - 1]
+    if spec.isdigit():
+        return [int(spec)]
+    if "," in spec:
+        return sorted({int(part) for part in spec.split(",") if part.strip().isdigit()})
     if ":" in spec and "-" in spec:
         span, step = spec.split(":")
         low, high = (int(x) for x in span.split("-"))

@@ -5,7 +5,12 @@ import math
 import pytest
 import torch
 
-from divspace.config import SamplingConfig, load_models, model_by_short
+from divspace.config import (
+    SamplingConfig,
+    load_models,
+    model_by_short,
+    resolve_layers,
+)
 from divspace.extract.directions import unit
 from divspace.extract.pipeline import response_activations
 from divspace.extract.select import dispersion
@@ -159,3 +164,8 @@ def test_centroid_control_is_the_mean_response_activation():
         activations=lambda pairs, layers: response_activations(lm, pairs, layers),
     )
     assert torch.allclose(chosen[2], expected, atol=1e-6)
+
+
+@pytest.mark.parametrize("spec,expected", [("6", [6]), ("4,8,12", [4, 8, 12]), ("middle", [4, 8, 12])])
+def test_resolve_layers_accepts_single_indices_and_lists(spec, expected):
+    assert resolve_layers(spec, 16) == expected
