@@ -12,16 +12,14 @@ from .utils import find_layers, find_final_norm, parse_dtype, resolve_device
 
 
 def _dtype_kwarg(dtype: torch.dtype) -> dict:
-    """transformers renamed ``torch_dtype`` to ``dtype``; support both."""
-    import inspect
-
-    from transformers import AutoModelForCausalLM
+    """transformers renamed ``torch_dtype`` to ``dtype`` in 4.56; support both."""
+    import transformers
 
     try:
-        parameters = inspect.signature(AutoModelForCausalLM.from_pretrained).parameters
-    except (TypeError, ValueError):
+        major, minor = (int(part) for part in transformers.__version__.split(".")[:2])
+    except (AttributeError, ValueError):
         return {"torch_dtype": dtype}
-    if "dtype" in parameters:
+    if (major, minor) >= (4, 56):
         return {"dtype": dtype}
     return {"torch_dtype": dtype}
 
