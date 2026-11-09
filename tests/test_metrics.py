@@ -1,11 +1,15 @@
 import math
+import time
 
+import pytest
 import torch
 
 from divspace.metrics.embedding import (
     anisotropy,
     effective_rank,
     mean_pairwise_distance,
+    participation_ratio,
+    pc1_ratio,
     vendi_score,
 )
 from divspace.metrics.lexical import distinct_n, rep_n, self_bleu, sentence_bleu, words
@@ -112,3 +116,23 @@ def test_clustering_removes_the_shared_component():
     labels = cluster_by_embedding(embeddings, threshold=0.35)
     assert len(set(labels)) == 2
     assert labels[0] == labels[1] != labels[2] == labels[3]
+
+
+def test_variance_metrics_match_the_covariance_eigendecomposition():
+    torch.manual_seed(0)
+    x = torch.randn(6, 32)
+    centred = x.double() - x.double().mean(0, keepdim=True)
+    eigenvalues = torch.linalg.eigvalsh(centred.T @ centred / 5).clamp_min(0.0)
+    assert pc1_ratio(x) == pytest.approx(float(eigenvalues[-1] / eigenvalues.sum()))
+    assert participation_ratio(x) == pytest.approx(
+        float(eigenvalues.sum() ** 2 / (eigenvalues ** 2).sum())
+    )
+
+
+def test_variance_metrics_stay_cheap_at_real_hidden_sizes():
+    """A (d x d) eigendecomposition here costs seconds per prompt and stalls a run."""
+    x = torch.randn(8, 4096)
+    start = time.perf_counter()
+    pc1_ratio(x)
+    participation_ratio(x)
+    assert time.perf_counter() - start < 2.0

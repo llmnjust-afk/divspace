@@ -53,27 +53,32 @@ def anisotropy(embeddings: torch.Tensor) -> float:
     return float((normalise(embeddings) @ normalise(centre).T).mean())
 
 
+def _variance_spectrum(embeddings: torch.Tensor) -> torch.Tensor:
+    """Squared singular values of the centred matrix, largest first.
+
+    Computed from the (n x d) matrix rather than from the (d x d) covariance: with
+    n responses and d hidden units the SVD is O(n^2 d), while an eigendecomposition
+    of the covariance is O(d^3), which is seconds per prompt for a 7B model.
+    """
+    centred = (embeddings - embeddings.mean(dim=0, keepdim=True)).double()
+    return torch.linalg.svdvals(centred).pow(2)
+
+
 def pc1_ratio(embeddings: torch.Tensor, eps: float = 1e-12) -> float:
     """Share of the total variance carried by the first principal component.
 
     A diversity collapse concentrates variation along a single direction, so this
     ratio rises towards one even when pairwise distances stay roughly constant.
     """
-    n = embeddings.shape[0]
-    if n < 2:
+    if embeddings.shape[0] < 2:
         return 0.0
-    centred = (embeddings - embeddings.mean(dim=0, keepdim=True)).double()
-    covariance = centred.T @ centred / max(n - 1, 1)
-    eigenvalues = torch.linalg.eigvalsh(covariance).clamp_min(0.0)
-    total = eigenvalues.sum().clamp_min(eps)
-    return float(eigenvalues[-1] / total)
+    spectrum = _variance_spectrum(embeddings)
+    return float(spectrum[0] / spectrum.sum().clamp_min(eps))
 
 
 def participation_ratio(embeddings: torch.Tensor, eps: float = 1e-12) -> float:
     """Effective number of dimensions that carry the variance (isotropic data scores d)."""
     if embeddings.shape[0] < 2:
         return 0.0
-    centred = (embeddings - embeddings.mean(dim=0, keepdim=True)).double()
-    singular = torch.linalg.svdvals(centred)
-    squared = singular.pow(2)
+    squared = _variance_spectrum(embeddings)
     return float(squared.sum().pow(2) / squared.pow(2).sum().clamp_min(eps))
