@@ -6,6 +6,7 @@ cd "$(dirname "$0")/.."
 MODELS_LIST=${MODELS:-"EleutherAI/pythia-2.8b Qwen/Qwen2.5-7B-Instruct allenai/OLMo-2-1124-7B-Instruct HuggingFaceTB/SmolLM2-1.7B-Instruct"}
 N_PAIRS=${N_PAIRS:-48}
 GPUS=${GPUS:-4}
+mkdir -p runs
 
 read -r -a ARR <<< "$MODELS_LIST"
 i=0

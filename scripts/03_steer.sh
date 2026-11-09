@@ -8,6 +8,7 @@ LAYERS=${LAYERS:-""}
 COEFS=${COEFS:--3 -2 -1 1 2 3}
 N_SAMPLES=${N_SAMPLES:-8}
 GPUS=${GPUS:-4}
+mkdir -p runs
 
 read -r -a ARR <<< "$MODELS_LIST"
 i=0

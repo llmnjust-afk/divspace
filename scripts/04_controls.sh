@@ -7,6 +7,7 @@ MODELS_LIST=${MODELS:-"EleutherAI/pythia-2.8b Qwen/Qwen2.5-7B-Instruct allenai/O
 LAYERS=${LAYERS:-16}
 COEFS=${COEFS:--2 2}
 GPUS=${GPUS:-4}
+mkdir -p runs
 
 read -r -a ARR <<< "$MODELS_LIST"
 i=0
