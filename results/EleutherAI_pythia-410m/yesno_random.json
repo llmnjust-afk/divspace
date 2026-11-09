@@ -1,0 +1,37 @@
+[
+  {
+    "cell": "baseline",
+    "n": 320,
+    "yes_rate": 0.0875,
+    "no_rate": 0.04375,
+    "other_rate": 0.86875
+  },
+  {
+    "cell": "random_L12_c+2.00",
+    "n": 320,
+    "yes_rate": 0.13125,
+    "no_rate": 0.05625,
+    "other_rate": 0.8125
+  },
+  {
+    "cell": "random_L12_c+4.00",
+    "n": 320,
+    "yes_rate": 0.13125,
+    "no_rate": 0.06875,
+    "other_rate": 0.8
+  },
+  {
+    "cell": "random_L12_c-2.00",
+    "n": 320,
+    "yes_rate": 0.08125,
+    "no_rate": 0.03125,
+    "other_rate": 0.8875
+  },
+  {
+    "cell": "random_L12_c-4.00",
+    "n": 320,
+    "yes_rate": 0.03125,
+    "no_rate": 0.025,
+    "other_rate": 0.94375
+  }
+]
