@@ -19,6 +19,9 @@ def score_group(
 ) -> dict:
     """All diversity and quality signals for the samples drawn for a single prompt."""
     texts = list(texts)
+    # Hidden states share a large common component, which would dominate every
+    # Gram-matrix metric. Diversity is therefore measured around the group mean.
+    centred = embeddings - embeddings.mean(dim=0, keepdim=True)
     scores = {
         "n": len(texts),
         "distinct_1": lexical.distinct_n(texts, 1),
@@ -27,13 +30,15 @@ def score_group(
         "rep_3": lexical.rep_n(texts, 3),
         "type_token_ratio": lexical.type_token_ratio(texts),
         "self_bleu": lexical.self_bleu(texts),
-        "mpd": emb_metrics.mean_pairwise_distance(embeddings),
-        "vendi": emb_metrics.vendi_score(embeddings),
-        "effective_rank": emb_metrics.effective_rank(embeddings),
+        "mpd": emb_metrics.mean_pairwise_distance(centred),
+        "vendi": emb_metrics.vendi_score(centred),
+        "effective_rank": emb_metrics.effective_rank(centred),
+        "pc1_ratio": emb_metrics.pc1_ratio(centred),
+        "participation_ratio": emb_metrics.participation_ratio(centred),
         "anisotropy": emb_metrics.anisotropy(embeddings),
     }
     semantic_scores = semantic.semantic_diversity(
-        texts, embeddings=embeddings, threshold=cluster_threshold
+        texts, embeddings=centred, threshold=cluster_threshold
     )
     scores["n_clusters"] = semantic_scores["n_clusters"]
     scores["cluster_ratio"] = semantic_scores["cluster_ratio"]

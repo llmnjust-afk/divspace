@@ -6,7 +6,16 @@ import argparse
 import json
 from pathlib import Path
 
-KEY_METRICS = ["vendi", "distinct_2", "self_bleu", "n_clusters", "completion_rate", "mean_words"]
+KEY_METRICS = [
+    "vendi",
+    "pc1_ratio",
+    "participation_ratio",
+    "distinct_2",
+    "self_bleu",
+    "n_clusters",
+    "completion_rate",
+    "mean_words",
+]
 
 
 def load_json(path: Path):
@@ -21,12 +30,13 @@ def best_cell(cells: dict, baseline: dict | None) -> tuple[str, dict]:
     floor = 0.0
     if baseline is not None:
         floor = 0.9 * float(baseline.get("completion_rate", 0.0))
+    candidates = [(name, entry) for name, entry in cells.items() if name != "baseline"]
     eligible = [
         (name, entry)
-        for name, entry in cells.items()
+        for name, entry in candidates
         if float(entry.get("completion_rate", 0.0)) >= floor
     ]
-    pool = eligible or list(cells.items())
+    pool = eligible or candidates or list(cells.items())
     return max(pool, key=lambda kv: float(kv[1].get("vendi", 0.0)))
 
 

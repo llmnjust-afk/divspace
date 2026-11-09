@@ -51,3 +51,29 @@ def anisotropy(embeddings: torch.Tensor) -> float:
         return 0.0
     centre = embeddings.mean(dim=0, keepdim=True)
     return float((normalise(embeddings) @ normalise(centre).T).mean())
+
+
+def pc1_ratio(embeddings: torch.Tensor, eps: float = 1e-12) -> float:
+    """Share of the total variance carried by the first principal component.
+
+    A diversity collapse concentrates variation along a single direction, so this
+    ratio rises towards one even when pairwise distances stay roughly constant.
+    """
+    n = embeddings.shape[0]
+    if n < 2:
+        return 0.0
+    centred = (embeddings - embeddings.mean(dim=0, keepdim=True)).double()
+    covariance = centred.T @ centred / max(n - 1, 1)
+    eigenvalues = torch.linalg.eigvalsh(covariance).clamp_min(0.0)
+    total = eigenvalues.sum().clamp_min(eps)
+    return float(eigenvalues[-1] / total)
+
+
+def participation_ratio(embeddings: torch.Tensor, eps: float = 1e-12) -> float:
+    """Effective number of dimensions that carry the variance (isotropic data scores d)."""
+    if embeddings.shape[0] < 2:
+        return 0.0
+    centred = (embeddings - embeddings.mean(dim=0, keepdim=True)).double()
+    singular = torch.linalg.svdvals(centred)
+    squared = singular.pow(2)
+    return float(squared.sum().pow(2) / squared.pow(2).sum().clamp_min(eps))

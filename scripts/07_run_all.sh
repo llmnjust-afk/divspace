@@ -25,6 +25,8 @@ echo "########## 03 steer ##########"
 ./scripts/03_steer.sh; echo "steer rc=$?"
 echo "########## 04 controls ##########"
 ./scripts/04_controls.sh; echo "controls rc=$?"
+echo "########## 04b ablate ##########"
+./scripts/04b_ablate.sh; echo "ablate rc=$?"
 echo "########## 05 metrics ##########"
 ./scripts/05_metrics.sh; echo "metrics rc=$?"
 
