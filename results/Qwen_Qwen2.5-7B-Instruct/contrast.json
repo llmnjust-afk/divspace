@@ -1,0 +1,22 @@
+{
+  "model": "Qwen/Qwen2.5-7B-Instruct",
+  "layers": [
+    14
+  ],
+  "norms": {
+    "14": 32.04774475097656
+  },
+  "split_half": {
+    "14": 0.9939390420913696
+  },
+  "meta": {
+    "kind": "contrast",
+    "n_pairs": 40,
+    "targets": "labelled",
+    "gpu_stats": {
+      "peak_vram_gb": 14.2,
+      "seconds": 1.53,
+      "gpu_hours": 0.0004
+    }
+  }
+}
