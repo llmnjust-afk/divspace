@@ -1,0 +1,2 @@
+Loading weights:   0%|          | 0/338 [00:00<?, ?it/s]Loading weights:  27%|██▋       | 90/338 [00:00<00:00, 899.05it/s]Loading weights:  53%|█████▎    | 180/338 [00:00<00:00, 888.94it/s]Loading weights:  80%|███████▉  | 269/338 [00:00<00:00, 845.28it/s]Loading weights: 100%|██████████| 338/338 [00:00<00:00, 864.75it/s]
+3 cells, 960 samples in 130.48s -> results/Qwen_Qwen2.5-1.5B-Instruct/ablate.jsonl

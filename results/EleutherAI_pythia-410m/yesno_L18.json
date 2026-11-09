@@ -1,0 +1,23 @@
+[
+  {
+    "cell": "baseline",
+    "n": 160,
+    "yes_rate": 0.0875,
+    "no_rate": 0.04375,
+    "other_rate": 0.86875
+  },
+  {
+    "cell": "steer_L18_c+4.00",
+    "n": 160,
+    "yes_rate": 0.0875,
+    "no_rate": 0.05,
+    "other_rate": 0.8625
+  },
+  {
+    "cell": "steer_L18_c-4.00",
+    "n": 160,
+    "yes_rate": 0.06875,
+    "no_rate": 0.03125,
+    "other_rate": 0.9
+  }
+]

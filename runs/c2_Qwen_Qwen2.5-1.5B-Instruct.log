@@ -1,0 +1,56 @@
+Loading weights:   0%|          | 0/338 [00:00<?, ?it/s]Loading weights:  20%|██        | 68/338 [00:00<00:00, 679.80it/s]Loading weights:  43%|████▎     | 147/338 [00:00<00:00, 735.27it/s]Loading weights:  65%|██████▌   | 221/338 [00:00<00:00, 701.80it/s]Loading weights:  90%|████████▉ | 304/338 [00:00<00:00, 748.35it/s]Loading weights: 100%|██████████| 338/338 [00:00<00:00, 744.88it/s]
+  layer 14  ||d||=30.763  split-half=+0.997
+Qwen/Qwen2.5-1.5B-Instruct: contrast direction over 40 pairs -> results/Qwen_Qwen2.5-1.5B-Instruct/contrast.pt
+Loading weights:   0%|          | 0/338 [00:00<?, ?it/s]Loading weights:  20%|██        | 68/338 [00:00<00:00, 609.87it/s]Loading weights:  45%|████▌     | 153/338 [00:00<00:00, 743.39it/s]Loading weights:  67%|██████▋   | 228/338 [00:00<00:00, 738.30it/s]Loading weights:  90%|████████▉ | 303/338 [00:00<00:00, 630.53it/s]Loading weights: 100%|██████████| 338/338 [00:00<00:00, 664.42it/s]
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/usr/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/data/lab/divspace/divspace/cli.py", line 660, in <module>
+    sys.exit(main())
+  File "/data/lab/divspace/divspace/cli.py", line 655, in main
+    args.func(args)
+  File "/data/lab/divspace/divspace/cli.py", line 267, in cmd_steer
+    resolve_prompts(args.prompt_set, args.prompt_file, args.limit),
+  File "/data/lab/divspace/divspace/data/prompts.py", line 102, in resolve_prompts
+    prompts = load_prompt_file(path) if path else get_prompts(name)
+  File "/data/lab/divspace/divspace/data/prompts.py", line 96, in load_prompt_file
+    payload = json.loads(line)
+  File "/usr/lib/python3.10/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+  File "/usr/lib/python3.10/json/decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/usr/lib/python3.10/json/decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+Loading weights:   0%|          | 0/338 [00:00<?, ?it/s]Loading weights:  22%|██▏       | 74/338 [00:00<00:00, 656.05it/s]Loading weights:  43%|████▎     | 146/338 [00:00<00:00, 676.30it/s]Loading weights:  65%|██████▍   | 219/338 [00:00<00:00, 667.98it/s]Loading weights:  86%|████████▋ | 292/338 [00:00<00:00, 689.62it/s]Loading weights: 100%|██████████| 338/338 [00:00<00:00, 690.01it/s]
+  layer 14  ||d||=30.763  split-half=+0.997
+Qwen/Qwen2.5-1.5B-Instruct: contrast direction over 40 pairs -> results/Qwen_Qwen2.5-1.5B-Instruct/contrast.pt
+Loading weights:   0%|          | 0/338 [00:00<?, ?it/s]Loading weights:  19%|█▊        | 63/338 [00:00<00:00, 576.35it/s]Loading weights:  41%|████      | 137/338 [00:00<00:00, 659.60it/s]Loading weights:  64%|██████▍   | 218/338 [00:00<00:00, 726.02it/s]Loading weights:  86%|████████▌ | 291/338 [00:00<00:00, 720.75it/s]Loading weights: 100%|██████████| 338/338 [00:00<00:00, 711.29it/s]
+4 cells, 800 samples in 35.32s -> results/Qwen_Qwen2.5-1.5B-Instruct/yesno_none.jsonl
+Loading weights:   0%|          | 0/338 [00:00<?, ?it/s]Loading weights:  26%|██▋       | 89/338 [00:00<00:00, 869.89it/s]Loading weights:  54%|█████▍    | 183/338 [00:00<00:00, 910.28it/s]Loading weights:  81%|████████▏ | 275/338 [00:00<00:00, 868.82it/s]Loading weights: 100%|██████████| 338/338 [00:00<00:00, 858.15it/s]
+4 cells, 800 samples in 35.04s -> results/Qwen_Qwen2.5-1.5B-Instruct/yesno_random.jsonl
+Loading weights:   0%|          | 0/338 [00:00<?, ?it/s]Loading weights:  21%|██        | 71/338 [00:00<00:00, 707.82it/s]Loading weights:  42%|████▏     | 143/338 [00:00<00:00, 713.67it/s]Loading weights:  64%|██████▎   | 215/338 [00:00<00:00, 716.53it/s]Loading weights:  85%|████████▍ | 287/338 [00:00<00:00, 712.32it/s]Loading weights: 100%|██████████| 338/338 [00:00<00:00, 722.32it/s]
+shuffled control needs an artifact with stored pairs
+Loading weights:   0%|          | 0/338 [00:00<?, ?it/s]Loading weights:  20%|██        | 68/338 [00:00<00:00, 677.21it/s]Loading weights:  41%|████      | 137/338 [00:00<00:00, 672.16it/s]Loading weights:  62%|██████▏   | 209/338 [00:00<00:00, 685.25it/s]Loading weights:  86%|████████▌ | 291/338 [00:00<00:00, 728.54it/s]Loading weights: 100%|██████████| 338/338 [00:00<00:00, 730.48it/s]
+  layer 14  ||d||=30.763  split-half=+0.997
+Qwen/Qwen2.5-1.5B-Instruct: contrast direction over 40 pairs -> results/Qwen_Qwen2.5-1.5B-Instruct/contrast.pt
+Loading weights:   0%|          | 0/338 [00:00<?, ?it/s]Loading weights:  22%|██▏       | 76/338 [00:00<00:00, 754.64it/s]Loading weights:  47%|████▋     | 160/338 [00:00<00:00, 800.32it/s]Loading weights:  72%|███████▏  | 243/338 [00:00<00:00, 792.07it/s]Loading weights:  96%|█████████▌| 323/338 [00:00<00:00, 775.79it/s]Loading weights: 100%|██████████| 338/338 [00:00<00:00, 785.75it/s]
+4 cells, 800 samples in 34.89s -> results/Qwen_Qwen2.5-1.5B-Instruct/yesno_none.jsonl
+Loading weights:   0%|          | 0/338 [00:00<?, ?it/s]Loading weights:  19%|█▉        | 65/338 [00:00<00:00, 635.57it/s]Loading weights:  40%|████      | 136/338 [00:00<00:00, 661.04it/s]Loading weights:  62%|██████▏   | 209/338 [00:00<00:00, 677.07it/s]Loading weights:  83%|████████▎ | 280/338 [00:00<00:00, 682.28it/s]Loading weights: 100%|██████████| 338/338 [00:00<00:00, 692.43it/s]
+4 cells, 800 samples in 35.34s -> results/Qwen_Qwen2.5-1.5B-Instruct/yesno_random.jsonl
+Loading weights:   0%|          | 0/338 [00:00<?, ?it/s]Loading weights:  22%|██▏       | 75/338 [00:00<00:00, 724.38it/s]Loading weights:  44%|████▍     | 148/338 [00:00<00:00, 699.48it/s]Loading weights:  66%|██████▌   | 222/338 [00:00<00:00, 717.28it/s]Loading weights:  88%|████████▊ | 299/338 [00:00<00:00, 735.17it/s]Loading weights: 100%|██████████| 338/338 [00:00<00:00, 734.08it/s]
+4 cells, 800 samples in 35.17s -> results/Qwen_Qwen2.5-1.5B-Instruct/yesno_shuffled.jsonl
+Loading weights:   0%|          | 0/338 [00:00<?, ?it/s]Loading weights:  22%|██▏       | 74/338 [00:00<00:00, 716.02it/s]Loading weights:  44%|████▍     | 148/338 [00:00<00:00, 711.90it/s]Loading weights:  65%|██████▌   | 221/338 [00:00<00:00, 710.96it/s]Loading weights:  88%|████████▊ | 298/338 [00:00<00:00, 732.26it/s]Loading weights: 100%|██████████| 338/338 [00:00<00:00, 736.34it/s]
+the orthogonal control needs at least two layers
+Loading weights:   0%|          | 0/338 [00:00<?, ?it/s]Loading weights:  22%|██▏       | 74/338 [00:00<00:00, 735.86it/s]Loading weights:  44%|████▍     | 148/338 [00:00<00:00, 711.45it/s]Loading weights:  65%|██████▌   | 221/338 [00:00<00:00, 719.04it/s]Loading weights:  88%|████████▊ | 296/338 [00:00<00:00, 730.29it/s]Loading weights: 100%|██████████| 338/338 [00:00<00:00, 739.43it/s]
+local steering: 40 prompts, 2224 samples in 1159.14s -> results/Qwen_Qwen2.5-1.5B-Instruct/local.jsonl
+Loading weights:   0%|          | 0/338 [00:00<?, ?it/s]Loading weights:  22%|██▏       | 76/338 [00:00<00:00, 709.33it/s]Loading weights:  44%|████▍     | 149/338 [00:00<00:00, 708.98it/s]Loading weights:  65%|██████▌   | 220/338 [00:00<00:00, 697.49it/s]Loading weights:  86%|████████▌ | 291/338 [00:00<00:00, 699.39it/s]Loading weights: 100%|██████████| 338/338 [00:00<00:00, 721.20it/s]
+  localrandom_L14_c+2.00       vendi= 6.181 distinct2=0.755 clusters=7.97 completion=0.18
+  localother_L14_c-2.00        vendi= 6.145 distinct2=0.757 clusters=7.97 completion=0.17
+  localrandom_L14_c-2.00       vendi= 6.144 distinct2=0.759 clusters=8.00 completion=0.18
+  localother_L14_c+2.00        vendi= 6.120 distinct2=0.759 clusters=7.97 completion=0.21
+  local_L14_c-2.00             vendi= 6.100 distinct2=0.756 clusters=8.00 completion=0.17
+  local_L14_c+2.00             vendi= 6.067 distinct2=0.763 clusters=7.97 completion=0.22
+  baseline                     vendi= 6.025 distinct2=0.762 clusters=7.92 completion=0.17

@@ -1,0 +1,17 @@
+[gpu0] EleutherAI/pythia-1b: extraction
+[gpu1] Qwen/Qwen2.5-1.5B-Instruct: extraction
+[gpu2] EleutherAI/pythia-410m: extraction
+[gpu3] EleutherAI/pythia-160m: extraction
+[gpu3] EleutherAI/pythia-160m: ablation placebos
+[gpu0] EleutherAI/pythia-1b: ablation placebos
+[gpu2] EleutherAI/pythia-410m: ablation placebos
+[gpu1] Qwen/Qwen2.5-1.5B-Instruct: ablation placebos
+[gpu3] EleutherAI/pythia-160m: low-temperature sweep at T=0.4
+[gpu0] EleutherAI/pythia-1b: low-temperature sweep at T=0.4
+[gpu2] EleutherAI/pythia-410m: low-temperature sweep at T=0.4
+[gpu1] Qwen/Qwen2.5-1.5B-Instruct: low-temperature sweep at T=0.4
+[gpu3] EleutherAI/pythia-160m: metrics
+[gpu0] EleutherAI/pythia-1b: metrics
+[gpu2] EleutherAI/pythia-410m: metrics
+[gpu1] Qwen/Qwen2.5-1.5B-Instruct: metrics
+wave 2 finished (failures: 0)

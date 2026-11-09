@@ -1,0 +1,2 @@
+Loading weights:   0%|          | 0/338 [00:00<?, ?it/s]Loading weights:  22%|██▏       | 75/338 [00:00<00:00, 724.07it/s]Loading weights:  44%|████▍     | 148/338 [00:00<00:00, 692.48it/s]Loading weights:  65%|██████▌   | 220/338 [00:00<00:00, 694.09it/s]Loading weights:  90%|████████▉ | 303/338 [00:00<00:00, 715.34it/s]Loading weights: 100%|██████████| 338/338 [00:00<00:00, 731.52it/s]
+6 cells, 1920 samples in 259.45s -> results/Qwen_Qwen2.5-1.5B-Instruct/control_orthogonal.jsonl

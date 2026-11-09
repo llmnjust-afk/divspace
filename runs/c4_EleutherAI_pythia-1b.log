@@ -1,0 +1,28 @@
+[gpu1] EleutherAI/pythia-1b: calibration sweep, coefs 1 2 4 8 16, L8
+Loading weights:   0%|          | 0/196 [00:00<?, ?it/s]Loading weights:  12%|█▏        | 24/196 [00:00<00:00, 201.86it/s]Loading weights:  49%|████▉     | 96/196 [00:00<00:00, 460.56it/s]Loading weights:  86%|████████▌ | 168/196 [00:00<00:00, 562.61it/s]Loading weights: 100%|██████████| 196/196 [00:00<00:00, 532.66it/s]
+5 cells, 960 samples in 18.32s -> results/EleutherAI_pythia-1b/yesno_cal.jsonl
+cell                            n  yes_rate  no_rate
+baseline                      160     0.044    0.037
+steer_L8_c+1.00               160     0.044    0.037
+steer_L8_c+16.00              160     0.094    0.025
+steer_L8_c+2.00               160     0.050    0.037
+steer_L8_c+4.00               160     0.062    0.037
+steer_L8_c+8.00               160     0.075    0.025
+Loading weights:   0%|          | 0/196 [00:00<?, ?it/s]Loading weights:  12%|█▏        | 24/196 [00:00<00:00, 234.73it/s]Loading weights:  49%|████▉     | 96/196 [00:00<00:00, 503.46it/s]Loading weights:  81%|████████  | 158/196 [00:00<00:00, 546.65it/s]Loading weights: 100%|██████████| 196/196 [00:00<00:00, 539.09it/s]
+5 cells, 480 samples in 28.37s -> results/EleutherAI_pythia-1b/sweep_cal.jsonl
+Loading weights:   0%|          | 0/196 [00:00<?, ?it/s]Loading weights:  12%|█▏        | 24/196 [00:00<00:00, 238.21it/s]Loading weights:  49%|████▉     | 96/196 [00:00<00:00, 518.21it/s]Loading weights:  86%|████████▌ | 168/196 [00:00<00:00, 595.78it/s]Loading weights: 100%|██████████| 196/196 [00:00<00:00, 558.62it/s]
+5 cells, 480 samples in 27.46s -> results/EleutherAI_pythia-1b/sweep_cal_random.jsonl
+Loading weights:   0%|          | 0/196 [00:00<?, ?it/s]Loading weights:  12%|█▏        | 24/196 [00:00<00:00, 232.75it/s]Loading weights:  50%|█████     | 98/196 [00:00<00:00, 513.05it/s]Loading weights:  87%|████████▋ | 170/196 [00:00<00:00, 600.80it/s]Loading weights: 100%|██████████| 196/196 [00:00<00:00, 586.16it/s]
+  baseline                     vendi= 6.258 distinct2=0.748 clusters=8.00 completion=0.23
+  steer_L8_c+1.00              vendi= 6.248 distinct2=0.745 clusters=8.00 completion=0.11
+  steer_L8_c+8.00              vendi= 6.106 distinct2=0.689 clusters=7.80 completion=0.24
+  steer_L8_c+4.00              vendi= 6.067 distinct2=0.695 clusters=8.00 completion=0.10
+  steer_L8_c+2.00              vendi= 5.929 distinct2=0.752 clusters=7.70 completion=0.20
+  steer_L8_c+16.00             vendi= 5.922 distinct2=0.622 clusters=7.80 completion=0.17
+Loading weights:   0%|          | 0/196 [00:00<?, ?it/s]Loading weights:   4%|▍         | 8/196 [00:00<00:02, 77.27it/s]Loading weights:  43%|████▎     | 84/196 [00:00<00:00, 447.32it/s]Loading weights:  86%|████████▌ | 168/196 [00:00<00:00, 591.17it/s]Loading weights: 100%|██████████| 196/196 [00:00<00:00, 551.87it/s]
+  randcal_L8_c+16.00           vendi= 6.418 distinct2=0.792 clusters=8.00 completion=0.15
+  randcal_L8_c+1.00            vendi= 6.357 distinct2=0.735 clusters=8.00 completion=0.24
+  randcal_L8_c+2.00            vendi= 6.288 distinct2=0.752 clusters=8.00 completion=0.15
+  baseline                     vendi= 6.258 distinct2=0.748 clusters=8.00 completion=0.23
+  randcal_L8_c+8.00            vendi= 6.237 distinct2=0.762 clusters=8.00 completion=0.16
+  randcal_L8_c+4.00            vendi= 6.189 distinct2=0.739 clusters=8.00 completion=0.20

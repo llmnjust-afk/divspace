@@ -1,0 +1,2 @@
+Loading weights:   0%|          | 0/292 [00:00<?, ?it/s]Loading weights:  76%|███████▋  | 223/292 [00:00<00:00, 2211.07it/s]Loading weights: 100%|██████████| 292/292 [00:00<00:00, 2189.83it/s]
+18 cells, 6080 samples in 457.01s -> results/EleutherAI_pythia-410m/sweep.jsonl

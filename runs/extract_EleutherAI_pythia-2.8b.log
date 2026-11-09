@@ -1,0 +1,5 @@
+Loading weights:   0%|          | 0/388 [00:00<?, ?it/s]Loading weights:   3%|▎         | 12/388 [00:00<00:03, 110.22it/s]Loading weights:  14%|█▍        | 56/388 [00:00<00:01, 282.26it/s]Loading weights:  25%|██▌       | 98/388 [00:00<00:00, 326.09it/s]Loading weights:  37%|███▋      | 144/388 [00:00<00:00, 360.03it/s]Loading weights:  49%|████▉     | 192/388 [00:00<00:00, 373.05it/s]Loading weights:  61%|██████    | 236/388 [00:00<00:00, 385.64it/s]Loading weights:  71%|███████   | 275/388 [00:00<00:00, 386.58it/s]Loading weights:  82%|████████▏ | 320/388 [00:00<00:00, 385.57it/s]Loading weights:  93%|█████████▎| 360/388 [00:00<00:00, 386.69it/s]Loading weights: 100%|██████████| 388/388 [00:01<00:00, 367.58it/s]
+  layer  8  ||d||= 13.489  split-half cos=0.914  prompt-consistency=+0.100
+  layer 16  ||d||= 12.102  split-half cos=0.532  prompt-consistency=+0.164
+  layer 24  ||d||= 15.612  split-half cos=0.377  prompt-consistency=+0.156
+EleutherAI/pythia-2.8b: 3 layers, 120 positive / 120 negative pairs in 43.79s -> results/EleutherAI_pythia-2.8b/directions.pt

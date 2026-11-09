@@ -1,0 +1,23 @@
+########## 05_metrics ##########
+[gpu0] metrics Qwen_Qwen2.5-7B-Instruct/sweep
+[gpu1] metrics allenai_OLMo-2-1124-7B-Instruct/sweep
+[gpu2] metrics EleutherAI_pythia-2.8b/sweep
+[gpu3] metrics HuggingFaceTB_SmolLM2-1.7B-Instruct/sweep
+[gpu3] metrics HuggingFaceTB_SmolLM2-1.7B-Instruct/control_random
+[gpu2] metrics EleutherAI_pythia-2.8b/control_random
+[gpu3] metrics HuggingFaceTB_SmolLM2-1.7B-Instruct/control_shuffled
+[gpu2] metrics EleutherAI_pythia-2.8b/control_shuffled
+[gpu3] metrics HuggingFaceTB_SmolLM2-1.7B-Instruct/control_orthogonal
+[gpu2] metrics EleutherAI_pythia-2.8b/control_orthogonal
+[gpu3] metrics HuggingFaceTB_SmolLM2-1.7B-Instruct/ablate
+[gpu0] metrics Qwen_Qwen2.5-7B-Instruct/control_random
+[gpu1] metrics allenai_OLMo-2-1124-7B-Instruct/control_random
+[gpu2] metrics EleutherAI_pythia-2.8b/ablate
+[gpu0] metrics Qwen_Qwen2.5-7B-Instruct/control_shuffled
+[gpu1] metrics allenai_OLMo-2-1124-7B-Instruct/control_shuffled
+[gpu0] metrics Qwen_Qwen2.5-7B-Instruct/control_orthogonal
+[gpu1] metrics allenai_OLMo-2-1124-7B-Instruct/control_orthogonal
+[gpu0] metrics Qwen_Qwen2.5-7B-Instruct/ablate
+[gpu1] metrics allenai_OLMo-2-1124-7B-Instruct/ablate
+metrics finished (failures: 0)
+05_metrics rc=0

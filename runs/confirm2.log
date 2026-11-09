@@ -1,0 +1,17 @@
+[gpu1] EleutherAI/pythia-1b: positive control (yes/no)
+[gpu0] Qwen/Qwen2.5-7B-Instruct: positive control (yes/no)
+[gpu2] Qwen/Qwen2.5-1.5B-Instruct: positive control (yes/no)
+[gpu3] EleutherAI/pythia-410m: positive control (yes/no)
+warn: orthogonal control failed for EleutherAI/pythia-1b
+[gpu1] EleutherAI/pythia-1b: prompt-local steering
+warn: orthogonal control failed for EleutherAI/pythia-410m
+[gpu3] EleutherAI/pythia-410m: prompt-local steering
+warn: orthogonal control failed for Qwen/Qwen2.5-1.5B-Instruct
+[gpu2] Qwen/Qwen2.5-1.5B-Instruct: prompt-local steering
+warn: orthogonal control failed for Qwen/Qwen2.5-7B-Instruct
+[gpu0] Qwen/Qwen2.5-7B-Instruct: prompt-local steering
+[gpu1] EleutherAI/pythia-1b: metrics
+[gpu3] EleutherAI/pythia-410m: metrics
+[gpu2] Qwen/Qwen2.5-1.5B-Instruct: metrics
+[gpu0] Qwen/Qwen2.5-7B-Instruct: metrics
+confirm block 2 finished (failures: 0)

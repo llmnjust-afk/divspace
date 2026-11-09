@@ -1,0 +1,2 @@
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 1504.92it/s]
+6 cells, 1920 samples in 84.24s -> results/EleutherAI_pythia-160m/control_random.jsonl

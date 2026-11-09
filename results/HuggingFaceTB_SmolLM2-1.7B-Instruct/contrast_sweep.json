@@ -1,0 +1,28 @@
+{
+  "model": "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+  "layers": [
+    6,
+    12,
+    14
+  ],
+  "norms": {
+    "6": 60.403167724609375,
+    "12": 96.96092987060547,
+    "14": 122.16438293457031
+  },
+  "split_half": {
+    "6": 0.9956879615783691,
+    "12": 0.9925433397293091,
+    "14": 0.992581844329834
+  },
+  "meta": {
+    "kind": "contrast",
+    "n_pairs": 40,
+    "targets": "labelled",
+    "gpu_stats": {
+      "peak_vram_gb": 3.2,
+      "seconds": 1.45,
+      "gpu_hours": 0.0004
+    }
+  }
+}

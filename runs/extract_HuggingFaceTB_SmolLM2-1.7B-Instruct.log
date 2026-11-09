@@ -1,0 +1,5 @@
+Loading weights:   0%|          | 0/218 [00:00<?, ?it/s]Loading weights:  22%|██▏       | 48/218 [00:00<00:00, 467.75it/s]Loading weights:  44%|████▎     | 95/218 [00:00<00:00, 433.57it/s]Loading weights:  64%|██████▍   | 140/218 [00:00<00:00, 430.84it/s]Loading weights:  85%|████████▍ | 185/218 [00:00<00:00, 436.88it/s]Loading weights: 100%|██████████| 218/218 [00:00<00:00, 445.80it/s]
+  layer  6  ||d||=  1.608  split-half cos=-0.589  prompt-consistency=-0.006
+  layer 12  ||d||=  3.744  split-half cos=-0.635  prompt-consistency=+0.014
+  layer 18  ||d||= 11.154  split-half cos=-0.714  prompt-consistency=+0.011
+HuggingFaceTB/SmolLM2-1.7B-Instruct: 3 layers, 120 positive / 120 negative pairs in 40.55s -> results/HuggingFaceTB_SmolLM2-1.7B-Instruct/directions.pt

@@ -1,0 +1,7 @@
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 1702.73it/s]
+  shuffled_L3_c+2.00           vendi= 5.878 distinct2=0.897 clusters=7.47 completion=0.17
+  shuffled_L3_c-2.00           vendi= 5.826 distinct2=0.903 clusters=7.42 completion=0.19
+  shuffled_L6_c-2.00           vendi= 5.737 distinct2=0.900 clusters=7.38 completion=0.19
+  shuffled_L9_c+2.00           vendi= 5.552 distinct2=0.902 clusters=7.17 completion=0.17
+  shuffled_L6_c+2.00           vendi= 5.476 distinct2=0.898 clusters=7.00 completion=0.22
+  shuffled_L9_c-2.00           vendi= 5.286 distinct2=0.905 clusters=6.88 completion=0.21

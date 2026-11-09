@@ -1,0 +1,5 @@
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 2349.02it/s]
+  layer  3  ||d||= 12.367  split-half cos=0.970
+  layer  6  ||d||= 12.664  split-half cos=0.937
+  layer  9  ||d||=  9.797  split-half cos=0.738
+EleutherAI/pythia-160m: 3 layers, 120 positive / 120 negative pairs in 16.84s -> results/EleutherAI_pythia-160m/directions.pt

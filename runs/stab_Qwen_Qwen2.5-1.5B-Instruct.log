@@ -1,0 +1,2 @@
+Loading weights:   0%|          | 0/338 [00:00<?, ?it/s]Loading weights:  19%|█▉        | 64/338 [00:00<00:00, 634.23it/s]Loading weights:  44%|████▍     | 149/338 [00:00<00:00, 744.56it/s]Loading weights:  66%|██████▋   | 224/338 [00:00<00:00, 734.40it/s]Loading weights:  88%|████████▊ | 298/338 [00:00<00:00, 734.71it/s]Loading weights: 100%|██████████| 338/338 [00:00<00:00, 733.33it/s]
+40 prompts, mean within-prompt split-half cosine +0.063

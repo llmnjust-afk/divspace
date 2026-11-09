@@ -1,0 +1,7 @@
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 3082.06it/s]
+  orthogonal_L3_c+2.00         vendi= 5.924 distinct2=0.904 clusters=7.53 completion=0.23
+  orthogonal_L3_c-2.00         vendi= 5.841 distinct2=0.895 clusters=7.53 completion=0.15
+  orthogonal_L6_c-2.00         vendi= 5.756 distinct2=0.902 clusters=7.38 completion=0.22
+  orthogonal_L6_c+2.00         vendi= 5.744 distinct2=0.898 clusters=7.40 completion=0.19
+  orthogonal_L9_c+2.00         vendi= 5.737 distinct2=0.900 clusters=7.33 completion=0.18
+  orthogonal_L9_c-2.00         vendi= 5.514 distinct2=0.901 clusters=7.10 completion=0.17

@@ -1,0 +1,5 @@
+Loading weights:   0%|          | 0/292 [00:00<?, ?it/s]Loading weights:  72%|███████▏  | 209/292 [00:00<00:00, 2088.25it/s]Loading weights: 100%|██████████| 292/292 [00:00<00:00, 2190.69it/s]
+  layer  6  ||d||= 27.620  split-half cos=0.999  prompt-consistency=+0.117
+  layer 12  ||d||= 35.653  split-half cos=0.999  prompt-consistency=+0.171
+  layer 18  ||d||= 35.337  split-half cos=0.995  prompt-consistency=+0.177
+EleutherAI/pythia-410m: 3 layers, 120 positive / 120 negative pairs in 29.94s -> results/EleutherAI_pythia-410m/directions.pt

@@ -1,0 +1,2 @@
+Loading weights:   0%|          | 0/338 [00:00<?, ?it/s]Loading weights:  19%|█▉        | 65/338 [00:00<00:00, 626.51it/s]Loading weights:  44%|████▍     | 149/338 [00:00<00:00, 746.07it/s]Loading weights:  72%|███████▏  | 243/338 [00:00<00:00, 805.11it/s]Loading weights:  97%|█████████▋| 327/338 [00:00<00:00, 810.79it/s]Loading weights: 100%|██████████| 338/338 [00:00<00:00, 792.58it/s]
+18 cells, 6080 samples in 792.64s -> results/Qwen_Qwen2.5-1.5B-Instruct/sweep.jsonl

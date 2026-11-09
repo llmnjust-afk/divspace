@@ -1,0 +1,63 @@
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 3206.39it/s]
+3 cells, 960 samples in 43.8s -> results/EleutherAI_pythia-160m/ablate_random.jsonl
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 2300.74it/s]
+3 cells, 960 samples in 42.42s -> results/EleutherAI_pythia-160m/ablate_shuffled.jsonl
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 2420.50it/s]
+3 cells, 960 samples in 42.89s -> results/EleutherAI_pythia-160m/ablate_orthogonal.jsonl
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 2174.65it/s]
+18 cells, 6080 samples in 252.46s -> results/EleutherAI_pythia-160m/sweep_lt.jsonl
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 2277.88it/s]
+6 cells, 1920 samples in 84.56s -> results/EleutherAI_pythia-160m/lt_control_random.jsonl
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 2021.77it/s]
+6 cells, 1920 samples in 84.64s -> results/EleutherAI_pythia-160m/lt_control_shuffled.jsonl
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 2200.84it/s]
+6 cells, 1920 samples in 84.4s -> results/EleutherAI_pythia-160m/lt_control_orthogonal.jsonl
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 2253.29it/s]
+  ablate_random_L3_c+0.00      vendi= 6.287 distinct2=0.904 clusters=7.97 completion=0.16
+  ablate_random_L9_c+0.00      vendi= 5.771 distinct2=0.902 clusters=7.40 completion=0.16
+  ablate_random_L6_c+0.00      vendi= 5.370 distinct2=0.902 clusters=6.95 completion=0.18
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 2193.43it/s]
+  ablate_shuffled_L9_c+0.00    vendi= 6.252 distinct2=0.892 clusters=7.75 completion=0.21
+  ablate_shuffled_L6_c+0.00    vendi= 6.036 distinct2=0.861 clusters=7.55 completion=0.17
+  ablate_shuffled_L3_c+0.00    vendi= 4.541 distinct2=0.242 clusters=6.25 completion=0.17
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 3132.45it/s]
+  ablate_orthogonal_L3_c+0.00  vendi= 5.965 distinct2=0.715 clusters=8.00 completion=0.15
+  ablate_orthogonal_L6_c+0.00  vendi= 5.860 distinct2=0.842 clusters=7.45 completion=0.22
+  ablate_orthogonal_L9_c+0.00  vendi= 5.564 distinct2=0.850 clusters=7.47 completion=0.15
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 2161.93it/s]
+  baseline                     vendi= 6.019 distinct2=0.778 clusters=7.80 completion=0.15
+  steer_L3_c+1.00              vendi= 5.952 distinct2=0.768 clusters=7.85 completion=0.18
+  steer_L9_c-3.00              vendi= 5.927 distinct2=0.778 clusters=7.70 completion=0.16
+  steer_L6_c+1.00              vendi= 5.925 distinct2=0.764 clusters=7.80 completion=0.20
+  steer_L3_c-1.00              vendi= 5.865 distinct2=0.777 clusters=7.70 completion=0.17
+  steer_L3_c+2.00              vendi= 5.863 distinct2=0.749 clusters=7.67 completion=0.18
+  steer_L3_c-2.00              vendi= 5.777 distinct2=0.785 clusters=7.53 completion=0.16
+  steer_L9_c+3.00              vendi= 5.755 distinct2=0.769 clusters=7.65 completion=0.19
+  steer_L6_c-3.00              vendi= 5.714 distinct2=0.772 clusters=7.53 completion=0.16
+  steer_L6_c-1.00              vendi= 5.711 distinct2=0.778 clusters=7.45 completion=0.17
+  steer_L3_c+3.00              vendi= 5.708 distinct2=0.727 clusters=7.67 completion=0.15
+  steer_L9_c-1.00              vendi= 5.593 distinct2=0.782 clusters=7.38 completion=0.15
+  steer_L6_c-2.00              vendi= 5.588 distinct2=0.789 clusters=7.45 completion=0.20
+  steer_L6_c+3.00              vendi= 5.549 distinct2=0.768 clusters=7.40 completion=0.23
+  steer_L9_c-2.00              vendi= 5.474 distinct2=0.780 clusters=7.25 completion=0.21
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 2151.37it/s]
+  random_L3_c+2.00             vendi= 5.763 distinct2=0.770 clusters=7.55 completion=0.18
+  random_L6_c+2.00             vendi= 5.735 distinct2=0.784 clusters=7.38 completion=0.13
+  random_L3_c-2.00             vendi= 5.563 distinct2=0.776 clusters=7.30 completion=0.17
+  random_L9_c-2.00             vendi= 5.489 distinct2=0.789 clusters=7.22 completion=0.18
+  random_L6_c-2.00             vendi= 5.455 distinct2=0.781 clusters=7.15 completion=0.20
+  random_L9_c+2.00             vendi= 5.264 distinct2=0.780 clusters=6.92 completion=0.17
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 2224.67it/s]
+  shuffled_L6_c-2.00           vendi= 5.697 distinct2=0.771 clusters=7.50 completion=0.16
+  shuffled_L3_c-2.00           vendi= 5.685 distinct2=0.791 clusters=7.47 completion=0.23
+  shuffled_L3_c+2.00           vendi= 5.671 distinct2=0.750 clusters=7.55 completion=0.14
+  shuffled_L9_c-2.00           vendi= 5.513 distinct2=0.785 clusters=7.25 completion=0.18
+  shuffled_L9_c+2.00           vendi= 5.347 distinct2=0.777 clusters=7.15 completion=0.15
+  shuffled_L6_c+2.00           vendi= 5.204 distinct2=0.763 clusters=6.92 completion=0.16
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 2047.72it/s]
+  orthogonal_L3_c-2.00         vendi= 5.947 distinct2=0.766 clusters=7.70 completion=0.18
+  orthogonal_L6_c+2.00         vendi= 5.808 distinct2=0.771 clusters=7.53 completion=0.15
+  orthogonal_L6_c-2.00         vendi= 5.764 distinct2=0.774 clusters=7.55 completion=0.23
+  orthogonal_L9_c+2.00         vendi= 5.631 distinct2=0.780 clusters=7.40 completion=0.17
+  orthogonal_L3_c+2.00         vendi= 5.579 distinct2=0.788 clusters=7.33 completion=0.16
+  orthogonal_L9_c-2.00         vendi= 5.415 distinct2=0.772 clusters=7.20 completion=0.19

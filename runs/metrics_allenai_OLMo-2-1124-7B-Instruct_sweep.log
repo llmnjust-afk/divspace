@@ -1,0 +1,16 @@
+Loading weights:   0%|          | 0/355 [00:00<?, ?it/s]Loading weights:   0%|          | 1/355 [00:00<01:07,  5.24it/s]Loading weights:   6%|▌         | 20/355 [00:00<00:04, 83.27it/s]Loading weights:  10%|█         | 37/355 [00:00<00:02, 114.80it/s]Loading weights:  16%|█▋        | 58/355 [00:00<00:02, 141.57it/s]Loading weights:  21%|██        | 75/355 [00:00<00:01, 149.05it/s]Loading weights:  26%|██▌       | 91/355 [00:00<00:01, 151.69it/s]Loading weights:  32%|███▏      | 112/355 [00:00<00:01, 160.87it/s]Loading weights:  37%|███▋      | 130/355 [00:00<00:01, 160.96it/s]Loading weights:  41%|████▏     | 147/355 [00:01<00:01, 160.39it/s]Loading weights:  47%|████▋     | 168/355 [00:01<00:01, 168.54it/s]Loading weights:  52%|█████▏    | 186/355 [00:01<00:01, 168.61it/s]Loading weights:  57%|█████▋    | 203/355 [00:01<00:00, 165.14it/s]Loading weights:  63%|██████▎   | 224/355 [00:01<00:00, 171.66it/s]Loading weights:  69%|██████▉   | 245/355 [00:01<00:00, 170.50it/s]Loading weights:  74%|███████▍  | 263/355 [00:01<00:00, 149.16it/s]Loading weights:  79%|███████▊  | 279/355 [00:01<00:00, 124.55it/s]Loading weights:  83%|████████▎ | 293/355 [00:02<00:00, 115.71it/s]Loading weights:  86%|████████▌ | 306/355 [00:02<00:00, 108.94it/s]Loading weights:  90%|████████▉ | 318/355 [00:02<00:00, 104.63it/s]Loading weights:  93%|█████████▎| 329/355 [00:02<00:00, 104.08it/s]Loading weights:  96%|█████████▌| 340/355 [00:02<00:00, 101.12it/s]Loading weights:  99%|█████████▉| 351/355 [00:02<00:00, 98.97it/s] Loading weights: 100%|██████████| 355/355 [00:02<00:00, 129.57it/s]
+  steer_L16_c-2.00             vendi= 6.202 distinct2=0.671 clusters=7.97 completion=0.11
+  steer_L8_c-3.00              vendi= 6.198 distinct2=0.653 clusters=7.97 completion=0.04
+  steer_L24_c-1.00             vendi= 6.146 distinct2=0.686 clusters=7.97 completion=0.10
+  baseline                     vendi= 6.140 distinct2=0.693 clusters=7.97 completion=0.10
+  steer_L16_c-3.00             vendi= 6.131 distinct2=0.663 clusters=7.95 completion=0.08
+  steer_L8_c-2.00              vendi= 6.127 distinct2=0.672 clusters=7.97 completion=0.11
+  steer_L24_c-3.00             vendi= 6.120 distinct2=0.691 clusters=7.97 completion=0.09
+  steer_L16_c-1.00             vendi= 6.119 distinct2=0.684 clusters=8.00 completion=0.09
+  steer_L8_c-1.00              vendi= 6.110 distinct2=0.676 clusters=7.97 completion=0.08
+  steer_L24_c-2.00             vendi= 6.101 distinct2=0.686 clusters=7.97 completion=0.09
+  steer_L16_c+1.00             vendi= 6.087 distinct2=0.694 clusters=7.95 completion=0.12
+  steer_L8_c+3.00              vendi= 6.082 distinct2=0.702 clusters=7.97 completion=0.07
+  steer_L8_c+2.00              vendi= 6.072 distinct2=0.694 clusters=7.90 completion=0.08
+  steer_L24_c+1.00             vendi= 6.068 distinct2=0.693 clusters=7.97 completion=0.07
+  steer_L8_c+1.00              vendi= 6.066 distinct2=0.703 clusters=7.95 completion=0.09

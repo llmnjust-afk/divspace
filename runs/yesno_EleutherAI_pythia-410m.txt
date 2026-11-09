@@ -1,0 +1,28 @@
+cell                            n  yes_rate  no_rate
+baseline                      320     0.087    0.044
+steer_L12_c+2.00              320     0.113    0.044
+steer_L12_c+4.00              320     0.119    0.037
+steer_L12_c-2.00              320     0.062    0.044
+steer_L12_c-4.00              320     0.050    0.050
+cell                            n  yes_rate  no_rate
+baseline                      320     0.087    0.044
+random_L12_c+2.00             320     0.131    0.056
+random_L12_c+4.00             320     0.131    0.069
+random_L12_c-2.00             320     0.081    0.031
+random_L12_c-4.00             320     0.031    0.025
+cell                            n  yes_rate  no_rate
+baseline                      160     0.087    0.044
+shuffled_L12_c+2.00           160     0.087    0.050
+shuffled_L12_c+4.00           160     0.119    0.037
+shuffled_L12_c-2.00           160     0.075    0.044
+shuffled_L12_c-4.00           160     0.062    0.050
+Traceback (most recent call last):
+  File "/data/lab/divspace/analysis/yesno.py", line 53, in <module>
+    main()
+  File "/data/lab/divspace/analysis/yesno.py", line 31, in main
+    for line in Path(args.results).read_text(encoding="utf-8").splitlines():
+  File "/usr/lib/python3.10/pathlib.py", line 1134, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+  File "/usr/lib/python3.10/pathlib.py", line 1119, in open
+    return self._accessor.open(self, mode, buffering, encoding, errors,
+FileNotFoundError: [Errno 2] No such file or directory: 'results/EleutherAI_pythia-410m/yesno_orthogonal.jsonl'

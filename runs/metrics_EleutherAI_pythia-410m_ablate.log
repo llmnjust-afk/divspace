@@ -1,0 +1,4 @@
+Loading weights:   0%|          | 0/292 [00:00<?, ?it/s]Loading weights:  90%|█████████ | 264/292 [00:00<00:00, 2578.00it/s]Loading weights: 100%|██████████| 292/292 [00:00<00:00, 2584.23it/s]
+  steer_L18_c+0.00             vendi= 5.809 distinct2=0.711 clusters=7.58 completion=0.16
+  steer_L12_c+0.00             vendi= 5.421 distinct2=0.232 clusters=7.25 completion=0.25
+  steer_L6_c+0.00              vendi= 4.838 distinct2=0.305 clusters=6.55 completion=0.29

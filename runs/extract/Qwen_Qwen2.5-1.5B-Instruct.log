@@ -1,0 +1,5 @@
+Loading weights:   0%|          | 0/338 [00:00<?, ?it/s]Loading weights:  23%|██▎       | 77/338 [00:00<00:00, 760.15it/s]Loading weights:  48%|████▊     | 161/338 [00:00<00:00, 795.33it/s]Loading weights:  72%|███████▏  | 243/338 [00:00<00:00, 800.62it/s]Loading weights:  96%|█████████▋| 326/338 [00:00<00:00, 812.05it/s]Loading weights: 100%|██████████| 338/338 [00:00<00:00, 805.57it/s]
+  layer  7  ||d||=  1.080  split-half cos=-0.466
+  layer 14  ||d||=  1.474  split-half cos=-0.482
+  layer 21  ||d||=  3.039  split-half cos=-0.620
+Qwen/Qwen2.5-1.5B-Instruct: 3 layers, 120 positive / 120 negative pairs in 53.14s -> results/Qwen_Qwen2.5-1.5B-Instruct/directions.pt
