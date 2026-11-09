@@ -121,8 +121,14 @@ def inject(
     direction: torch.Tensor,
     coef: float,
     positions: str | int = "all",
+    relative: bool = False,
 ) -> Iterator[None]:
-    """Add coef * direction to the residual stream leaving each layer."""
+    """Add coef * direction to the residual stream leaving each layer.
+
+    With relative=True the addition has norm |coef| * ||h||, i.e. coef is a
+    fraction of the residual-stream norm. Without it coef multiplies the raw
+    direction, whose norm differs by three orders of magnitude across models.
+    """
     if direction.ndim != 1:
         raise ValueError(f"direction must be 1-D, got shape {tuple(direction.shape)}")
     handles = []
@@ -130,9 +136,14 @@ def inject(
     def make(index: int) -> Callable:
         def hook(module, args, output):
             hidden, rest = _split(output)
-            delta = (coef * direction).to(dtype=hidden.dtype, device=hidden.device)
             shaped = hidden.clone()
-            shaped[:, select_positions(shaped, positions), :] += delta
+            idx = select_positions(shaped, positions)
+            block = shaped[:, idx, :]
+            vector = direction.to(dtype=hidden.dtype, device=hidden.device)
+            if relative:
+                scale = block.norm(dim=-1, keepdim=True).mean()
+                vector = vector / vector.norm().clamp_min(1e-8) * scale
+            shaped[:, idx, :] = block + coef * vector
             return _join(shaped, rest)
 
         return hook

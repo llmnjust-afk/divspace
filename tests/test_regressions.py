@@ -14,7 +14,7 @@ from divspace.config import (
 from divspace.extract.directions import unit
 from divspace.extract.pipeline import response_activations
 from divspace.extract.select import dispersion
-from divspace.hooks import capture
+from divspace.hooks import capture, inject
 from divspace.intervene.steer import control_directions, orthogonalised
 from divspace.controls import fit_contrast_direction
 from divspace.local import run_local
@@ -169,3 +169,24 @@ def test_centroid_control_is_the_mean_response_activation():
 @pytest.mark.parametrize("spec,expected", [("6", [6]), ("4,8,12", [4, 8, 12]), ("middle", [4, 8, 12])])
 def test_resolve_layers_accepts_single_indices_and_lists(spec, expected):
     assert resolve_layers(spec, 16) == expected
+
+
+def test_relative_strength_scales_with_the_residual_norm():
+    class Passthrough(torch.nn.Module):
+        def forward(self, hidden):
+            return hidden
+
+    layers = torch.nn.ModuleList([Passthrough() for _ in range(3)])
+    hidden = torch.randn(2, 3, 32)
+    direction = torch.randn(32).abs() + 0.1
+    out = {}
+    with inject(layers, [1], direction, coef=0.25, relative=True):
+        out["relative"] = layers[1](hidden)
+    with inject(layers, [1], direction, coef=0.25):
+        out["absolute"] = layers[1](hidden)
+
+    unit = direction / direction.norm()
+    expected_delta = 0.25 * unit * hidden.norm(dim=-1, keepdim=True).mean()
+    assert torch.allclose(out["relative"] - hidden, expected_delta.expand_as(hidden), atol=1e-5)
+    assert torch.allclose(out["absolute"] - hidden, (0.25 * direction).expand_as(hidden), atol=1e-5)
+    assert not torch.allclose(out["relative"], out["absolute"])

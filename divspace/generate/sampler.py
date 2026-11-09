@@ -67,6 +67,7 @@ def sample(
     prompt_offset: int = 0,
     max_prompt_tokens: int = 512,
     mode: str = "inject",
+    relative: bool = False,
 ) -> GenerationResult:
     """Draw cfg.n_samples continuations per prompt.
 
@@ -102,7 +103,7 @@ def sample(
             if mode == "ablate":
                 context = ablate(lm.layers, layers, direction, positions)
             elif mode == "inject":
-                context = inject(lm.layers, layers, direction, coef, positions)
+                context = inject(lm.layers, layers, direction, coef, positions, relative)
             else:
                 raise ValueError(f"unknown intervention mode {mode!r}")
 

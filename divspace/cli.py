@@ -284,6 +284,7 @@ def cmd_steer(args) -> None:
         activations=lambda pairs, layers: response_activations(lm, pairs, layers),
     )
 
+    relative = getattr(args, "strength", "absolute") == "relative"
     cfg = SamplingConfig(
         n_samples=args.n_samples,
         temperature=args.temperature,
@@ -316,6 +317,7 @@ def cmd_steer(args) -> None:
             condition=args.condition,
             mode=args.mode,
             verbose=args.verbose,
+            relative=relative,
         )
     for row in grid.rows:
         row["model"] = lm.name
@@ -538,6 +540,13 @@ def build_parser() -> argparse.ArgumentParser:
     steer.add_argument("--control", default="none", choices=["none", "random", "shuffled", "orthogonal"])
     steer.add_argument("--condition", default="steer")
     steer.add_argument("--mode", default="inject", choices=["inject", "ablate"])
+    steer.add_argument(
+        "--strength",
+        default="absolute",
+        choices=["absolute", "relative"],
+        help="relative scales coef by the local residual norm, so a coefficient "
+        "means the same thing across models of different width",
+    )
     steer.add_argument("--include-baseline", action="store_true")
     steer.add_argument("--n-samples", type=int, default=8)
     steer.add_argument("--temperature", type=float, default=0.9)

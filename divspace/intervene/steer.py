@@ -113,6 +113,7 @@ def run_grid(
     condition: str = "steer",
     mode: str = "inject",
     verbose: bool = False,
+    relative: bool = False,
 ) -> tuple[GenerationResult, list[Cell]]:
     """Run the full layer x coefficient grid, one cell per (layer, coef) pair."""
     merged = GenerationResult()
@@ -134,6 +135,7 @@ def run_grid(
                 use_chat_template=use_chat_template,
                 condition=tag,
                 mode=mode,
+                relative=relative,
             )
             for row in result.rows:
                 row["cell"] = Cell(layer, float(coef), tag).name
