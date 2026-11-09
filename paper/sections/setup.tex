@@ -1,0 +1,46 @@
+\section{Experimental Setup}
+\label{sec:setup}
+
+\paragraph{Models.}
+We study seven open-weight models from four families, spanning the base-to-instruct transition and a
+factor of seventeen in parameter count: pythia-410m, pythia-1b and pythia-2.8b, Qwen2.5-1.5B-Instruct,
+Qwen2.5-7B-Instruct, SmolLM2-1.7B-Instruct, and OLMo-2-7B-Instruct. The three pythia models are base
+models. This split is not incidental: base models have a genuine and highly reproducible
+between-prompt diversity structure, so they are the strongest test of whether the pooled estimator
+measures diversity rather than prompt identity.
+
+\paragraph{Layers.}
+Fitting and intervention happen at a single middle layer per model, the median of three evenly
+spaced layers retained by the extraction stage. We additionally sweep five layers for the positive
+control, because a null at one arbitrarily chosen depth is uninformative if the attribute is
+represented elsewhere.
+
+\paragraph{Prompts and sampling.}
+Every experiment uses the same set of 40 open-ended prompts drawn from a fixed pool, with eight
+responses sampled per prompt per cell at temperature $0.9$ and top-$p$ $0.95$, up to 160 new tokens.
+The split-half test uses 32 responses per prompt so that each half retains 16. Decoding is
+unmodified apart from the intervention; we do not use greedy decoding anywhere, because the object
+of study is the spread of a sample, not a single output.
+
+\paragraph{Metrics.}
+Our primary metric is \vendi{} \citep{friedman2022vendi} computed on sentence embeddings that are
+centred within each prompt. Centring is necessary: without it the dominant common component of the
+embeddings makes \vendi{} saturate at one, so an uncentred score cannot distinguish a diverse sample
+from a collapsed one. We report \vendi{} on the natural scale where $8$ identical responses score
+$1$ and $8$ mutually orthogonal responses score $8$, which means a baseline around $6$ leaves only
+modest headroom and any claim of an increase must be read against that ceiling. Secondary metrics
+are distinct-$2$, self-BLEU, the fraction of degenerate trigrams, mean generation length, and the
+first principal-component ratio of the response embeddings. All intervals are $95\%$ bootstrap
+intervals over prompts with $1000$ resamples.
+
+\paragraph{Positive control.}
+A null is only interpretable if the same pipeline can detect a real effect. We build a labelled
+direction from $40$ yes/no pairs, fit it with \eqref{eq:local} using the same quantile machinery, and
+sweep five layers and five coefficients on $20$ disjoint questions, measuring the yes-rate of the
+first token. Unlike the diversity task, the contrast here is defined by a label assigned by the
+experimenter, so failing to detect it would indict the pipeline rather than the hypothesis.
+
+\paragraph{Reproducibility.}
+All experiments run on four RTX 4090 GPUs with bfloat16 weights and a fixed seed per cell. The
+implementation, prompt and question files, per-cell outputs, and analysis scripts are released, so
+every number here can be recomputed from the artifacts without regenerating anything.

@@ -1,0 +1,19 @@
+Activation-space interventions are increasingly used to control how varied a language model's
+outputs are, on the premise that output diversity is governed by a direction that can be
+estimated by contrasting high- and low-dispersion generations and then added back at inference
+time. We test that premise directly. Across seven open-weight models spanning four families
+(410M to 7B parameters), we find that a direction fitted this way has no stable causal role:
+injecting it across 35 dose levels never increases diversity, the median within-model
+dose--response slope is negative (Spearman $\rho = -0.30$, $p = 0.016$, 0/7 models positive),
+and at matched coefficients it is indistinguishable from---numerically worse than---a random
+vector ($-0.082$ \vendi{}, $p = 0.297$). The reason is that the estimator does not measure what
+it is assumed to measure. A split-half test shows that the pooled direction is reproducible only
+because it encodes prompt identity: for pythia-410m the split-half cosine is $+0.999$ when
+prompts are mixed but $-0.037$ when the two halves come from the same prompt, and this pattern
+holds for all seven models, where within-prompt agreement never exceeds $|0.12|$. The pooled
+vector is therefore a sum of near-orthogonal prompt-local components, none of which predicts the
+others. Ablating the response subspace still collapses diversity, but destroying the pairing that
+defines the contrast does the same, so the effect reflects removal of generative capacity rather
+than control of a diversity axis. We conclude that output diversity has no linearly decodable
+direction to steer, and we describe the placebo and quality controls a claim of successful
+diversity steering would need to pass.

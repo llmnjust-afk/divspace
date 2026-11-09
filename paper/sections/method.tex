@@ -1,0 +1,73 @@
+\section{The Estimator and What It Would Have to Satisfy}
+\label{sec:method}
+
+\paragraph{Setup.}
+Let the model generate $n$ responses $R_p = \{r_{p,1},\dots,r_{p,n}\}$ to prompt $p$ at temperature
+$T$. Write $h_{p,j}^{(\ell)} \in \mathbb{R}^{d}$ for the layer-$\ell$ residual-stream activation at
+the response positions of $r_{p,j}$ (mean-pooled over tokens) and $e_{p,j}$ for a sentence embedding
+used only to score dispersion. A response's score is its mean cosine distance to its siblings,
+$s_{p,j} = \frac{1}{n-1}\sum_{k \neq j} (1 - \cos(e_{p,j}, e_{p,k}))$, which measures how far a
+generation sits from the rest of its sample.
+
+\paragraph{The contrast direction.}
+Let $H_p \subset \{1,\dots,n\}$ index the responses of $p$ whose scores fall in the top quintile and
+$L_p$ those in the bottom quintile. The direction associated with prompt $p$ is
+\begin{equation}
+\label{eq:local}
+\begin{split}
+v_p &= \frac{\mu_p^{+} - \mu_p^{-}}{\lVert \mu_p^{+} - \mu_p^{-}\rVert},\\
+\mu_p^{\pm} &= \frac{1}{\lvert H_p \rvert}\sum_{j \in H_p} h_{p,j}^{(\ell)}
+\quad\text{or}\quad
+\frac{1}{\lvert L_p \rvert}\sum_{j \in L_p} h_{p,j}^{(\ell)} .
+\end{split}
+\end{equation}
+The pooled estimator that the recipe uses in practice is the same statistic computed after
+concatenating the responses of all prompts, which we write $v_{\text{pool}}$. Note that
+\eqref{eq:local} is defined for every prompt and that $v_{\text{pool}}$ is not its average: because
+signs are taken before averaging, $v_{\text{pool}}$ mixes directions that may be unrelated.
+
+\paragraph{Intervention.}
+At inference we add a multiple of the chosen direction to the residual stream leaving layer $\ell$,
+$h \leftarrow h + \alpha\, \hat{v} \lVert h \rVert$, where $\alpha$ is the steering coefficient and
+$\hat{v}$ is a unit vector. Expressing $\alpha$ as a fraction of the local residual norm is
+necessary for cross-model comparison: the raw direction norm spans three orders of magnitude in
+our models (from $0.21$ to $161$), so a fixed absolute coefficient means a negligible nudge in one
+model and a catastrophic perturbation in another. Where a coefficient is reported as an integer it
+is in units of the direction's own norm, and we verify per model that the same code path produces a
+monotone effect on a labelled direction at that strength (\Cref{sec:interventions}).
+
+\paragraph{What a usable direction requires.}
+Two conditions are usually left implicit. \emph{Reproducibility}: a direction estimated from one
+half of the evidence must agree with one estimated from the other, or the quantity is a property of
+the sample rather than the model. \emph{Efficacy}: adding $\alpha v$ must move diversity
+monotonically in $\alpha$, and more than a vector of equal norm chosen without regard to the data.
+The first is testable without any intervention; the second needs the placebo ladder.
+
+\paragraph{Split-half test.}
+At the \emph{pooled} level we split the full sample set into two random halves, refit
+\eqref{eq:local} on each treating all prompts as one pool, and record
+$\cos(v^{(1)}_{\text{pool}}, v^{(2)}_{\text{pool}})$. At the \emph{within-prompt} level we split
+each prompt's own $n$ responses into two disjoint halves, fit \eqref{eq:local} on each, record
+$\cos(v_p^{(1)}, v_p^{(2)})$, and average over prompts with a $t$-interval. The code and quantiles
+are identical, so any difference is attributable to whether prompt identity is available to the
+estimator. We use $n=32$ ($16$ per half, about three responses per quantile).
+
+\paragraph{Placebo ladder.}
+Four vectors of matched norm are compared against the fitted direction, each run through the same
+generation, scoring, and analysis code. A \emph{random} unit vector tests whether any perturbation
+of the same size suffices. A \emph{shuffled} vector recomputes \eqref{eq:local} with the quantile
+sets mis-paired across prompts, keeping the activations but destroying the dispersion contrast. An
+\emph{orthogonalised} vector keeps only the component orthogonal to the other layers' directions.
+A \emph{centroid} vector is the mean response activation across both quantiles, testing whether an
+effect is merely removal of the dominant common component.
+
+\paragraph{Efficacy test.}
+We sweep $\alpha \in \{1,2,4,8,16\}$ direction units at the middle layer, with a shared baseline
+cell, and estimate $\dv$ as the change in \vendi{} relative to that baseline, with standard errors
+propagated from per-prompt bootstraps. Dose-response is assessed per model with a Spearman
+correlation between $\alpha$ and $\dv$, and across models with a Wilcoxon signed-rank test on the
+per-model slopes. Specificity is assessed by pairing each fitted-direction cell with the random
+control at the same $\alpha$ and testing the mean difference across models. Because a large
+perturbation can reduce any diversity metric simply by damaging the text, we also report
+generation length and trigram repetition for every cell and re-run the specificity test on the
+subset of cells whose length and repetition stay within $10\%$ of baseline.

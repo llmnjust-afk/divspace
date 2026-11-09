@@ -1,0 +1,178 @@
+\section{Appendix: Additional Results}
+
+\subsection{Pooled stability across layers}
+
+\Cref{tab:pooled-layers} reports the pooled split-half cosine at three layers per model for the full
+set of eight models, including pythia-160m. The pattern is the one discussed in
+\Cref{sec:stability}: base models are strongly positive, with the single exception of pythia-2.8b's
+upper layers, while every instruction-tuned model is negative at every layer. The fact that the
+sign flips cleanly with post-training, and not with scale, is consistent with the pooled statistic
+reflecting prompt identity: instruction tuning sharpens the identity of each prompt to the point
+where the identity component dominates the pooled difference even more strongly, and the residual
+agreement between halves becomes dominated by sampling noise.
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{lccc}
+\toprule
+Model & Layer 1 & Layer 2 & Layer 3 \\
+\midrule
+pythia-160m          & $+0.970$ & $+0.937$ & $+0.738$ \\
+pythia-410m          & $+0.999$ & $+0.999$ & $+0.995$ \\
+pythia-1b            & $+1.000$ & $+0.999$ & $+0.998$ \\
+pythia-2.8b          & $+0.914$ & $+0.532$ & $+0.377$ \\
+SmolLM2-1.7B         & $-0.589$ & $-0.635$ & $-0.714$ \\
+Qwen2.5-1.5B         & $-0.466$ & $-0.482$ & $-0.620$ \\
+Qwen2.5-7B           & $-0.708$ & $-0.758$ & $-0.780$ \\
+OLMo-2-7B            & $-0.511$ & $-0.534$ & $-0.614$ \\
+\bottomrule
+\end{tabular}
+\caption{Pooled split-half cosine at three layers per model. Base models are positive, instruction-tuned
+models negative, at every depth. This is the statistic that a practitioner would normally report as
+evidence that the direction is real.}
+\label{tab:pooled-layers}
+\end{table}
+
+\subsection{Per-prompt direction agreement}
+
+\Cref{tab:consistency} reports the mean pairwise cosine between the directions fitted separately from
+each prompt's own samples. The values are close to zero for every instruction-tuned model, which is
+the direct measurement behind the claim that the pooled vector is a sum of near-orthogonal
+components. The base models show higher values, and the increase is concentrated in the layers where
+the pooled statistic is largest, which is again consistent with both quantities being driven by
+between-prompt identity rather than by dispersion.
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{lccc}
+\toprule
+Model & Layer 1 & Layer 2 & Layer 3 \\
+\midrule
+pythia-2.8b   & $+0.100$ & $+0.164$ & $+0.156$ \\
+SmolLM2-1.7B  & $-0.006$ & $+0.014$ & $+0.011$ \\
+Qwen2.5-7B    & $+0.010$ & $+0.018$ & $+0.018$ \\
+OLMo-2-7B     & $+0.016$ & $+0.017$ & $+0.010$ \\
+\bottomrule
+\end{tabular}
+\caption{Mean pairwise cosine between per-prompt directions. Values near zero mean the prompts
+disagree about which way diversity points, so their average is not a summary of a shared axis.}
+\label{tab:consistency}
+\end{table}
+
+\begin{table*}[t]
+\centering
+\small
+\setlength{\tabcolsep}{8pt}
+\begin{tabular}{lccc}
+\toprule
+Model & Baseline & Fitted & Random \\
+\midrule
+pythia-410m  & 6.42 & $-0.43\,[-0.92, 0.06]$ & $-1.10\,[-1.72,-0.47]$ \\
+pythia-1b    & 6.26 & $-0.34\,[-0.86, 0.19]$ & $-0.07\,[-0.49, 0.35]$ \\
+pythia-2.8b  & 6.49 & $-0.08\,[-0.32, 0.16]$ & $-0.13\,[-0.36, 0.10]$ \\
+SmolLM2      & 6.34 & $-0.28\,[-0.56, 0.01]$ & $-0.20\,[-0.54, 0.13]$ \\
+Qwen-1.5B    & 6.11 & $-0.33\,[-0.76, 0.10]$ & $-0.19\,[-0.54, 0.16]$ \\
+Qwen-7B      & 6.28 & $-0.29\,[-0.67, 0.08]$ & $-0.04\,[-0.27, 0.19]$ \\
+OLMo-2-7B    & 6.05 & $-1.04\,[-1.67,-0.42]$ & $+0.11\,[-0.29, 0.52]$ \\
+\bottomrule
+\end{tabular}
+\caption{Largest change in \vendi{} achieved by each arm at $\alpha \in \{1,2,4,8,16\}$, with $95\%$
+bootstrap intervals. Negative is the only direction observed for the fitted arm. The single
+significant fitted-direction effect, on OLMo-2, coincides with the breakdown of that model's
+positive control at the same coefficient and with a length drop of $41\%$, so it reflects collapse
+rather than control.}
+\label{tab:interventions}
+\end{table*}
+
+\subsection{Earlier intervention regimes}
+
+\paragraph{Earlier regimes agree.}
+Two further designs were run before the coefficient scale was calibrated, and we report them because
+their agreement matters more than their individual power. At temperature $0.9$ with absolute rather
+than normalised coefficients, $24$ matched comparisons against the placebo ladder all had intervals
+crossing zero. Re-running at temperature $0.4$, which lowers the baseline \vendi{} from the ceiling
+to roughly $4.7$ for pythia-2.8b and creates genuine headroom, produced the same result in all nine
+comparisons. Lowering the temperature does not reveal an effect that the ceiling was hiding.
+
+
+\subsection{Complementary placebos}
+
+Ablation and injection were also run against the full placebo ladder in the first sweep, before the
+coefficient scale was normalised. In the injection arm, all twenty-four matched comparisons between
+the fitted direction and the random, shuffled, or orthogonalised control had intervals crossing zero,
+with absolute changes bounded by $0.07$ \vendi{} except for one orthogonalised cell at $-0.165$ on
+pythia-160m. In the ablation arm, eleven of twelve comparisons crossed zero and the twelfth pointed
+against the hypothesis. These runs used absolute coefficients and are therefore individually less
+informative than the calibrated sweep in \Cref{sec:interventions}, but their agreement with it across
+a different coefficient regime is reassuring.
+
+\subsection{Reproducing the numbers}
+
+Each model's result directory contains the raw generations for every cell (\texttt{sweep\_cal.jsonl},
+\texttt{sweep\_cal\_random.jsonl}, \texttt{local.jsonl}), the per-prompt split-half cosines
+(\texttt{within\_prompt.jsonl}), the fitted directions (\texttt{directions.pt}), and the metric files
+from which every table is computed. The analysis scripts that produce \Cref{tab:stability},
+\Cref{tab:interventions} and the mixed-effects summaries read those files directly and require no GPU.
+Generation itself was run on four RTX 4090 cards with a fixed seed per cell; the full sweep for the
+seven headline models completes in under three hours on that hardware.
+
+\subsection{Extended limitations}
+\label{app:limitations}
+
+\paragraph{Statistical power at the within-prompt level.}
+The split-half test uses $32$ responses per prompt, so each half contributes about three responses
+to each quantile. A larger sample could in principle reveal a weak but real signal. Two
+considerations argue against this being the explanation for our result. First, the effect would have
+to be small enough to escape detection at $16$ responses per half yet strong enough to drive a
+steering effect, and the nulls in \Cref{sec:interventions} are correspondingly tight. Second, the
+base models, where between-prompt structure is strongest and the estimator is best behaved, show the
+same within-prompt failure as the instruction-tuned ones. A definitive test would raise the sample
+to $128$ responses per prompt for a subset of models, which we leave to future work.
+
+\paragraph{Metric dependence.}
+\vendi{} is one diversity metric among several, and it is known to be biased at small sample sizes.
+We mitigate this by using the same sample size in every cell, by centring embeddings within prompt,
+and by reporting distinct-$2$, self-BLEU and repetition alongside. It remains possible that a
+different metric would respond to the fitted direction, though the direction would then have to
+affect a property our lexical and embedding measures both miss, which seems unlikely given that the
+same direction produces no change in either.
+
+\paragraph{Temperature and scale.}
+All headline experiments run at temperature $0.9$, where \vendi{} baselines sit between $6.0$ and
+$6.5$ out of $8$ and headroom is limited. We replicated at $0.4$, where pythia-2.8b's baseline falls
+to $4.7$, and found the same nulls, but we did not replicate the full grid at low temperature for
+every model. Our largest models have seven billion parameters; behaviour at frontier scale may
+differ, and the coefficient calibration would have to be redone there because the residual norm
+grows with width.
+
+\paragraph{Intervention site.}
+We intervene at a single middle layer in the main sweep, chosen before seeing the results. The
+positive control shows that the effect of a labelled direction varies substantially with depth, so a
+diversity effect could in principle be localised at a layer we did not probe. The five-layer sweep
+for the positive control covers the range in which the model's behaviour is most plastic, and the
+absence of any response there constrains how plausible a missed layer is, but we cannot rule it out.
+
+\paragraph{Ethical considerations.}
+The work uses open-weight models with publicly released prompts and requires no human annotation.
+Its practical implication is cautionary: it argues against deploying diversity steering as a remedy
+until the controls we describe have been passed, which if anything reduces the risk of false
+confidence in a technique that does not work.
+
+\subsection{Designing a positive result}
+\label{app:positive}
+
+
+Our results do not show that diversity is unmanipulable, only that it is not manipulable along a
+direction estimated by contrasting dispersion quantiles. The ablation results point to a
+formulation in which diversity is a property of a subspace rather than of a vector: removing the
+span of a prompt's response set destroys the model's ability to branch within it, and the identity
+of the contrast used to choose that subspace is irrelevant. A method that estimates the response
+subspace directly---for instance from the principal components of a prompt's own generations---and
+then intervenes on its spectrum rather than on a single direction would be a natural successor, and
+it would be testable with exactly the controls we describe. Distributional interventions at the
+sampler, such as the stochastic modulation of \citet{xu2026prism}, sidestep the representation
+question entirely and are not threatened by our findings; the target of our critique is specifically
+the linear-representation claim.
+

@@ -1,0 +1,21 @@
+\section{Conclusion}
+
+We set out to test whether output diversity can be controlled by adding a direction to the residual
+stream, estimated by contrasting a model's more and less varied generations. The answer is no, and
+the reason is more interesting than the answer. The estimator appears to work when checked the obvious way:
+two halves yield the same direction to three decimals on pythia-410m. It
+stops working the moment both halves come from the same prompt, where the cosine falls to $-0.037$
+in that model and never exceeds $|0.12|$ across our seven models. The pooled statistic recovers prompt identity, which is reproducible for reasons unrelated to
+dispersion. The pooled vector is consequently
+a sum of near-orthogonal prompt-local components, none of which predicts the others, which is why
+injecting it across thirty-five dose levels produces no positive dose-response in any model, why it
+does not outperform a random vector of matched norm, and why the one prompt-specific variant we
+tested performs no better than borrowing another prompt's direction.
+
+Ablation tells a different and more useful story. Removing the response subspace collapses diversity
+in pythia-1b from $6.13$ to $1.35$ at layer 4, and a control that keeps the activations but destroys
+the dispersion pairing collapses it to $1.46$, so the causal factor is the subspace and not the
+contrast. Diversity is thus one-sided: it can be destroyed by removing the span of a prompt's
+responses, but it cannot be increased by adding a direction, because there is none to add.
+We hope these four checks become routine; each is cheap and each rules out a class of result that
+would otherwise look like success.

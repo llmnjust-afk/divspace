@@ -1,0 +1,66 @@
+\section{Introduction}
+
+Post-trained language models produce far less varied output than their base counterparts, and the
+loss is large enough to undermine inference-time scaling, synthetic data generation, and any
+application that depends on sampling a population of responses rather than a single one
+\citep{karouzos2026where,matthews2026language,yun2025price}. The phenomenon is now documented
+across formats \citep{parikh2026structured}, personas \citep{xiao2026chameleons}, and successive
+post-training stages \citep{liu2026representation}, and remedies have been proposed at the level
+of training objectives \citep{li2025jointly} and sampling procedures \citep{xu2026prism}.
+
+A second line of work treats the problem as one of representation rather than optimisation.
+Because activation-space interventions can reliably shift sentiment, sycophancy, refusal, and
+truthfulness \citep{turner2023steering,panickssery2023steering,zhao2025steering}, it is natural to
+ask whether diversity has its own direction: contrast the generations of one prompt that came out
+varied with those that came out repetitive, average the activation difference, and add the
+resulting vector during inference. The recipe inherits the standard contrastive-activation
+assumption---that a behaviour of interest is encoded along a single linear direction recoverable
+from labelled pairs---and it is attractive precisely because it needs no retraining and no human
+annotation. Recent work has begun to question how far that assumption travels, finding that
+steering vectors generalise poorly across contexts \citep{tan2024analyzing}, that residual-stream
+addition can fail outright in stateful dialogue \citep{kang2026promptactivation}, that the
+contrastive pairs determine the outcome more than the fitting procedure
+\citep{bohek2026detecting,hao2025patterns}, and that linear, context-independent interventions are
+a simplification that new methods must move beyond \citep{jafari2026metasteer,park2026information}.
+None of this work examines diversity, where the label is not given but must be constructed by the
+experimenter from the model's own samples.
+
+That construction is the weak point. When the positive and negative classes are not annotated
+categories but quantiles of a dispersion score computed over the same generations being compared,
+the contrast direction is as much a statistic of sampling noise as of the model. We fit the
+direction exactly as the recipe prescribes and then split the evidence in two. When the halves come
+from different prompts the fit is almost perfectly reproducible, cosine $+0.999$ for pythia-410m;
+when they come from the \emph{same} prompt it is unreproducible, $-0.037$ for the same model. The
+pooled estimator is stable because prompts have stable identities, not because diversity has a
+stable direction, so averaging across prompts yields a sum of near-orthogonal, individually
+unpredictable components: a quantity with a norm but no direction.
+
+We turn that diagnosis into a set of predictions and test each one. If the pooled vector is not a
+diversity axis, then (i) injecting it should not change diversity at any dose; (ii) it should not
+outperform a random vector of the same norm; (iii) fitting a direction per prompt, which removes
+the identity contamination, should still fail because the within-prompt signal is itself unstable;
+and (iv) removing the response subspace should nevertheless collapse diversity, because ablation
+destroys generative capacity whether or not the removed subspace is semantically special. All four
+predictions hold. Interventions at 35 dose levels across seven models yield no positive
+dose--response in any model, and the fitted direction is numerically worse than a random one at
+matched coefficients. Prompt-local steering succeeds no better than steering with a different
+prompt's direction. Ablation does collapse diversity---to 1.35 \vendi{} from a baseline of 6.13 in
+pythia-1b---but a control that keeps the activations and destroys only the high/low pairing
+collapses it just as far, to 1.46, while a random direction leaves it at 6.05.
+
+Our contributions are as follows.
+\begin{itemize}
+\item The standard contrastive construction of a ``diversity direction'' fails a split-half test at
+the within-prompt level in all seven models we study while passing it at the pooled level, locating
+its apparent stability in prompt identity rather than in diversity (\Cref{sec:stability}).
+\item A full placebo ladder---random, pairing-shuffled, orthogonalised, and centroid
+directions---with per-model dose calibration against a labelled positive control finds no
+diversity-increasing effect anywhere and a significantly negative median slope
+(\Cref{sec:interventions}).
+\item The only significant placebo effects vanish once generations that shorten or repeat are
+excluded, so they measure degeneration rather than control (\Cref{sec:interventions}).
+\item Diversity is removable along a subspace but not addable along a direction, and the removal
+does not depend on the contrast that defines the direction (\Cref{sec:mechanism}).
+\end{itemize}
+Together these results argue that diversity should not be treated as another linearly steerable
+attribute, and they specify the controls that any future claim of diversity steering should report.

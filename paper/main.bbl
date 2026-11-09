@@ -1,0 +1,186 @@
+\begin{thebibliography}{25}
+\providecommand{\natexlab}[1]{#1}
+
+\bibitem[{Boháček et~al.(2026)Boháček, Jain, Dufour, Leung, Bregler, and
+  Patel}]{bohek2026detecting}
+Matyáš Boháček, Rishub Jain, Nicholas~P. Dufour, Thomas Leung, Chris
+  Bregler, and Roma Patel. 2026.
+\newblock \href {https://doi.org/10.48550/arxiv.2606.26155} {Detecting and
+  controlling sycophancy with cascading linear features}.
+\newblock arXiv:2606.26155.
+
+\bibitem[{Cao et~al.(2026)Cao, Lou, Liu, Feng, Li, and Luu}]{cao2026activation}
+Qi~Cao, Jian Lou, Meiting Liu, Wenjie Feng, Dan Li, and Anh~Tuan Luu. 2026.
+\newblock \href {https://doi.org/10.48550/arxiv.2606.08682} {Activation
+  steering induces emergent misalignment: Steering vector construction and
+  comprehensive evaluation}.
+\newblock arXiv:2606.08682.
+
+\bibitem[{Friedman and Dieng(2022)}]{friedman2022vendi}
+Dan Friedman and Adji~Bousso Dieng. 2022.
+\newblock \href {https://doi.org/10.48550/arxiv.2210.02410} {The vendi score: A
+  diversity evaluation metric for machine learning}.
+\newblock arXiv:2210.02410.
+
+\bibitem[{Hao et~al.(2025)Hao, Panda, Shabalin, and Ali}]{hao2025patterns}
+Yixiong Hao, Ayush Panda, Stepan Shabalin, and Sheikh Abdur~Raheem Ali. 2025.
+\newblock \href {https://doi.org/10.48550/arxiv.2505.03189} {Patterns and
+  mechanisms of contrastive activation engineering}.
+\newblock arXiv:2505.03189.
+
+\bibitem[{Jafari et~al.(2026)Jafari, Xue, and Salim}]{jafari2026metasteer}
+Mehdi Jafari, Hao Xue, and Flora~D. Salim. 2026.
+\newblock \href {https://doi.org/10.48550/arxiv.2609.38718} {Metasteer:
+  Context-conditioned, nonlinear steering via attention-projection adaptation}.
+\newblock arXiv:2609.38718.
+
+\bibitem[{Jalali et~al.(2024)Jalali, Ospanov, Gohari, and
+  Farnia}]{jalali2024conditional}
+Mohammad Jalali, Azim Ospanov, Amin Gohari, and Farzan Farnia. 2024.
+\newblock \href {https://doi.org/10.48550/arxiv.2411.02817} {Conditional vendi
+  score: Prompt-aware diversity evaluation for generative ai models and llms}.
+\newblock arXiv:2411.02817.
+
+\bibitem[{Kang et~al.(2026)Kang, Liu, Ma, Huang, Tan, and
+  Jiang}]{kang2026promptactivation}
+Diancheng Kang, Zheyuan Liu, Ningshan Ma, Yue Huang, Zhaoxuan Tan, and Meng
+  Jiang. 2026.
+\newblock \href {https://doi.org/10.48550/arxiv.2605.10664} {Prompt-activation
+  duality: Improving activation steering via attention-level interventions}.
+\newblock arXiv:2605.10664.
+
+\bibitem[{Karouzos et~al.(2026)Karouzos, Tan, and Aletras}]{karouzos2026where}
+Constantinos Karouzos, Xingwei Tan, and Nikolaos Aletras. 2026.
+\newblock \href {https://doi.org/10.48550/arxiv.2604.16027} {Where does output
+  diversity collapse in post-training?}
+\newblock arXiv:2604.16027.
+
+\bibitem[{Li et~al.(2025)Li, Zhang, Yu, Saha, Khashabi, Weston, Lanchantin, and
+  Wang}]{li2025jointly}
+Tianjian Li, Yiming Zhang, Ping Yu, Swarnadeep Saha, Daniel Khashabi, Jason
+  Weston, Jack Lanchantin, and Tianlu Wang. 2025.
+\newblock \href {https://doi.org/10.48550/arxiv.2509.02534} {Jointly
+  reinforcing diversity and quality in language model generations}.
+\newblock arXiv:2509.02534.
+
+\bibitem[{Liu et~al.(2026)Liu, Chen, Wang, Xu, Lin, Zhang, Zhou, Yang, Wu, and
+  Sun}]{liu2026representation}
+Yichen Liu, Mingyu Chen, Hao Wang, Xiaoran Xu, Chenxi Lin, Rui Zhang, Yutong
+  Zhou, Yuxin Yang, Jiarui Wu, and Wei Sun. 2026.
+\newblock \href {https://doi.org/10.48550/arxiv.2605.30524} {Representation
+  collapse in sequential post-training of large language models}.
+\newblock arXiv:2605.30524.
+
+\bibitem[{Matthews and Hamilton(2026)}]{matthews2026language}
+Jacob Matthews and Sil Hamilton. 2026.
+\newblock \href {https://doi.org/10.48550/arxiv.2610.24223} {Language models
+  are lazy poets: Creative mode collapse at scale}.
+\newblock arXiv:2610.24223.
+
+\bibitem[{Ospanov and Farnia(2024)}]{ospanov2024vendi}
+Azim Ospanov and Farzan Farnia. 2024.
+\newblock \href {https://doi.org/10.48550/arxiv.2410.21719} {Do vendi scores
+  converge with finite samples? truncated vendi score for finite-sample
+  convergence guarantees}.
+\newblock arXiv:2410.21719.
+
+\bibitem[{Parikh(2026)}]{parikh2026structured}
+Tapan~S. Parikh. 2026.
+\newblock \href {https://doi.org/10.48550/arxiv.2607.18476} {Structured output
+  collapses answer diversity across 44 language models}.
+\newblock arXiv:2607.18476.
+
+\bibitem[{Park et~al.(2026)Park, Nief, Choe, and Veitch}]{park2026information}
+Kiho Park, Todd Nief, Yo~Joong Choe, and Victor Veitch. 2026.
+\newblock \href {https://doi.org/10.48550/arxiv.2602.15293} {The information
+  geometry of softmax: Probing and steering}.
+\newblock arXiv:2602.15293.
+
+\bibitem[{Pasarkar and Dieng(2023)}]{pasarkar2023cousins}
+Amey~P. Pasarkar and Adji~Bousso Dieng. 2023.
+\newblock \href {https://doi.org/10.48550/arxiv.2310.12952} {Cousins of the
+  vendi score: A family of similarity-based diversity metrics for science and
+  machine learning}.
+\newblock arXiv:2310.12952.
+
+\bibitem[{Postmus and Abreu(2024)}]{postmus2024steering}
+Joris Postmus and Steven Abreu. 2024.
+\newblock \href {https://doi.org/10.48550/arxiv.2410.16314} {Steering large
+  language models using conceptors: Improving addition-based activation
+  engineering}.
+\newblock arXiv:2410.16314.
+
+\bibitem[{Raj(2026)}]{raj2026steer}
+Deepanshu Raj. 2026.
+\newblock \href {https://doi.org/10.48550/arxiv.2611.06001} {How far can you
+  steer? behavior-capability frontiers in contrastive activation addition}.
+\newblock arXiv:2611.06001.
+
+\bibitem[{Rimsky et~al.(2024)Rimsky, Gabrieli, Schulz, Tong, Hubinger, and
+  Turner}]{panickssery2023steering}
+Nina Rimsky, Nick Gabrieli, Julian Schulz, Meg Tong, Evan Hubinger, and
+  Alexander Turner. 2024.
+\newblock \href {https://doi.org/10.18653/v1/2024.acl-long.828} {Steering llama
+  2 via contrastive activation addition}.
+\newblock \emph{Proceedings of the conference - Association for Computational
+  Linguistics. Meeting}.
+
+\bibitem[{Tan et~al.(2024)Tan, Chanin, Lynch, Kanoulas, Paige, Garriga-Alonso,
+  and Kirk}]{tan2024analyzing}
+Daniel Tan, David Chanin, Aengus Lynch, Dimitrios Kanoulas, Brooks Paige,
+  Adrià Garriga-Alonso, and Robert Kirk. 2024.
+\newblock \href {https://doi.org/10.48550/arxiv.2407.12404} {Analyzing the
+  generalization and reliability of steering vectors}.
+\newblock arXiv:2407.12404.
+
+\bibitem[{Turner et~al.(2023)Turner, Thiergart, Leech, Udell, Vazquez, Mini,
+  and MacDiarmid}]{turner2023steering}
+Alexander Turner, Lisa Thiergart, Gavin Leech, David Udell, Juan~J. Vazquez,
+  U.~Mini, and Monte MacDiarmid. 2023.
+\newblock \href {https://doi.org/10.48550/arxiv.2308.10248} {Steering language
+  models with activation engineering}.
+\newblock arXiv:2308.10248.
+
+\bibitem[{Xiao et~al.(2026)Xiao, Zhang, Yang, Xuan, and tse
+  Huang}]{xiao2026chameleons}
+Yunze Xiao, Vivienne~J. Zhang, Chenghao Yang, Weihao Xuan, and Jen tse Huang.
+  2026.
+\newblock \href {https://doi.org/10.48550/arxiv.2604.24698} {The chameleon's
+  limit: Investigating persona collapse and homogenization in large language
+  models}.
+\newblock arXiv:2604.24698.
+
+\bibitem[{Xu et~al.(2026)Xu, Zhu, Liu, and Lyu}]{xu2026prism}
+Qixin Xu, Zihan Zhu, Xiaojiang Liu, and Bohan Lyu. 2026.
+\newblock \href {https://doi.org/10.18653/2026.findings-emnlp.748} {Prism:
+  Promoting sampling diversity of large language models with implicit
+  stochastic modulation}.
+\newblock \emph{Findings of the Association for Computational Linguistics:
+  EMNLP (Findings of EMNLP)}.
+
+\bibitem[{Yun et~al.(2025)Yun, An, Wang, Peng, and Shang}]{yun2025price}
+Longfei Yun, Chenyang An, Zilong Wang, Letian Peng, and Jingbo Shang. 2025.
+\newblock \href {https://doi.org/10.18653/v1/2025.findings-emnlp.836} {The
+  price of format: Diversity collapse in llms}.
+\newblock \emph{Findings of the Association for Computational Linguistics:
+  EMNLP (Findings of EMNLP)}.
+
+\bibitem[{Zhao et~al.(2025)Zhao, Devoto, Hong, Du, Gema, Wang, He, Wong, and
+  Minervini}]{zhao2025steering}
+Yu~Zhao, Alessio Devoto, Giwon Hong, Xiaotang Du, Aryo~Pradipta Gema, Hongru
+  Wang, Xuanli He, Kam-Fai Wong, and Pasquale Minervini. 2025.
+\newblock \href {https://doi.org/10.18653/v1/2025.naacl-long.264} {Steering
+  knowledge selection behaviours in llms via sae-based representation
+  engineering}.
+\newblock In \emph{Proceedings of the 2025 Conference of the North American
+  Chapter of the Association for Computational Linguistics: Human Language
+  Technologies (NAACL-HLT)}, pages 5117--5136. Association for Computational
+  Linguistics.
+
+\bibitem[{Zhu and Zhu(2026)}]{zhu2026token}
+Xudong Zhu and Zhihui Zhu. 2026.
+\newblock \href {https://doi.org/10.48550/arxiv.2610.04967} {One token can be
+  enough: Bridging prompting and activation steering with prefix steering}.
+\newblock arXiv:2610.04967.
+
+\end{thebibliography}

@@ -1,0 +1,57 @@
+\section{No Dose of the Fitted Direction Increases Diversity}
+\label{sec:interventions}
+
+\paragraph{The pipeline reaches the model.}
+Before reading the diversity results it is necessary to know that the intervention is doing
+something. \Cref{fig:confirm}a shows the labelled yes/no control, fitted and injected by the same
+code at the same coefficient grid. On Qwen2.5-1.5B the yes-rate rises monotonically from $0.694$ at
+baseline to $0.838$ at $\alpha=16$ direction units, a shift of $+0.144$; on pythia-410m it rises
+from $0.087$ to $0.206$, a factor of $2.4$. Two further models respond with the correct sign but
+smaller magnitude, and the sweep over five layers shows the effect appearing early and fading with
+depth (pythia-410m: $+0.119$ at layer 6, $+0.088$ at layer 10, $+0.032$ at layer 14). Two models
+do not respond at the strengths we tested: SmolLM2 sits at a yes-rate of $0.844$ at baseline, where
+there is little room to move, and OLMo-2 rises to $+0.069$ at $\alpha=8$ before breaking down at
+$\alpha=16$ ($-0.150$). When a direction carries a labelled signal, then, this pipeline detects it.
+
+\paragraph{The fitted direction has no dose-response.}
+Across seven models and five coefficients, \Cref{fig:confirm}c shows no monotone increase anywhere.
+The per-model Spearman correlation between coefficient and $\dv$ is negative in all seven models:
+$-0.10$ for pythia-2.8b, $-0.30$ for SmolLM2, Qwen2.5-1.5B, Qwen2.5-7B and OLMo-2, $-0.40$ for
+pythia-410m, and $-0.60$ for pythia-1b. The median slope is
+$\rho = -0.30$ and a Wilcoxon signed-rank test over models rejects zero ($p = 0.016$), but in the
+direction opposite to the hypothesis: stronger steering is associated with slightly \emph{less}
+diversity. No model has a positive slope. Aggregating all $35$ fitted-direction cells, $31$ are
+negative and only $4$ positive, with a mean change of $-0.164$ \vendi{} on a baseline in the range
+$6.0$--$6.4$ out of a maximum of $8$; a sign test rejects symmetry at $p < 10^{-5}$, confirming that
+the negative drift is systematic while its magnitude remains small.
+
+\paragraph{The fitted direction is not better than a random one.}
+Specificity is the stronger test, because a small negative drift could be shared by any perturbation.
+At each coefficient we pair the fitted cell with the random-direction cell from the same model and
+compare $\dv$. The mean paired difference across the seven models is $-0.082$ \vendi{}: the fitted
+direction reduces diversity slightly \emph{more} than a random vector of equal norm, and a Wilcoxon
+test across models does not distinguish the two ($p = 0.297$). Per-model values range from $+0.261$
+(pythia-410m) to $-0.348$ (OLMo-2) with no consistent sign. The orthogonalised and centroid arms are likewise
+indistinguishable from the fitted one, so the four arms behave as four arbitrary perturbations of
+similar size.
+
+\paragraph{Where the random arm looked effective, it was destroying the text.}
+The random direction does produce individually significant reductions, up to $-1.10$ \vendi{} on
+pythia-410m at $\alpha=16$ (interval $[-1.72,-0.47]$). That result is an artifact of degeneration,
+and the diagnostic is visible in the raw statistics: in the same cell the mean generation length
+falls from $122$ to $89$ tokens and the trigram repetition rate rises from $0.11$ to $0.25$, whereas
+the fitted direction at the same coefficient moves length only from $122$ to $107$ and repetition
+from $0.11$ to $0.13$. Applying a quality gate that excludes any cell whose length or repetition
+moves by more than $10\%$ removes the random arm's advantage entirely: the surviving random cells
+average $-0.02$ \vendi{} with a maximum $|z|$ of $0.32$ on pythia-1b and $-0.25$ with $|z|=0.89$ on
+pythia-410m. A metric computed on degenerate text measures degradation, not control; \Cref{tab:interventions}
+gives the per-model extremes.
+
+\paragraph{Prompt-local steering does not rescue the idea.}
+If pooling is the error, fitting a direction from each prompt's own samples and steering that prompt
+with it is the natural repair. It does not work either: across four models and two coefficients, all
+eight comparisons against the matched random control cross zero, with point estimates between
+$-0.114$ and $+0.070$ \vendi{}. Decisively, steering with a \emph{different} prompt's direction is
+indistinguishable from steering with the prompt's own ($-0.121$ to $+0.013$), which is what
+\Cref{sec:stability} predicts: if a within-prompt fit is noise, one prompt's noise is as good as
+another's.

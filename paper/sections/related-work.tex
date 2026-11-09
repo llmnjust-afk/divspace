@@ -1,0 +1,50 @@
+\section{Related Work}
+
+\paragraph{Output diversity collapse.}
+The empirical literature on diversity loss has converged on a description of where the loss
+appears rather than on a mechanism for it. The most recent work localises the drop to specific
+post-training stages, arguing that instruction tuning and preference optimisation each remove a
+characteristic portion of the base model's spread \citep{karouzos2026where}, and complementary
+studies trace the same phenomenon through sequential post-training pipelines
+\citep{liu2026representation} and through the creative register, where aligned models produce
+outputs that are highly self-similar even when prompted for novelty \citep{matthews2026language}.
+A parallel strand shows that the loss is contingent on surface form: requiring structured output
+such as JSON collapses the answer distribution across dozens of models \citep{parikh2026structured},
+and template tokens alone account for a large share of the reduction \citep{yun2025price}.
+Persona conditioning exhibits the same fragility at the level of populations rather than
+individual responses \citep{xiao2026chameleons}. Remedies have accordingly been proposed at the
+level of the training objective \citep{li2025jointly} and of the sampler \citep{xu2026prism}, and
+both presuppose that diversity is a controllable quantity with a measurable target. Our results
+speak to the third, representation-level option and find it closed: the quantity is measurable,
+but not along the linear axis those interventions would need.
+
+\paragraph{Linear steering and its limits.}
+Contrastive activation addition estimates a behaviour direction as the mean difference between
+paired activations and adds a multiple of it during inference
+\citep{turner2023steering,panickssery2023steering}. It has been extended to sparse autoencoder
+features and learned interventions \citep{zhao2025steering,postmus2024steering}, and recent work
+broadens its reach across modalities and behaviours \citep{zhu2026token,park2026information}. A
+growing body of evidence constrains when the recipe works. Steering vectors generalise poorly across prompt distributions and can reverse sign
+under distribution shift \citep{tan2024analyzing}; residual-stream addition can fail entirely in
+stateful dialogue where the intervention is absorbed by context \citep{kang2026promptactivation};
+and the quality of the contrastive pairs dominates the result, to the point that feature selection
+over pairs matters more than the fitting rule \citep{bohek2026detecting,hao2025patterns}. Concerns
+have also been raised about side effects: steering that succeeds behaviourally can induce
+capability loss \citep{raj2026steer} or emergent misalignment \citep{cao2026activation}, and
+nonlinear, context-conditioned interventions have been proposed precisely because the linear,
+context-independent assumption is too strong \citep{jafari2026metasteer}. All of these findings
+concern attributes with externally given labels. Our setting is harder in a specific way: the
+labels are quantiles of a statistic computed from the model's own samples, so the estimator can
+succeed at reproducing itself while measuring nothing about the attribute.
+
+\paragraph{Diversity measurement.}
+Because our dependent variable is itself an estimator, its properties matter. The \vendi{} score
+measures the effective number of distinct modes as the exponential of the Shannon entropy of the
+similarity-matrix eigenvalues, and is a standard reference-free diversity metric
+\citep{friedman2022vendi} with a family of related scores \citep{pasarkar2023cousins}. It is biased
+at the sample sizes typical of generation studies, and truncated variants exist to obtain
+convergence guarantees \citep{ospanov2024vendi}. Prompt-aware variants compute diversity conditionally on the
+prompt \citep{jalali2024conditional}; our analysis shows the distinction is not merely
+methodological, since pooling across prompts is exactly what makes a spurious direction look stable.
+We therefore centre embeddings within each prompt and report lexical, length, and repetition
+diagnostics alongside \vendi{}.

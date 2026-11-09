@@ -1,0 +1,15 @@
+\section{Limitations}
+
+Our claim is deliberately narrow: a direction estimated by contrasting dispersion quantiles does not
+support steering, in seven models at one temperature and one layer per model. We do not show that no
+linear intervention can affect diversity, only that the estimator the contrastive recipe specifies
+fails its own reproducibility prerequisite. The split-half test uses $32$ responses per prompt,
+which is the smallest sample that keeps the fit non-degenerate; a larger sample could in principle
+reveal a weak signal, though the surviving nulls in \Cref{sec:interventions} are tight
+($|z| < 1.1$ after the quality gate) and the base models, where the estimator is best behaved, fail
+the within-prompt test just as the instruction-tuned ones do. \vendi{} is one metric among several
+and is biased at small samples, which we mitigate by holding the sample size fixed, centring
+embeddings within prompt, and reporting lexical measures alongside. Finally, our largest models have
+seven billion parameters and all headline runs use temperature $0.9$; frontier-scale behaviour and
+other temperatures may differ, and the coefficient calibration would have to be redone there because
+the residual norm grows with width.

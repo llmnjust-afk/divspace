@@ -1,0 +1,57 @@
+\section{What Ablation Establishes, and What It Does Not}
+\label{sec:mechanism}
+
+\paragraph{Removal and addition are not symmetric.}
+Injection asks whether adding a direction increases diversity; ablation asks whether removing it
+decreases diversity. The two can come apart, and in our models they do. Projecting the response
+subspace out of the residual stream at an early layer collapses diversity dramatically, while
+adding the same subspace does nothing. \Cref{tab:ablation} gives the clearest case. In pythia-1b,
+ablating the fitted direction at layer 4 drops \vendi{} from a baseline of $6.13$ to $1.35$, and the
+effect is graded with depth: $4.00$ at layer 8 and $5.07$ at layer 12. That gradient suggests early layers establish the variability
+later layers preserve or collapse.
+
+\begin{table}[t]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{lccccc}
+\toprule
+Layer & Base & Fitted & Random & Shuffled & Orth.\\ \\
+\midrule
+L4  & 6.13 & \textbf{1.35} & 6.05 & \textbf{1.46} & 5.69 \\
+L8  & 6.13 & 4.00 & 6.06 & 3.67 & 3.87 \\
+L12 & 6.13 & 5.07 & 6.22 & 5.62 & 5.02 \\
+\bottomrule
+\end{tabular}
+\caption{Ablating a single direction in pythia-1b. The fitted direction and the shuffled control,
+which keeps the activations but destroys the dispersion pairing, both collapse diversity at layer 4;
+a random direction of equal norm leaves it essentially untouched. The causal factor is therefore the
+response subspace, not the high-versus-low contrast that nominally defines the direction.}
+\label{tab:ablation}
+\end{table}
+
+\paragraph{The collapse is not direction-specific.}
+Ablating a random vector at the same layer leaves \vendi{} at $6.05$ against a baseline of $6.13$,
+so the collapse is not an artifact of perturbing the stream; it requires removing the right subspace.
+The control that decides the interpretation is the shuffled arm, where the activations are unchanged
+and only the pairing between dispersion scores and responses is destroyed. It collapses diversity
+almost as completely as the real direction: $1.46$ at layer 4 and $3.67$ at layer 8. Keeping the
+activations while discarding the contrast therefore suffices to reproduce the effect, so the
+contrast contributes essentially nothing; what matters is that the removed subspace spans the
+responses themselves, which destroys the model's ability to branch within a prompt.
+
+\paragraph{Ablation across models is null.}
+The pythia-1b result is the exception rather than the rule. Across the four models of the first
+ablation sweep, eleven of twelve comparisons against placebo ablations cross zero, and the twelfth
+points against the hypothesis: on pythia-2.8b the fitted ablation \emph{raises} \vendi{} relative to
+the shuffled control by $+0.191$ ($[-0.307,-0.074]$ when signed in the direction of the hypothesis).
+The effect in \Cref{tab:ablation} is therefore a property of one model at one depth, and we report it
+as such.
+
+\paragraph{Why the asymmetry matters.}
+If diversity were a scalar read out along a direction, adding it should raise the value and removing
+it should lower it. We observe the second and not the first, which is not a ceiling effect: lowering
+the temperature to $0.4$ moves pythia-2.8b's baseline to $4.7$ and creates metric headroom, yet
+injection still produced no effect in any of the nine low-temperature comparisons. A pure ceiling
+account predicts a positive effect there; an account in which the estimator is noise predicts none,
+and that is what we observe.

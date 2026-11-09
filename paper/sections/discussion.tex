@@ -1,0 +1,44 @@
+\section{Discussion}
+\label{sec:discussion}
+
+\paragraph{Why the estimator succeeds at the wrong thing.}
+The pooled split-half test is a natural sanity check, and it passes in a way that is actively
+misleading. Two independent halves agree to three decimals on pythia-410m, which looks like strong
+evidence for a real direction. What the agreement certifies is only that the statistic is stable,
+and a statistic computed over responses to fixed prompts is stable whenever prompts have
+characteristic activations, because the identity component dominates every average taken within a
+prompt. The within-prompt test removes that component and the agreement vanishes. Reproducibility
+therefore cannot validate a contrastive direction when the classes are quantiles of the model's own
+output; the check must be run where the confound is absent.
+
+\paragraph{Why prompt-local steering does not repair it.}
+A natural objection is that pooling is the error and per-prompt fitting the fix. One prompt's own
+direction performs exactly as well as another prompt's, and neither beats a random vector, because
+\Cref{tab:stability} shows the within-prompt fit is itself unreproducible: the dispersion ordering of
+a prompt's responses does not predict the ordering of a disjoint set of its own responses, so a
+direction built from it is a random vector with extra steps. Base models look better only because
+their between-prompt structure is stronger.
+
+\paragraph{What would count as positive evidence.}
+Our results do not show that diversity is unmanipulable, only that it is not manipulable along a
+direction estimated by contrasting dispersion quantiles. The ablation results point to a subspace
+formulation: removing the span of a prompt's response set destroys branching, and the identity of
+the contrast used to choose that subspace is irrelevant. A method that estimates the subspace directly and intervenes on its spectrum, rather than on a
+single direction, is the natural successor; \Cref{app:positive} develops the design.
+
+\paragraph{Implications for practice.}
+Three practices follow. Any claim that a direction controls diversity should report a within-prompt
+split-half cosine; a pooled value alone is not evidence. The placebo ladder should include a matched
+random vector and a quality gate, because our only significant effects came from perturbations that
+also shortened and repeated the text and vanish when degenerate cells are excluded. A labelled
+positive control is needed to show the intervention reaches the model, since raw direction norms
+span $0.21$ to $161$ and absolute coefficients do not transfer across models.
+
+\paragraph{Relation to negative results in steering.}
+Prior work documents that steering vectors generalise poorly \citep{tan2024analyzing}, that
+residual-stream addition can fail in dialogue \citep{kang2026promptactivation}, and that the pairs
+dominate the vector's behaviour \citep{bohek2026detecting,hao2025patterns}. Our case is more
+specific: the failure is not generalisation or pair quality but definition, since the target
+quantity has no stable value for the unit at which the intervention is applied. No amount of extra
+data or pair curation repairs that, and the split-half test detects it cheaply for any attribute
+whose labels are constructed from model outputs rather than supplied by an annotator.
