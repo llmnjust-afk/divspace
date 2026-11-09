@@ -1,0 +1,2 @@
+Loading weights:   0%|          | 0/338 [00:00<?, ?it/s]Loading weights:  22%|██▏       | 75/338 [00:00<00:00, 689.71it/s]Loading weights:  44%|████▍     | 149/338 [00:00<00:00, 701.76it/s]Loading weights:  68%|██████▊   | 230/338 [00:00<00:00, 726.42it/s]Loading weights:  90%|█████████ | 305/338 [00:00<00:00, 722.52it/s]Loading weights: 100%|██████████| 338/338 [00:00<00:00, 734.51it/s]
+6 cells, 1920 samples in 264.04s -> results/Qwen_Qwen2.5-1.5B-Instruct/control_random.jsonl

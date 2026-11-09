@@ -1,0 +1,2 @@
+Loading weights:   0%|          | 0/292 [00:00<?, ?it/s]Loading weights:  83%|████████▎ | 242/292 [00:00<00:00, 2398.20it/s]Loading weights: 100%|██████████| 292/292 [00:00<00:00, 2469.14it/s]
+6 cells, 1920 samples in 148.89s -> results/EleutherAI_pythia-410m/control_orthogonal.jsonl

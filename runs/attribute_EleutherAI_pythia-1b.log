@@ -1,0 +1,4 @@
+Loading weights:   0%|          | 0/196 [00:00<?, ?it/s]Loading weights:  12%|█▏        | 24/196 [00:00<00:00, 237.64it/s]Loading weights:  41%|████      | 80/196 [00:00<00:00, 426.45it/s]Loading weights:  73%|███████▎  | 144/196 [00:00<00:00, 523.41it/s]Loading weights: 100%|██████████| 196/196 [00:00<00:00, 515.76it/s]
+  layer  8  attribution=-0.0772
+  layer 12  attribution=-0.0760
+  layer  4  attribution=-0.0452

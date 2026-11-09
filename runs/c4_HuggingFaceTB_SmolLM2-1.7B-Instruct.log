@@ -1,0 +1,34 @@
+[gpu1] HuggingFaceTB/SmolLM2-1.7B-Instruct: contrast over layers 6 12 14
+Loading weights:   0%|          | 0/218 [00:00<?, ?it/s]Loading weights:  22%|██▏       | 49/218 [00:00<00:00, 474.11it/s]Loading weights:  44%|████▍     | 97/218 [00:00<00:00, 462.17it/s]Loading weights:  68%|██████▊   | 148/218 [00:00<00:00, 483.32it/s]Loading weights:  90%|█████████ | 197/218 [00:00<00:00, 461.85it/s]Loading weights: 100%|██████████| 218/218 [00:00<00:00, 467.75it/s]
+  layer  6  ||d||=60.403  split-half=+0.996
+  layer 12  ||d||=96.961  split-half=+0.993
+  layer 14  ||d||=122.164  split-half=+0.993
+HuggingFaceTB/SmolLM2-1.7B-Instruct: contrast direction over 40 pairs -> results/HuggingFaceTB_SmolLM2-1.7B-Instruct/contrast_sweep.pt
+[gpu1] HuggingFaceTB/SmolLM2-1.7B-Instruct: calibration sweep, coefs 1 2 4 8 16, L12
+Loading weights:   0%|          | 0/218 [00:00<?, ?it/s]Loading weights:  26%|██▌       | 57/218 [00:00<00:00, 541.66it/s]Loading weights:  51%|█████▏    | 112/218 [00:00<00:00, 486.78it/s]Loading weights:  74%|███████▍  | 161/218 [00:00<00:00, 471.05it/s]Loading weights:  96%|█████████▌| 209/218 [00:00<00:00, 454.17it/s]Loading weights: 100%|██████████| 218/218 [00:00<00:00, 465.19it/s]
+5 cells, 960 samples in 33.58s -> results/HuggingFaceTB_SmolLM2-1.7B-Instruct/yesno_cal.jsonl
+cell                            n  yes_rate  no_rate
+baseline                      160     0.844    0.106
+steer_L12_c+1.00              160     0.850    0.100
+steer_L12_c+16.00             160     0.863    0.094
+steer_L12_c+2.00              160     0.850    0.094
+steer_L12_c+4.00              160     0.856    0.094
+steer_L12_c+8.00              160     0.856    0.094
+Loading weights:   0%|          | 0/218 [00:00<?, ?it/s]Loading weights:  22%|██▏       | 49/218 [00:00<00:00, 466.36it/s]Loading weights:  44%|████▍     | 96/218 [00:00<00:00, 456.69it/s]Loading weights:  65%|██████▌   | 142/218 [00:00<00:00, 453.28it/s]Loading weights:  86%|████████▌ | 188/218 [00:00<00:00, 451.72it/s]Loading weights: 100%|██████████| 218/218 [00:00<00:00, 455.90it/s]
+5 cells, 480 samples in 49.95s -> results/HuggingFaceTB_SmolLM2-1.7B-Instruct/sweep_cal.jsonl
+Loading weights:   0%|          | 0/218 [00:00<?, ?it/s]Loading weights:  22%|██▏       | 48/218 [00:00<00:00, 476.16it/s]Loading weights:  44%|████▍     | 96/218 [00:00<00:00, 441.70it/s]Loading weights:  65%|██████▍   | 141/218 [00:00<00:00, 438.81it/s]Loading weights:  85%|████████▍ | 185/218 [00:00<00:00, 433.67it/s]Loading weights: 100%|██████████| 218/218 [00:00<00:00, 445.78it/s]
+5 cells, 480 samples in 48.91s -> results/HuggingFaceTB_SmolLM2-1.7B-Instruct/sweep_cal_random.jsonl
+Loading weights:   0%|          | 0/218 [00:00<?, ?it/s]Loading weights:  22%|██▏       | 49/218 [00:00<00:00, 472.74it/s]Loading weights:  44%|████▍     | 97/218 [00:00<00:00, 457.84it/s]Loading weights:  72%|███████▏  | 157/218 [00:00<00:00, 511.89it/s]Loading weights:  96%|█████████▌| 209/218 [00:00<00:00, 510.29it/s]Loading weights: 100%|██████████| 218/218 [00:00<00:00, 505.76it/s]
+  baseline                     vendi= 6.337 distinct2=0.748 clusters=8.00 completion=0.31
+  steer_L12_c+2.00             vendi= 6.302 distinct2=0.748 clusters=8.00 completion=0.38
+  steer_L12_c+8.00             vendi= 6.190 distinct2=0.747 clusters=8.00 completion=0.35
+  steer_L12_c+1.00             vendi= 6.182 distinct2=0.742 clusters=8.00 completion=0.35
+  steer_L12_c+16.00            vendi= 6.068 distinct2=0.754 clusters=7.90 completion=0.41
+  steer_L12_c+4.00             vendi= 6.061 distinct2=0.758 clusters=8.00 completion=0.30
+Loading weights:   0%|          | 0/218 [00:00<?, ?it/s]Loading weights:  22%|██▏       | 49/218 [00:00<00:00, 468.48it/s]Loading weights:  44%|████▍     | 96/218 [00:00<00:00, 446.61it/s]Loading weights:  67%|██████▋   | 147/218 [00:00<00:00, 469.89it/s]Loading weights:  89%|████████▉ | 195/218 [00:00<00:00, 421.10it/s]Loading weights: 100%|██████████| 218/218 [00:00<00:00, 440.40it/s]
+  baseline                     vendi= 6.337 distinct2=0.748 clusters=8.00 completion=0.31
+  randcal_L12_c+16.00          vendi= 6.270 distinct2=0.733 clusters=8.00 completion=0.34
+  randcal_L12_c+1.00           vendi= 6.265 distinct2=0.749 clusters=7.90 completion=0.35
+  randcal_L12_c+2.00           vendi= 6.250 distinct2=0.746 clusters=8.00 completion=0.38
+  randcal_L12_c+4.00           vendi= 6.246 distinct2=0.740 clusters=8.00 completion=0.36
+  randcal_L12_c+8.00           vendi= 6.133 distinct2=0.749 clusters=8.00 completion=0.38

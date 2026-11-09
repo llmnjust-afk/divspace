@@ -1,0 +1,91 @@
+[gpu3] EleutherAI/pythia-410m: positive-control sweep over layers 6 10 12 14 18
+Loading weights:   0%|          | 0/292 [00:00<?, ?it/s]Loading weights:  86%|████████▋ | 252/292 [00:00<00:00, 2481.55it/s]Loading weights: 100%|██████████| 292/292 [00:00<00:00, 2493.71it/s]
+  layer  6  ||d||=15.588  split-half=+0.997
+  layer 10  ||d||=14.587  split-half=+0.997
+  layer 12  ||d||=14.385  split-half=+0.997
+  layer 14  ||d||=14.841  split-half=+0.995
+  layer 18  ||d||=18.072  split-half=+0.991
+EleutherAI/pythia-410m: contrast direction over 40 pairs -> results/EleutherAI_pythia-410m/contrast_sweep.pt
+Loading weights:   0%|          | 0/292 [00:00<?, ?it/s]Loading weights:  90%|█████████ | 264/292 [00:00<00:00, 2623.50it/s]Loading weights: 100%|██████████| 292/292 [00:00<00:00, 2626.26it/s]
+2 cells, 480 samples in 10.52s -> results/EleutherAI_pythia-410m/yesno_L6.jsonl
+cell                            n  yes_rate  no_rate
+baseline                      160     0.087    0.044
+steer_L6_c+4.00               160     0.175    0.037
+steer_L6_c-4.00               160     0.044    0.050
+Loading weights:   0%|          | 0/292 [00:00<?, ?it/s]Loading weights:  90%|█████████ | 264/292 [00:00<00:00, 2631.24it/s]Loading weights: 100%|██████████| 292/292 [00:00<00:00, 2603.24it/s]
+2 cells, 480 samples in 10.41s -> results/EleutherAI_pythia-410m/yesno_L10.jsonl
+cell                            n  yes_rate  no_rate
+baseline                      160     0.087    0.044
+steer_L10_c+4.00              160     0.169    0.025
+steer_L10_c-4.00              160     0.037    0.050
+Loading weights:   0%|          | 0/292 [00:00<?, ?it/s]Loading weights:  85%|████████▍ | 248/292 [00:00<00:00, 2478.54it/s]Loading weights: 100%|██████████| 292/292 [00:00<00:00, 2516.91it/s]
+2 cells, 480 samples in 10.12s -> results/EleutherAI_pythia-410m/yesno_L12.jsonl
+cell                            n  yes_rate  no_rate
+baseline                      160     0.087    0.044
+steer_L12_c+4.00              160     0.119    0.037
+steer_L12_c-4.00              160     0.050    0.050
+Loading weights:   0%|          | 0/292 [00:00<?, ?it/s]Loading weights:  89%|████████▉ | 260/292 [00:00<00:00, 2596.31it/s]Loading weights: 100%|██████████| 292/292 [00:00<00:00, 2510.62it/s]
+2 cells, 480 samples in 10.44s -> results/EleutherAI_pythia-410m/yesno_L14.jsonl
+cell                            n  yes_rate  no_rate
+baseline                      160     0.087    0.044
+steer_L14_c+4.00              160     0.113    0.037
+steer_L14_c-4.00              160     0.056    0.044
+Loading weights:   0%|          | 0/292 [00:00<?, ?it/s]Loading weights:  87%|████████▋ | 255/292 [00:00<00:00, 2549.77it/s]Loading weights: 100%|██████████| 292/292 [00:00<00:00, 2596.70it/s]
+2 cells, 480 samples in 10.38s -> results/EleutherAI_pythia-410m/yesno_L18.jsonl
+cell                            n  yes_rate  no_rate
+baseline                      160     0.087    0.044
+steer_L18_c+4.00              160     0.087    0.050
+steer_L18_c-4.00              160     0.069    0.031
+[gpu3] EleutherAI/pythia-410m: collapsed state T=0.2
+Loading weights:   0%|          | 0/292 [00:00<?, ?it/s]Loading weights:  84%|████████▍ | 246/292 [00:00<00:00, 2457.58it/s]Loading weights: 100%|██████████| 292/292 [00:00<00:00, 2366.18it/s]
+2 cells, 240 samples in 6.13s -> results/EleutherAI_pythia-410m/sweep_t02.jsonl
+Loading weights:   0%|          | 0/292 [00:00<?, ?it/s]Loading weights:  74%|███████▍  | 216/292 [00:00<00:00, 2109.44it/s]Loading weights: 100%|██████████| 292/292 [00:00<00:00, 2170.14it/s]
+2 cells, 240 samples in 6.14s -> results/EleutherAI_pythia-410m/sweep_t02_random.jsonl
+Loading weights:   0%|          | 0/292 [00:00<?, ?it/s]Loading weights:  82%|████████▏ | 240/292 [00:00<00:00, 2396.11it/s]Loading weights: 100%|██████████| 292/292 [00:00<00:00, 2317.88it/s]
+  baseline                     vendi= 3.821 distinct2=0.216 clusters=5.30 completion=0.15
+  steer_L12_c-2.00             vendi= 3.520 distinct2=0.231 clusters=4.80 completion=0.14
+  steer_L12_c+2.00             vendi= 3.214 distinct2=0.207 clusters=4.50 completion=0.12
+Loading weights:   0%|          | 0/292 [00:00<?, ?it/s]Loading weights:  86%|████████▋ | 252/292 [00:00<00:00, 2507.50it/s]Loading weights: 100%|██████████| 292/292 [00:00<00:00, 2543.78it/s]
+  baseline                     vendi= 3.821 distinct2=0.216 clusters=5.30 completion=0.15
+  random02_L12_c-2.00          vendi= 3.783 distinct2=0.239 clusters=5.40 completion=0.11
+  random02_L12_c+2.00          vendi= 3.752 distinct2=0.216 clusters=5.10 completion=0.16
+[gpu3] EleutherAI/pythia-410m: centroid ablation at L12
+usage: divspace steer [-h] --model MODEL [--models-config MODELS_CONFIG]
+                      [--device DEVICE] [--dtype DTYPE] [--trust-remote-code]
+                      [--local-files-only] [--prompt-set PROMPT_SET]
+                      [--prompt-file PROMPT_FILE] [--limit LIMIT]
+                      [--no-chat-template] [--shard-id SHARD_ID]
+                      [--num-shards NUM_SHARDS] --artifact ARTIFACT
+                      [--layers LAYERS] [--coefs COEFS [COEFS ...]]
+                      [--positions POSITIONS]
+                      [--control {none,random,shuffled,orthogonal}]
+                      [--condition CONDITION] [--mode {inject,ablate}]
+                      [--include-baseline] [--n-samples N_SAMPLES]
+                      [--temperature TEMPERATURE] [--top-p TOP_P]
+                      [--max-new-tokens MAX_NEW_TOKENS]
+                      [--batch-size BATCH_SIZE] [--seed SEED] [--verbose]
+                      --out OUT
+divspace steer: error: argument --control: invalid choice: 'centroid' (choose from 'none', 'random', 'shuffled', 'orthogonal')
+warn: ablate_centroid failed for EleutherAI/pythia-410m
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/usr/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/data/lab/divspace/divspace/cli.py", line 634, in <module>
+    sys.exit(main())
+  File "/data/lab/divspace/divspace/cli.py", line 629, in main
+    args.func(args)
+  File "/data/lab/divspace/divspace/cli.py", line 390, in cmd_metrics
+    rows = list(read_jsonl(args.results))
+  File "/data/lab/divspace/divspace/utils.py", line 103, in read_jsonl
+    with Path(path).open("r", encoding="utf-8") as handle:
+  File "/usr/lib/python3.10/pathlib.py", line 1119, in open
+    return self._accessor.open(self, mode, buffering, encoding, errors,
+FileNotFoundError: [Errno 2] No such file or directory: 'results/EleutherAI_pythia-410m/ablate_centroid.jsonl'
+warn: metrics ablate_centroid failed for EleutherAI/pythia-410m
+Loading weights:   0%|          | 0/292 [00:00<?, ?it/s]Loading weights:  82%|████████▏ | 239/292 [00:00<00:00, 2382.20it/s]Loading weights: 100%|██████████| 292/292 [00:00<00:00, 2342.30it/s]
+1 cells, 160 samples in 7.65s -> results/EleutherAI_pythia-410m/ablate_random_dir.jsonl
+Loading weights:   0%|          | 0/292 [00:00<?, ?it/s]Loading weights:  86%|████████▌ | 251/292 [00:00<00:00, 2505.71it/s]Loading weights: 100%|██████████| 292/292 [00:00<00:00, 2445.02it/s]
+  baseline                     vendi= 6.423 distinct2=0.757 clusters=8.00 completion=0.24
+  ablate_random_dir_L12_c+0.00 vendi= 6.287 distinct2=0.760 clusters=8.00 completion=0.17

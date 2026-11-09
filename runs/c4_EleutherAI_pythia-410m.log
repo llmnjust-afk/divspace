@@ -1,0 +1,28 @@
+[gpu3] EleutherAI/pythia-410m: calibration sweep, coefs 1 2 4 8 16, L12
+Loading weights:   0%|          | 0/292 [00:00<?, ?it/s]Loading weights:  73%|███████▎  | 213/292 [00:00<00:00, 2107.03it/s]Loading weights: 100%|██████████| 292/292 [00:00<00:00, 2156.12it/s]
+5 cells, 960 samples in 26.19s -> results/EleutherAI_pythia-410m/yesno_cal.jsonl
+cell                            n  yes_rate  no_rate
+baseline                      160     0.087    0.044
+steer_L12_c+1.00              160     0.106    0.044
+steer_L12_c+16.00             160     0.206    0.019
+steer_L12_c+2.00              160     0.113    0.044
+steer_L12_c+4.00              160     0.119    0.037
+steer_L12_c+8.00              160     0.156    0.037
+Loading weights:   0%|          | 0/292 [00:00<?, ?it/s]Loading weights:  82%|████████▏ | 238/292 [00:00<00:00, 2374.35it/s]Loading weights: 100%|██████████| 292/292 [00:00<00:00, 2337.39it/s]
+5 cells, 480 samples in 40.12s -> results/EleutherAI_pythia-410m/sweep_cal.jsonl
+Loading weights:   0%|          | 0/292 [00:00<?, ?it/s]Loading weights:  79%|███████▉  | 230/292 [00:00<00:00, 2270.17it/s]Loading weights: 100%|██████████| 292/292 [00:00<00:00, 2253.08it/s]
+5 cells, 480 samples in 39.16s -> results/EleutherAI_pythia-410m/sweep_cal_random.jsonl
+Loading weights:   0%|          | 0/292 [00:00<?, ?it/s]Loading weights:  45%|████▍     | 131/292 [00:00<00:00, 1307.62it/s]Loading weights: 100%|██████████| 292/292 [00:00<00:00, 1874.39it/s]
+  baseline                     vendi= 6.423 distinct2=0.757 clusters=8.00 completion=0.24
+  steer_L12_c+8.00             vendi= 6.392 distinct2=0.732 clusters=8.00 completion=0.20
+  steer_L12_c+1.00             vendi= 6.220 distinct2=0.759 clusters=8.00 completion=0.15
+  steer_L12_c+2.00             vendi= 6.141 distinct2=0.739 clusters=7.90 completion=0.20
+  steer_L12_c+4.00             vendi= 6.109 distinct2=0.723 clusters=7.90 completion=0.21
+  steer_L12_c+16.00            vendi= 5.993 distinct2=0.693 clusters=7.90 completion=0.17
+Loading weights:   0%|          | 0/292 [00:00<?, ?it/s]Loading weights:  66%|██████▌   | 192/292 [00:00<00:00, 1911.29it/s]Loading weights: 100%|██████████| 292/292 [00:00<00:00, 2026.51it/s]
+  baseline                     vendi= 6.423 distinct2=0.757 clusters=8.00 completion=0.24
+  randcal_L12_c+4.00           vendi= 6.411 distinct2=0.724 clusters=8.00 completion=0.23
+  randcal_L12_c+2.00           vendi= 6.175 distinct2=0.747 clusters=7.90 completion=0.20
+  randcal_L12_c+1.00           vendi= 5.975 distinct2=0.731 clusters=8.00 completion=0.19
+  randcal_L12_c+8.00           vendi= 5.663 distinct2=0.706 clusters=7.80 completion=0.21
+  randcal_L12_c+16.00          vendi= 5.326 distinct2=0.600 clusters=7.30 completion=0.23

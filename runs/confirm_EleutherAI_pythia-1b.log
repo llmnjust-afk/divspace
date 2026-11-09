@@ -1,0 +1,63 @@
+Loading weights:   0%|          | 0/196 [00:00<?, ?it/s]Loading weights:  12%|█▏        | 24/196 [00:00<00:00, 220.89it/s]Loading weights:  50%|█████     | 98/196 [00:00<00:00, 502.55it/s]Loading weights:  86%|████████▌ | 168/196 [00:00<00:00, 575.13it/s]Loading weights: 100%|██████████| 196/196 [00:00<00:00, 563.51it/s]
+3 cells, 960 samples in 54.3s -> results/EleutherAI_pythia-1b/ablate_random.jsonl
+Loading weights:   0%|          | 0/196 [00:00<?, ?it/s]Loading weights:  13%|█▎        | 26/196 [00:00<00:00, 252.22it/s]Loading weights:  49%|████▉     | 96/196 [00:00<00:00, 500.76it/s]Loading weights:  90%|████████▉ | 176/196 [00:00<00:00, 628.41it/s]Loading weights: 100%|██████████| 196/196 [00:00<00:00, 581.58it/s]
+3 cells, 960 samples in 54.06s -> results/EleutherAI_pythia-1b/ablate_shuffled.jsonl
+Loading weights:   0%|          | 0/196 [00:00<?, ?it/s]Loading weights:   7%|▋         | 14/196 [00:00<00:01, 136.79it/s]Loading weights:  49%|████▉     | 96/196 [00:00<00:00, 521.46it/s]Loading weights:  84%|████████▎ | 164/196 [00:00<00:00, 586.04it/s]Loading weights: 100%|██████████| 196/196 [00:00<00:00, 553.41it/s]
+3 cells, 960 samples in 55.02s -> results/EleutherAI_pythia-1b/ablate_orthogonal.jsonl
+Loading weights:   0%|          | 0/196 [00:00<?, ?it/s]Loading weights:  13%|█▎        | 26/196 [00:00<00:00, 251.85it/s]Loading weights:  49%|████▉     | 96/196 [00:00<00:00, 494.45it/s]Loading weights:  92%|█████████▏| 180/196 [00:00<00:00, 616.08it/s]Loading weights: 100%|██████████| 196/196 [00:00<00:00, 582.70it/s]
+18 cells, 6080 samples in 318.99s -> results/EleutherAI_pythia-1b/sweep_lt.jsonl
+Loading weights:   0%|          | 0/196 [00:00<?, ?it/s]Loading weights:   7%|▋         | 14/196 [00:00<00:01, 138.10it/s]Loading weights:  38%|███▊      | 74/196 [00:00<00:00, 382.68it/s]Loading weights:  74%|███████▍  | 146/196 [00:00<00:00, 514.91it/s]Loading weights: 100%|██████████| 196/196 [00:00<00:00, 491.83it/s]
+6 cells, 1920 samples in 106.32s -> results/EleutherAI_pythia-1b/lt_control_random.jsonl
+Loading weights:   0%|          | 0/196 [00:00<?, ?it/s]Loading weights:  12%|█▏        | 24/196 [00:00<00:00, 213.88it/s]Loading weights:  47%|████▋     | 92/196 [00:00<00:00, 472.77it/s]Loading weights:  79%|███████▊  | 154/196 [00:00<00:00, 537.89it/s]Loading weights: 100%|██████████| 196/196 [00:00<00:00, 496.86it/s]
+6 cells, 1920 samples in 106.52s -> results/EleutherAI_pythia-1b/lt_control_shuffled.jsonl
+Loading weights:   0%|          | 0/196 [00:00<?, ?it/s]Loading weights:  12%|█▏        | 24/196 [00:00<00:00, 234.27it/s]Loading weights:  49%|████▉     | 96/196 [00:00<00:00, 512.09it/s]Loading weights:  85%|████████▌ | 167/196 [00:00<00:00, 601.47it/s]Loading weights: 100%|██████████| 196/196 [00:00<00:00, 554.59it/s]
+6 cells, 1920 samples in 105.74s -> results/EleutherAI_pythia-1b/lt_control_orthogonal.jsonl
+Loading weights:   0%|          | 0/196 [00:00<?, ?it/s]Loading weights:   4%|▍         | 8/196 [00:00<00:02, 79.82it/s]Loading weights:  44%|████▍     | 86/196 [00:00<00:00, 466.92it/s]Loading weights:  80%|███████▉  | 156/196 [00:00<00:00, 525.94it/s]Loading weights: 100%|██████████| 196/196 [00:00<00:00, 516.20it/s]
+  ablate_random_L12_c+0.00     vendi= 6.219 distinct2=0.735 clusters=7.75 completion=0.15
+  ablate_random_L8_c+0.00      vendi= 6.059 distinct2=0.731 clusters=7.80 completion=0.16
+  ablate_random_L4_c+0.00      vendi= 6.051 distinct2=0.723 clusters=7.78 completion=0.13
+Loading weights:   0%|          | 0/196 [00:00<?, ?it/s]Loading weights:   6%|▌         | 12/196 [00:00<00:01, 115.93it/s]Loading weights:  38%|███▊      | 74/196 [00:00<00:00, 395.61it/s]Loading weights:  67%|██████▋   | 132/196 [00:00<00:00, 469.66it/s]Loading weights: 100%|██████████| 196/196 [00:00<00:00, 483.84it/s]
+  ablate_shuffled_L12_c+0.00   vendi= 5.624 distinct2=0.578 clusters=7.60 completion=0.17
+  ablate_shuffled_L8_c+0.00    vendi= 3.666 distinct2=0.277 clusters=5.28 completion=0.19
+  ablate_shuffled_L4_c+0.00    vendi= 1.464 distinct2=0.165 clusters=2.40 completion=0.41
+Loading weights:   0%|          | 0/196 [00:00<?, ?it/s]Loading weights:  12%|█▏        | 24/196 [00:00<00:00, 239.17it/s]Loading weights:  44%|████▍     | 86/196 [00:00<00:00, 454.18it/s]Loading weights:  73%|███████▎  | 144/196 [00:00<00:00, 444.41it/s]Loading weights: 100%|██████████| 196/196 [00:00<00:00, 486.30it/s]
+  ablate_orthogonal_L4_c+0.00  vendi= 5.693 distinct2=0.516 clusters=7.65 completion=0.39
+  ablate_orthogonal_L12_c+0.00 vendi= 5.020 distinct2=0.522 clusters=7.15 completion=0.15
+  ablate_orthogonal_L8_c+0.00  vendi= 3.871 distinct2=0.167 clusters=5.40 completion=0.17
+Loading weights:   0%|          | 0/196 [00:00<?, ?it/s]Loading weights:  12%|█▏        | 24/196 [00:00<00:00, 227.80it/s]Loading weights:  50%|█████     | 98/196 [00:00<00:00, 510.10it/s]Loading weights:  89%|████████▉ | 175/196 [00:00<00:00, 625.50it/s]Loading weights: 100%|██████████| 196/196 [00:00<00:00, 576.38it/s]
+  steer_L8_c-2.00              vendi= 5.287 distinct2=0.248 clusters=7.35 completion=0.16
+  steer_L4_c+3.00              vendi= 5.210 distinct2=0.223 clusters=7.38 completion=0.15
+  steer_L12_c-3.00             vendi= 5.199 distinct2=0.238 clusters=7.15 completion=0.20
+  steer_L4_c-2.00              vendi= 5.176 distinct2=0.246 clusters=7.25 completion=0.12
+  steer_L12_c-1.00             vendi= 5.174 distinct2=0.242 clusters=7.22 completion=0.16
+  steer_L8_c-1.00              vendi= 5.165 distinct2=0.242 clusters=7.22 completion=0.15
+  steer_L12_c-2.00             vendi= 5.161 distinct2=0.244 clusters=7.25 completion=0.19
+  steer_L4_c+1.00              vendi= 5.152 distinct2=0.227 clusters=7.20 completion=0.17
+  baseline                     vendi= 5.145 distinct2=0.241 clusters=7.22 completion=0.15
+  steer_L12_c+3.00             vendi= 5.145 distinct2=0.230 clusters=7.17 completion=0.14
+  steer_L4_c+2.00              vendi= 5.140 distinct2=0.228 clusters=7.22 completion=0.15
+  steer_L8_c-3.00              vendi= 5.124 distinct2=0.256 clusters=7.10 completion=0.14
+  steer_L12_c+2.00             vendi= 5.121 distinct2=0.240 clusters=7.25 completion=0.17
+  steer_L4_c-1.00              vendi= 5.110 distinct2=0.238 clusters=7.08 completion=0.16
+  steer_L8_c+2.00              vendi= 5.096 distinct2=0.220 clusters=7.20 completion=0.19
+Loading weights:   0%|          | 0/196 [00:00<?, ?it/s]Loading weights:   6%|▌         | 12/196 [00:00<00:01, 110.66it/s]Loading weights:  43%|████▎     | 84/196 [00:00<00:00, 415.50it/s]Loading weights:  80%|███████▉  | 156/196 [00:00<00:00, 531.30it/s]Loading weights: 100%|██████████| 196/196 [00:00<00:00, 492.91it/s]
+  random_L8_c-2.00             vendi= 5.284 distinct2=0.241 clusters=7.38 completion=0.14
+  random_L8_c+2.00             vendi= 5.179 distinct2=0.237 clusters=7.15 completion=0.16
+  random_L12_c+2.00            vendi= 5.143 distinct2=0.243 clusters=7.15 completion=0.17
+  random_L4_c+2.00             vendi= 5.118 distinct2=0.242 clusters=7.17 completion=0.17
+  random_L4_c-2.00             vendi= 5.108 distinct2=0.235 clusters=7.22 completion=0.15
+  random_L12_c-2.00            vendi= 5.026 distinct2=0.236 clusters=7.12 completion=0.12
+Loading weights:   0%|          | 0/196 [00:00<?, ?it/s]Loading weights:  12%|█▏        | 24/196 [00:00<00:00, 210.74it/s]Loading weights:  50%|█████     | 98/196 [00:00<00:00, 499.38it/s]Loading weights:  86%|████████▌ | 168/196 [00:00<00:00, 574.63it/s]Loading weights: 100%|██████████| 196/196 [00:00<00:00, 546.72it/s]
+  shuffled_L8_c-2.00           vendi= 5.266 distinct2=0.249 clusters=7.33 completion=0.16
+  shuffled_L4_c+2.00           vendi= 5.189 distinct2=0.222 clusters=7.33 completion=0.16
+  shuffled_L4_c-2.00           vendi= 5.176 distinct2=0.249 clusters=7.25 completion=0.16
+  shuffled_L12_c-2.00          vendi= 5.147 distinct2=0.243 clusters=7.28 completion=0.17
+  shuffled_L12_c+2.00          vendi= 5.075 distinct2=0.234 clusters=7.20 completion=0.15
+  shuffled_L8_c+2.00           vendi= 5.065 distinct2=0.225 clusters=7.15 completion=0.15
+Loading weights:   0%|          | 0/196 [00:00<?, ?it/s]Loading weights:   7%|▋         | 14/196 [00:00<00:01, 131.74it/s]Loading weights:  44%|████▍     | 86/196 [00:00<00:00, 467.51it/s]Loading weights:  80%|███████▉  | 156/196 [00:00<00:00, 560.40it/s]Loading weights: 100%|██████████| 196/196 [00:00<00:00, 524.45it/s]
+  orthogonal_L4_c-2.00         vendi= 5.240 distinct2=0.226 clusters=7.28 completion=0.15
+  orthogonal_L4_c+2.00         vendi= 5.171 distinct2=0.248 clusters=7.17 completion=0.12
+  orthogonal_L8_c+2.00         vendi= 5.162 distinct2=0.249 clusters=7.25 completion=0.17
+  orthogonal_L12_c+2.00        vendi= 5.110 distinct2=0.242 clusters=7.15 completion=0.18
+  orthogonal_L12_c-2.00        vendi= 5.033 distinct2=0.236 clusters=7.22 completion=0.13
+  orthogonal_L8_c-2.00         vendi= 5.030 distinct2=0.225 clusters=7.17 completion=0.15

@@ -1,0 +1,56 @@
+Loading weights:   0%|          | 0/196 [00:00<?, ?it/s]Loading weights:  12%|█▏        | 24/196 [00:00<00:00, 221.04it/s]Loading weights:  49%|████▉     | 96/196 [00:00<00:00, 503.59it/s]Loading weights:  87%|████████▋ | 170/196 [00:00<00:00, 598.98it/s]Loading weights: 100%|██████████| 196/196 [00:00<00:00, 569.48it/s]
+  layer  8  ||d||=27.016  split-half=+0.996
+EleutherAI/pythia-1b: contrast direction over 40 pairs -> results/EleutherAI_pythia-1b/contrast.pt
+Loading weights:   0%|          | 0/196 [00:00<?, ?it/s]Loading weights:  12%|█▏        | 24/196 [00:00<00:00, 219.77it/s]Loading weights:  49%|████▉     | 96/196 [00:00<00:00, 498.66it/s]Loading weights:  87%|████████▋ | 170/196 [00:00<00:00, 605.15it/s]Loading weights: 100%|██████████| 196/196 [00:00<00:00, 577.97it/s]
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/usr/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/data/lab/divspace/divspace/cli.py", line 660, in <module>
+    sys.exit(main())
+  File "/data/lab/divspace/divspace/cli.py", line 655, in main
+    args.func(args)
+  File "/data/lab/divspace/divspace/cli.py", line 267, in cmd_steer
+    resolve_prompts(args.prompt_set, args.prompt_file, args.limit),
+  File "/data/lab/divspace/divspace/data/prompts.py", line 102, in resolve_prompts
+    prompts = load_prompt_file(path) if path else get_prompts(name)
+  File "/data/lab/divspace/divspace/data/prompts.py", line 96, in load_prompt_file
+    payload = json.loads(line)
+  File "/usr/lib/python3.10/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+  File "/usr/lib/python3.10/json/decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/usr/lib/python3.10/json/decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+Loading weights:   0%|          | 0/196 [00:00<?, ?it/s]Loading weights:  12%|█▏        | 24/196 [00:00<00:00, 229.75it/s]Loading weights:  49%|████▉     | 96/196 [00:00<00:00, 509.66it/s]Loading weights:  80%|███████▉  | 156/196 [00:00<00:00, 539.20it/s]Loading weights: 100%|██████████| 196/196 [00:00<00:00, 543.12it/s]
+  layer  8  ||d||=27.016  split-half=+0.996
+EleutherAI/pythia-1b: contrast direction over 40 pairs -> results/EleutherAI_pythia-1b/contrast.pt
+Loading weights:   0%|          | 0/196 [00:00<?, ?it/s]Loading weights:  12%|█▏        | 24/196 [00:00<00:00, 200.57it/s]Loading weights:  52%|█████▏    | 102/196 [00:00<00:00, 515.63it/s]Loading weights:  84%|████████▎ | 164/196 [00:00<00:00, 554.04it/s]Loading weights: 100%|██████████| 196/196 [00:00<00:00, 515.48it/s]
+4 cells, 800 samples in 14.5s -> results/EleutherAI_pythia-1b/yesno_none.jsonl
+Loading weights:   0%|          | 0/196 [00:00<?, ?it/s]Loading weights:  12%|█▏        | 24/196 [00:00<00:00, 209.64it/s]Loading weights:  43%|████▎     | 84/196 [00:00<00:00, 403.72it/s]Loading weights:  80%|███████▉  | 156/196 [00:00<00:00, 507.09it/s]Loading weights: 100%|██████████| 196/196 [00:00<00:00, 498.25it/s]
+4 cells, 800 samples in 14.14s -> results/EleutherAI_pythia-1b/yesno_random.jsonl
+Loading weights:   0%|          | 0/196 [00:00<?, ?it/s]Loading weights:  13%|█▎        | 26/196 [00:00<00:00, 235.51it/s]Loading weights:  53%|█████▎    | 104/196 [00:00<00:00, 518.49it/s]Loading weights:  92%|█████████▏| 180/196 [00:00<00:00, 608.28it/s]Loading weights: 100%|██████████| 196/196 [00:00<00:00, 572.88it/s]
+shuffled control needs an artifact with stored pairs
+Loading weights:   0%|          | 0/196 [00:00<?, ?it/s]Loading weights:  12%|█▏        | 24/196 [00:00<00:00, 217.11it/s]Loading weights:  47%|████▋     | 92/196 [00:00<00:00, 465.61it/s]Loading weights:  81%|████████  | 158/196 [00:00<00:00, 543.17it/s]Loading weights: 100%|██████████| 196/196 [00:00<00:00, 535.51it/s]
+  layer  8  ||d||=27.016  split-half=+0.996
+EleutherAI/pythia-1b: contrast direction over 40 pairs -> results/EleutherAI_pythia-1b/contrast.pt
+Loading weights:   0%|          | 0/196 [00:00<?, ?it/s]Loading weights:  12%|█▏        | 24/196 [00:00<00:00, 216.47it/s]Loading weights:  49%|████▉     | 96/196 [00:00<00:00, 471.64it/s]Loading weights:  86%|████████▌ | 168/196 [00:00<00:00, 563.47it/s]Loading weights: 100%|██████████| 196/196 [00:00<00:00, 551.99it/s]
+4 cells, 800 samples in 14.13s -> results/EleutherAI_pythia-1b/yesno_none.jsonl
+Loading weights:   0%|          | 0/196 [00:00<?, ?it/s]Loading weights:  13%|█▎        | 25/196 [00:00<00:00, 235.03it/s]Loading weights:  49%|████▉     | 96/196 [00:00<00:00, 505.67it/s]Loading weights:  86%|████████▌ | 168/196 [00:00<00:00, 589.66it/s]Loading weights: 100%|██████████| 196/196 [00:00<00:00, 561.11it/s]
+4 cells, 800 samples in 14.18s -> results/EleutherAI_pythia-1b/yesno_random.jsonl
+Loading weights:   0%|          | 0/196 [00:00<?, ?it/s]Loading weights:   7%|▋         | 14/196 [00:00<00:01, 138.90it/s]Loading weights:  43%|████▎     | 84/196 [00:00<00:00, 428.89it/s]Loading weights:  74%|███████▍  | 146/196 [00:00<00:00, 503.73it/s]Loading weights: 100%|██████████| 196/196 [00:00<00:00, 502.13it/s]
+4 cells, 800 samples in 14.22s -> results/EleutherAI_pythia-1b/yesno_shuffled.jsonl
+Loading weights:   0%|          | 0/196 [00:00<?, ?it/s]Loading weights:  12%|█▏        | 24/196 [00:00<00:00, 223.97it/s]Loading weights:  50%|█████     | 98/196 [00:00<00:00, 517.01it/s]Loading weights:  87%|████████▋ | 170/196 [00:00<00:00, 605.87it/s]Loading weights: 100%|██████████| 196/196 [00:00<00:00, 569.84it/s]
+the orthogonal control needs at least two layers
+Loading weights:   0%|          | 0/196 [00:00<?, ?it/s]Loading weights:  12%|█▏        | 24/196 [00:00<00:00, 228.43it/s]Loading weights:  44%|████▍     | 86/196 [00:00<00:00, 450.94it/s]Loading weights:  83%|████████▎ | 162/196 [00:00<00:00, 577.12it/s]Loading weights: 100%|██████████| 196/196 [00:00<00:00, 530.82it/s]
+local steering: 40 prompts, 2224 samples in 500.6s -> results/EleutherAI_pythia-1b/local.jsonl
+Loading weights:   0%|          | 0/196 [00:00<?, ?it/s]Loading weights:  13%|█▎        | 26/196 [00:00<00:00, 249.40it/s]Loading weights:  43%|████▎     | 84/196 [00:00<00:00, 438.15it/s]Loading weights:  86%|████████▌ | 168/196 [00:00<00:00, 612.60it/s]Loading weights: 100%|██████████| 196/196 [00:00<00:00, 551.03it/s]
+  localrandom_L8_c-2.00        vendi= 6.319 distinct2=0.734 clusters=8.00 completion=0.16
+  localrandom_L8_c+2.00        vendi= 6.297 distinct2=0.753 clusters=7.97 completion=0.11
+  baseline                     vendi= 6.296 distinct2=0.739 clusters=8.00 completion=0.12
+  local_L8_c+2.00              vendi= 6.270 distinct2=0.740 clusters=7.92 completion=0.13
+  localother_L8_c+2.00         vendi= 6.258 distinct2=0.739 clusters=7.95 completion=0.13
+  localother_L8_c-2.00         vendi= 6.235 distinct2=0.742 clusters=8.00 completion=0.13
+  local_L8_c-2.00              vendi= 6.235 distinct2=0.753 clusters=7.92 completion=0.12

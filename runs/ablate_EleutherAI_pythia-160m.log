@@ -1,0 +1,2 @@
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 1881.71it/s]
+3 cells, 960 samples in 42.79s -> results/EleutherAI_pythia-160m/ablate.jsonl

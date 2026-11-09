@@ -1,0 +1,7 @@
+Loading weights:   0%|          | 0/388 [00:00<?, ?it/s]Loading weights:  10%|▉         | 38/388 [00:00<00:00, 375.24it/s]Loading weights:  20%|█▉        | 76/388 [00:00<00:00, 365.06it/s]Loading weights:  30%|██▉       | 115/388 [00:00<00:00, 376.18it/s]Loading weights:  40%|████      | 156/388 [00:00<00:00, 350.67it/s]Loading weights:  50%|█████     | 194/388 [00:00<00:00, 355.07it/s]Loading weights:  62%|██████▏   | 240/388 [00:00<00:00, 361.71it/s]Loading weights:  72%|███████▏  | 278/388 [00:00<00:00, 361.19it/s]Loading weights:  81%|████████  | 315/388 [00:00<00:00, 361.13it/s]Loading weights:  93%|█████████▎| 359/388 [00:00<00:00, 384.40it/s]Loading weights: 100%|██████████| 388/388 [00:01<00:00, 365.19it/s]
+  orthogonal_L8_c+2.00         vendi= 6.367 distinct2=0.747 clusters=8.00 completion=0.15
+  orthogonal_L16_c-2.00        vendi= 6.190 distinct2=0.753 clusters=7.78 completion=0.17
+  orthogonal_L8_c-2.00         vendi= 6.176 distinct2=0.759 clusters=7.80 completion=0.15
+  orthogonal_L24_c+2.00        vendi= 6.167 distinct2=0.745 clusters=7.83 completion=0.17
+  orthogonal_L16_c+2.00        vendi= 6.132 distinct2=0.756 clusters=7.83 completion=0.17
+  orthogonal_L24_c-2.00        vendi= 6.105 distinct2=0.742 clusters=7.75 completion=0.16

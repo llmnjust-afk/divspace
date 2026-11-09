@@ -1,0 +1,7 @@
+Loading weights:   0%|          | 0/218 [00:00<?, ?it/s]Loading weights:  22%|██▏       | 49/218 [00:00<00:00, 478.59it/s]Loading weights:  44%|████▍     | 97/218 [00:00<00:00, 454.41it/s]Loading weights:  66%|██████▌   | 143/218 [00:00<00:00, 448.83it/s]Loading weights:  86%|████████▌ | 188/218 [00:00<00:00, 444.07it/s]Loading weights: 100%|██████████| 218/218 [00:00<00:00, 450.81it/s]
+  shuffled_L6_c+2.00           vendi= 6.216 distinct2=0.681 clusters=7.95 completion=0.20
+  shuffled_L12_c-2.00          vendi= 6.211 distinct2=0.680 clusters=7.97 completion=0.17
+  shuffled_L12_c+2.00          vendi= 6.194 distinct2=0.679 clusters=7.95 completion=0.15
+  shuffled_L6_c-2.00           vendi= 6.187 distinct2=0.685 clusters=7.97 completion=0.19
+  shuffled_L18_c-2.00          vendi= 6.172 distinct2=0.679 clusters=7.97 completion=0.17
+  shuffled_L18_c+2.00          vendi= 6.166 distinct2=0.684 clusters=7.97 completion=0.19

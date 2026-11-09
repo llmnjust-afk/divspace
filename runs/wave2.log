@@ -1,0 +1,70 @@
+########## 01 extract ##########
+[gpu0] extract EleutherAI/pythia-1b
+[gpu1] extract Qwen/Qwen2.5-1.5B-Instruct
+[gpu2] extract EleutherAI/pythia-410m
+[gpu3] extract EleutherAI/pythia-160m
+extract finished (failures: 0)
+extract rc=0
+########## 02 attribute ##########
+[gpu0] attribute EleutherAI/pythia-1b
+[gpu1] attribute Qwen/Qwen2.5-1.5B-Instruct
+[gpu2] attribute EleutherAI/pythia-410m
+[gpu3] attribute EleutherAI/pythia-160m
+attribute rc=0
+########## 03 steer ##########
+[gpu0] steer EleutherAI/pythia-1b
+[gpu1] steer Qwen/Qwen2.5-1.5B-Instruct
+[gpu2] steer EleutherAI/pythia-410m
+[gpu3] steer EleutherAI/pythia-160m
+steer rc=0
+########## 04 controls ##########
+[gpu0] random control for EleutherAI/pythia-1b
+[gpu1] random control for Qwen/Qwen2.5-1.5B-Instruct
+[gpu2] random control for EleutherAI/pythia-410m
+[gpu3] random control for EleutherAI/pythia-160m
+[gpu3] shuffled control for EleutherAI/pythia-160m
+[gpu0] shuffled control for EleutherAI/pythia-1b
+[gpu2] shuffled control for EleutherAI/pythia-410m
+[gpu3] orthogonal control for EleutherAI/pythia-160m
+[gpu0] orthogonal control for EleutherAI/pythia-1b
+[gpu1] shuffled control for Qwen/Qwen2.5-1.5B-Instruct
+[gpu2] orthogonal control for EleutherAI/pythia-410m
+[gpu1] orthogonal control for Qwen/Qwen2.5-1.5B-Instruct
+controls finished (failures: 0)
+controls rc=0
+########## 04b ablate ##########
+[gpu0] ablate EleutherAI/pythia-1b
+[gpu1] ablate Qwen/Qwen2.5-1.5B-Instruct
+[gpu2] ablate EleutherAI/pythia-410m
+[gpu3] ablate EleutherAI/pythia-160m
+ablate finished (failures: 0)
+ablate rc=0
+########## 05 metrics ##########
+[gpu0] metrics EleutherAI_pythia-1b/sweep
+[gpu1] metrics Qwen_Qwen2.5-1.5B-Instruct/sweep
+[gpu2] metrics EleutherAI_pythia-410m/sweep
+[gpu3] metrics EleutherAI_pythia-160m/sweep
+[gpu3] metrics EleutherAI_pythia-160m/control_random
+[gpu0] metrics EleutherAI_pythia-1b/control_random
+[gpu2] metrics EleutherAI_pythia-410m/control_random
+[gpu3] metrics EleutherAI_pythia-160m/control_shuffled
+[gpu1] metrics Qwen_Qwen2.5-1.5B-Instruct/control_random
+[gpu0] metrics EleutherAI_pythia-1b/control_shuffled
+[gpu3] metrics EleutherAI_pythia-160m/control_orthogonal
+[gpu2] metrics EleutherAI_pythia-410m/control_shuffled
+[gpu0] metrics EleutherAI_pythia-1b/control_orthogonal
+[gpu1] metrics Qwen_Qwen2.5-1.5B-Instruct/control_shuffled
+[gpu3] metrics EleutherAI_pythia-160m/ablate
+[gpu2] metrics EleutherAI_pythia-410m/control_orthogonal
+[gpu0] metrics EleutherAI_pythia-1b/ablate
+[gpu1] metrics Qwen_Qwen2.5-1.5B-Instruct/control_orthogonal
+[gpu2] metrics EleutherAI_pythia-410m/ablate
+[gpu1] metrics Qwen_Qwen2.5-1.5B-Instruct/ablate
+metrics finished (failures: 0)
+metrics rc=0
+########## summary ##########
+wrote results/SUMMARY.md
+wrote figures/attribution.pdf
+wrote figures/pareto.pdf
+wrote figures/coefficient_response.pdf
+########## finished ##########

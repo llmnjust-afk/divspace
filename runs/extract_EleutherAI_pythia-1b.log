@@ -1,0 +1,5 @@
+Loading weights:   0%|          | 0/196 [00:00<?, ?it/s]Loading weights:  12%|█▏        | 24/196 [00:00<00:00, 233.25it/s]Loading weights:  47%|████▋     | 92/196 [00:00<00:00, 488.07it/s]Loading weights:  81%|████████  | 158/196 [00:00<00:00, 565.41it/s]Loading weights: 100%|██████████| 196/196 [00:00<00:00, 559.97it/s]
+  layer  4  ||d||=138.112  split-half cos=1.000  prompt-consistency=+0.059
+  layer  8  ||d||=161.082  split-half cos=0.999  prompt-consistency=+0.081
+  layer 12  ||d||=160.585  split-half cos=0.998  prompt-consistency=+0.091
+EleutherAI/pythia-1b: 3 layers, 120 positive / 120 negative pairs in 21.45s -> results/EleutherAI_pythia-1b/directions.pt

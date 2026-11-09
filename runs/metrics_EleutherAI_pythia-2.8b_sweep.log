@@ -1,0 +1,16 @@
+Loading weights:   0%|          | 0/388 [00:00<?, ?it/s]Loading weights:  10%|▉         | 38/388 [00:00<00:01, 346.70it/s]Loading weights:  21%|██        | 80/388 [00:00<00:00, 385.13it/s]Loading weights:  31%|███       | 119/388 [00:00<00:00, 382.27it/s]Loading weights:  41%|████      | 158/388 [00:00<00:00, 366.81it/s]Loading weights:  50%|█████     | 195/388 [00:00<00:00, 358.37it/s]Loading weights:  61%|██████    | 236/388 [00:00<00:00, 369.43it/s]Loading weights:  71%|███████   | 276/388 [00:00<00:00, 364.27it/s]Loading weights:  81%|████████  | 314/388 [00:00<00:00, 367.83it/s]Loading weights:  92%|█████████▏| 356/388 [00:00<00:00, 376.38it/s]Loading weights: 100%|██████████| 388/388 [00:01<00:00, 370.38it/s]
+  steer_L16_c-1.00             vendi= 6.338 distinct2=0.760 clusters=7.97 completion=0.15
+  steer_L8_c-3.00              vendi= 6.294 distinct2=0.758 clusters=7.85 completion=0.19
+  steer_L8_c+2.00              vendi= 6.233 distinct2=0.746 clusters=7.85 completion=0.16
+  baseline                     vendi= 6.231 distinct2=0.745 clusters=7.85 completion=0.18
+  steer_L24_c-2.00             vendi= 6.223 distinct2=0.752 clusters=7.83 completion=0.14
+  steer_L16_c-2.00             vendi= 6.212 distinct2=0.750 clusters=7.85 completion=0.17
+  steer_L16_c-3.00             vendi= 6.208 distinct2=0.761 clusters=7.83 completion=0.14
+  steer_L8_c-2.00              vendi= 6.206 distinct2=0.754 clusters=7.83 completion=0.15
+  steer_L24_c+2.00             vendi= 6.201 distinct2=0.752 clusters=7.85 completion=0.15
+  steer_L24_c-3.00             vendi= 6.185 distinct2=0.742 clusters=7.92 completion=0.17
+  steer_L8_c-1.00              vendi= 6.180 distinct2=0.753 clusters=7.83 completion=0.15
+  steer_L24_c-1.00             vendi= 6.157 distinct2=0.746 clusters=7.78 completion=0.18
+  steer_L24_c+3.00             vendi= 6.149 distinct2=0.755 clusters=7.80 completion=0.19
+  steer_L8_c+3.00              vendi= 6.130 distinct2=0.743 clusters=7.78 completion=0.18
+  steer_L24_c+1.00             vendi= 6.115 distinct2=0.755 clusters=7.85 completion=0.17

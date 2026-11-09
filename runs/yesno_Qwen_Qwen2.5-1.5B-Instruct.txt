@@ -1,0 +1,28 @@
+cell                            n  yes_rate  no_rate
+baseline                      320     0.694    0.194
+steer_L14_c+2.00              320     0.744    0.156
+steer_L14_c+4.00              320     0.781    0.131
+steer_L14_c-2.00              320     0.644    0.219
+steer_L14_c-4.00              320     0.637    0.237
+cell                            n  yes_rate  no_rate
+baseline                      320     0.694    0.194
+random_L14_c+2.00             320     0.675    0.181
+random_L14_c+4.00             320     0.656    0.181
+random_L14_c-2.00             320     0.719    0.188
+random_L14_c-4.00             320     0.738    0.212
+cell                            n  yes_rate  no_rate
+baseline                      160     0.694    0.194
+shuffled_L14_c+2.00           160     0.744    0.150
+shuffled_L14_c+4.00           160     0.775    0.131
+shuffled_L14_c-2.00           160     0.650    0.212
+shuffled_L14_c-4.00           160     0.637    0.237
+Traceback (most recent call last):
+  File "/data/lab/divspace/analysis/yesno.py", line 53, in <module>
+    main()
+  File "/data/lab/divspace/analysis/yesno.py", line 31, in main
+    for line in Path(args.results).read_text(encoding="utf-8").splitlines():
+  File "/usr/lib/python3.10/pathlib.py", line 1134, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+  File "/usr/lib/python3.10/pathlib.py", line 1119, in open
+    return self._accessor.open(self, mode, buffering, encoding, errors,
+FileNotFoundError: [Errno 2] No such file or directory: 'results/Qwen_Qwen2.5-1.5B-Instruct/yesno_orthogonal.jsonl'

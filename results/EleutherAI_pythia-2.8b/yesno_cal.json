@@ -1,0 +1,44 @@
+[
+  {
+    "cell": "baseline",
+    "n": 160,
+    "yes_rate": 0.1,
+    "no_rate": 0.05,
+    "other_rate": 0.85
+  },
+  {
+    "cell": "steer_L16_c+1.00",
+    "n": 160,
+    "yes_rate": 0.09375,
+    "no_rate": 0.0625,
+    "other_rate": 0.84375
+  },
+  {
+    "cell": "steer_L16_c+16.00",
+    "n": 160,
+    "yes_rate": 0.11875,
+    "no_rate": 0.0375,
+    "other_rate": 0.84375
+  },
+  {
+    "cell": "steer_L16_c+2.00",
+    "n": 160,
+    "yes_rate": 0.09375,
+    "no_rate": 0.05,
+    "other_rate": 0.85625
+  },
+  {
+    "cell": "steer_L16_c+4.00",
+    "n": 160,
+    "yes_rate": 0.09375,
+    "no_rate": 0.05625,
+    "other_rate": 0.85
+  },
+  {
+    "cell": "steer_L16_c+8.00",
+    "n": 160,
+    "yes_rate": 0.0875,
+    "no_rate": 0.04375,
+    "other_rate": 0.86875
+  }
+]

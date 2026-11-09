@@ -1,0 +1,28 @@
+[gpu2] Qwen/Qwen2.5-1.5B-Instruct: calibration sweep, coefs 1 2 4 8 16, L14
+Loading weights:   0%|          | 0/338 [00:00<?, ?it/s]Loading weights:  22%|██▏       | 73/338 [00:00<00:00, 729.02it/s]Loading weights:  43%|████▎     | 146/338 [00:00<00:00, 531.44it/s]Loading weights:  60%|██████    | 203/338 [00:00<00:00, 483.12it/s]Loading weights:  79%|███████▉  | 268/338 [00:00<00:00, 531.01it/s]Loading weights: 100%|██████████| 338/338 [00:00<00:00, 570.42it/s]
+5 cells, 960 samples in 44.89s -> results/Qwen_Qwen2.5-1.5B-Instruct/yesno_cal.jsonl
+cell                            n  yes_rate  no_rate
+baseline                      160     0.694    0.194
+steer_L14_c+1.00              160     0.700    0.194
+steer_L14_c+16.00             160     0.838    0.069
+steer_L14_c+2.00              160     0.744    0.156
+steer_L14_c+4.00              160     0.781    0.131
+steer_L14_c+8.00              160     0.812    0.094
+Loading weights:   0%|          | 0/338 [00:00<?, ?it/s]Loading weights:   6%|▌         | 20/338 [00:00<00:01, 189.75it/s]Loading weights:  29%|██▊       | 97/338 [00:00<00:00, 514.30it/s]Loading weights:  52%|█████▏    | 176/338 [00:00<00:00, 636.79it/s]Loading weights:  71%|███████▏  | 241/338 [00:00<00:00, 544.07it/s]Loading weights:  93%|█████████▎| 315/338 [00:00<00:00, 604.24it/s]Loading weights: 100%|██████████| 338/338 [00:00<00:00, 580.69it/s]
+5 cells, 480 samples in 66.93s -> results/Qwen_Qwen2.5-1.5B-Instruct/sweep_cal.jsonl
+Loading weights:   0%|          | 0/338 [00:00<?, ?it/s]Loading weights:  22%|██▏       | 76/338 [00:00<00:00, 713.70it/s]Loading weights:  47%|████▋     | 159/338 [00:00<00:00, 764.54it/s]Loading weights:  70%|██████▉   | 236/338 [00:00<00:00, 762.67it/s]Loading weights:  97%|█████████▋| 327/338 [00:00<00:00, 817.19it/s]Loading weights: 100%|██████████| 338/338 [00:00<00:00, 801.47it/s]
+5 cells, 480 samples in 66.35s -> results/Qwen_Qwen2.5-1.5B-Instruct/sweep_cal_random.jsonl
+Loading weights:   0%|          | 0/338 [00:00<?, ?it/s]Loading weights:   9%|▉         | 32/338 [00:00<00:01, 292.13it/s]Loading weights:  30%|███       | 102/338 [00:00<00:00, 522.90it/s]Loading weights:  51%|█████     | 172/338 [00:00<00:00, 597.67it/s]Loading weights:  72%|███████▏  | 244/338 [00:00<00:00, 642.58it/s]Loading weights:  93%|█████████▎| 316/338 [00:00<00:00, 661.20it/s]Loading weights: 100%|██████████| 338/338 [00:00<00:00, 622.85it/s]
+  baseline                     vendi= 6.105 distinct2=0.787 clusters=8.00 completion=0.20
+  steer_L14_c+1.00             vendi= 6.074 distinct2=0.787 clusters=8.00 completion=0.21
+  steer_L14_c+16.00            vendi= 6.035 distinct2=0.835 clusters=8.00 completion=0.65
+  steer_L14_c+2.00             vendi= 5.972 distinct2=0.795 clusters=8.00 completion=0.25
+  steer_L14_c+8.00             vendi= 5.906 distinct2=0.801 clusters=7.90 completion=0.45
+  steer_L14_c+4.00             vendi= 5.773 distinct2=0.789 clusters=7.70 completion=0.29
+Loading weights:   0%|          | 0/338 [00:00<?, ?it/s]Loading weights:  19%|█▉        | 65/338 [00:00<00:00, 643.17it/s]Loading weights:  40%|████      | 136/338 [00:00<00:00, 666.56it/s]Loading weights:  62%|██████▏   | 209/338 [00:00<00:00, 693.14it/s]Loading weights:  86%|████████▌ | 290/338 [00:00<00:00, 717.24it/s]Loading weights: 100%|██████████| 338/338 [00:00<00:00, 723.68it/s]
+  randcal_L14_c+1.00           vendi= 6.140 distinct2=0.787 clusters=8.00 completion=0.20
+  randcal_L14_c+4.00           vendi= 6.121 distinct2=0.781 clusters=8.00 completion=0.25
+  baseline                     vendi= 6.105 distinct2=0.787 clusters=8.00 completion=0.20
+  randcal_L14_c+8.00           vendi= 5.950 distinct2=0.771 clusters=7.80 completion=0.17
+  randcal_L14_c+2.00           vendi= 5.933 distinct2=0.786 clusters=8.00 completion=0.19
+  randcal_L14_c+16.00          vendi= 5.917 distinct2=0.782 clusters=8.00 completion=0.16

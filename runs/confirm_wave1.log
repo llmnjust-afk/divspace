@@ -1,0 +1,17 @@
+[gpu0] Qwen/Qwen2.5-7B-Instruct: extraction
+[gpu1] allenai/OLMo-2-1124-7B-Instruct: extraction
+[gpu2] EleutherAI/pythia-2.8b: extraction
+[gpu3] HuggingFaceTB/SmolLM2-1.7B-Instruct: extraction
+[gpu3] HuggingFaceTB/SmolLM2-1.7B-Instruct: ablation placebos
+[gpu2] EleutherAI/pythia-2.8b: ablation placebos
+[gpu0] Qwen/Qwen2.5-7B-Instruct: ablation placebos
+[gpu1] allenai/OLMo-2-1124-7B-Instruct: ablation placebos
+[gpu2] EleutherAI/pythia-2.8b: low-temperature sweep at T=0.4
+[gpu3] HuggingFaceTB/SmolLM2-1.7B-Instruct: low-temperature sweep at T=0.4
+[gpu0] Qwen/Qwen2.5-7B-Instruct: low-temperature sweep at T=0.4
+[gpu1] allenai/OLMo-2-1124-7B-Instruct: low-temperature sweep at T=0.4
+[gpu2] EleutherAI/pythia-2.8b: metrics
+[gpu3] HuggingFaceTB/SmolLM2-1.7B-Instruct: metrics
+[gpu0] Qwen/Qwen2.5-7B-Instruct: metrics
+[gpu1] allenai/OLMo-2-1124-7B-Instruct: metrics
+wave 1 finished (failures: 0)
