@@ -178,6 +178,19 @@ def cmd_extract(args) -> None:
         )
     artifact.meta["gpu_stats"] = stats
     artifact.save(args.out)
+    write_json(
+        Path(args.out).with_suffix(".json"),
+        {
+            "model": artifact.model,
+            "layers": artifact.layers,
+            "embed_layer": artifact.embed_layer,
+            "norms": {str(k): v for k, v in artifact.norms.items()},
+            "stability": {str(k): v for k, v in artifact.stability.items()},
+            "n_positive": len(artifact.positive_pairs),
+            "n_negative": len(artifact.negative_pairs),
+            "meta": artifact.meta,
+        },
+    )
     print(
         f"{lm.name}: {len(artifact.layers)} layers, "
         f"{len(artifact.positive_pairs)} positive / {len(artifact.negative_pairs)} negative pairs"
@@ -367,7 +380,9 @@ def cmd_metrics(args) -> None:
     per_sample = {i: embeddings[i] for i in range(embeddings.shape[0])}
 
     with gpu_clock(lm.device) as stats:
-        summary = aggregate_by_cell(rows, per_sample)
+        summary = aggregate_by_cell(
+            rows, per_sample, cluster_threshold=args.cluster_threshold
+        )
 
     if args.mauve_reference:
         reference = [row["text"] for row in read_jsonl(args.mauve_reference)]
@@ -379,6 +394,7 @@ def cmd_metrics(args) -> None:
         "results": args.results,
         "model": lm.name,
         "embed_layer": embed_layer,
+        "cluster_threshold": args.cluster_threshold,
         "n_samples": len(rows),
         "gpu_stats": stats,
         "cells": summary,
@@ -513,6 +529,12 @@ def build_parser() -> argparse.ArgumentParser:
     metrics_cmd.add_argument("--artifact", default=None)
     metrics_cmd.add_argument("--embed-layer", type=int, default=None)
     metrics_cmd.add_argument("--max-per-group", type=int, default=16)
+    metrics_cmd.add_argument(
+        "--cluster-threshold",
+        type=float,
+        default=0.35,
+        help="cosine distance below which two responses join the same semantic cluster",
+    )
     metrics_cmd.add_argument("--batch-size", type=int, default=8)
     metrics_cmd.add_argument("--max-length", type=int, default=768)
     metrics_cmd.add_argument("--mauve-reference", default=None)

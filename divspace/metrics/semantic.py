@@ -35,11 +35,19 @@ def normalised_entropy(labels: Sequence[int]) -> float:
 def cluster_by_embedding(
     embeddings: torch.Tensor, threshold: float = 0.35
 ) -> list[int]:
-    """Single-linkage clustering on cosine distance; deterministic, no dependency."""
+    """Single-linkage clustering on centred cosine distance; deterministic.
+
+    Hidden-state means share a large common component, so raw cosine similarity
+    sits near one and every pair looks identical. Removing the dataset mean before
+    comparing is what makes a distance threshold meaningful here.
+    """
     n = embeddings.shape[0]
     if n == 0:
         return []
-    unit = embeddings / embeddings.norm(dim=-1, keepdim=True).clamp_min(1e-8)
+    centred = embeddings - embeddings.mean(dim=0, keepdim=True)
+    norms = centred.norm(dim=-1, keepdim=True)
+    fallback = embeddings / embeddings.norm(dim=-1, keepdim=True).clamp_min(1e-8)
+    unit = torch.where(norms > 1e-6, centred / norms.clamp_min(1e-8), fallback)
     distance = 1.0 - (unit @ unit.T)
     parent = list(range(n))
 

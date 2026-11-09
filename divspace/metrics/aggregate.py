@@ -12,7 +12,11 @@ from . import embedding as emb_metrics
 from . import lexical, quality, semantic
 
 
-def score_group(texts: Sequence[str], embeddings: torch.Tensor) -> dict:
+def score_group(
+    texts: Sequence[str],
+    embeddings: torch.Tensor,
+    cluster_threshold: float = 0.35,
+) -> dict:
     """All diversity and quality signals for the samples drawn for a single prompt."""
     texts = list(texts)
     scores = {
@@ -28,7 +32,9 @@ def score_group(texts: Sequence[str], embeddings: torch.Tensor) -> dict:
         "effective_rank": emb_metrics.effective_rank(embeddings),
         "anisotropy": emb_metrics.anisotropy(embeddings),
     }
-    semantic_scores = semantic.semantic_diversity(texts, embeddings=embeddings)
+    semantic_scores = semantic.semantic_diversity(
+        texts, embeddings=embeddings, threshold=cluster_threshold
+    )
     scores["n_clusters"] = semantic_scores["n_clusters"]
     scores["cluster_ratio"] = semantic_scores["cluster_ratio"]
     scores["cluster_entropy_norm"] = semantic_scores["cluster_entropy_norm"]
@@ -39,6 +45,7 @@ def score_group(texts: Sequence[str], embeddings: torch.Tensor) -> dict:
 def aggregate_by_cell(
     rows: Sequence[dict],
     embeddings: dict[int, torch.Tensor],
+    cluster_threshold: float = 0.35,
 ) -> dict[str, dict]:
     """Average per-prompt scores within each experimental cell and report dispersion."""
     groups: dict[tuple[str, int], list[int]] = defaultdict(list)
@@ -49,7 +56,9 @@ def aggregate_by_cell(
     for (cell, _prompt), positions in groups.items():
         texts = [rows[i]["text"] for i in positions]
         matrix = torch.stack([embeddings[i] for i in positions])
-        per_cell[cell].append(score_group(texts, matrix))
+        per_cell[cell].append(
+            score_group(texts, matrix, cluster_threshold=cluster_threshold)
+        )
 
     summary: dict[str, dict] = {}
     for cell, group_scores in per_cell.items():

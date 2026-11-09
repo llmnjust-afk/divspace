@@ -185,6 +185,31 @@ meaningfully different. Any paper built on this code must say so in its
 limitations section, and should report the quality column alongside every
 diversity number.
 
+## Running a full sweep
+
+`scripts/07_run_all.sh` runs every stage on every card and publishes the results
+when it finishes:
+
+```bash
+MODELS="EleutherAI/pythia-2.8b Qwen/Qwen2.5-7B-Instruct allenai/OLMo-2-1124-7B-Instruct HuggingFaceTB/SmolLM2-1.7B-Instruct" \
+N_SAMPLES=16 BATCH_SIZE=4 bash scripts/07_run_all.sh
+```
+
+Each stage keeps one process per GPU, so peak memory is a single model copy per
+card; stages 4 and 5 loop inside their GPU slot rather than launching one process
+per file. Failures do not abort the run, so a partial sweep still produces
+publishable output.
+
+`scripts/06_publish.sh` copies `results/` and `figures/` onto a fresh orphan branch
+(`experiments/<UTC timestamp>`), gzips the raw generations, writes a provenance
+manifest, and pushes. The token is read from `PAT_FILE` (default
+`/data/lab/.divspace/pat`) through a temporary credential helper, so it never
+enters `.git/config` or the branch. Set `PAT_FILE` or `BRANCH` to override.
+
+`analysis/summarise.py` writes `results/SUMMARY.md`: the baseline and the best
+intervention per file, the top attributed layers, and the split-half stability of
+each direction. Read that first when a run finishes.
+
 ## Prior work this is built against
 
 - Karouzos, Tan & Aletras (2026), *Where does output diversity collapse in post-training?* — temporal attribution; this repository addresses the spatial axis instead.

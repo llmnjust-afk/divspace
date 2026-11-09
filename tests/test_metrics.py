@@ -100,3 +100,15 @@ def test_tokeniser_keeps_non_latin_text():
     assert distinct_n(chinese, 1) > 0.0
     assert distinct_n(latin, 1) > 0.0
     assert len(set(words("海边的灯塔"))) == 5
+
+
+def test_clustering_removes_the_shared_component():
+    offset = torch.tensor([5.0, 5.0, 5.0])
+    group_a = offset + torch.tensor([[1.0, 0.0, 0.0], [1.0, 0.1, 0.0]])
+    group_b = offset + torch.tensor([[0.0, 1.0, 0.0], [0.0, 1.0, 0.1]])
+    embeddings = torch.cat([group_a, group_b])
+    raw_unit = embeddings / embeddings.norm(dim=-1, keepdim=True)
+    assert (raw_unit @ raw_unit.T).min() > 0.9, "premise: raw cosine is uninformative"
+    labels = cluster_by_embedding(embeddings, threshold=0.35)
+    assert len(set(labels)) == 2
+    assert labels[0] == labels[1] != labels[2] == labels[3]

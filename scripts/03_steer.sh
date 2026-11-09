@@ -7,6 +7,7 @@ MODELS_LIST=${MODELS:-"EleutherAI/pythia-2.8b Qwen/Qwen2.5-7B-Instruct allenai/O
 LAYERS=${LAYERS:-""}
 COEFS=${COEFS:--3 -2 -1 1 2 3}
 N_SAMPLES=${N_SAMPLES:-8}
+BATCH_SIZE=${BATCH_SIZE:-4}
 GPUS=${GPUS:-4}
 mkdir -p runs
 
@@ -22,7 +23,7 @@ for MODEL in "${ARR[@]}"; do
   CUDA_VISIBLE_DEVICES="$GPU" "${PYTHON:-python3}" -m divspace.cli steer \
     --model "$MODEL" --device cuda:0 \
     --artifact "results/${SLUG}/directions.pt" \
-    ${LAYER_ARG[@]+"${LAYER_ARG[@]}"} --coefs $COEFS --n-samples "$N_SAMPLES" --include-baseline \
+    ${LAYER_ARG[@]+"${LAYER_ARG[@]}"} --coefs $COEFS --n-samples "$N_SAMPLES" --batch-size "$BATCH_SIZE" --include-baseline \
     --out "results/${SLUG}/sweep.jsonl" \
     > "runs/steer_${SLUG}.log" 2>&1 &
   pids+=($!)
