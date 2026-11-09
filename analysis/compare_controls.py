@@ -54,7 +54,7 @@ def summarise(model_dir: Path) -> dict | None:
         out["baseline"][metric] = baseline[metric]
 
     for control in CONTROLS:
-        payload = load(model_dir / f"metrics_{control}.json")
+        payload = load(model_dir / f"metrics_control_{control}.json")
         if not payload:
             continue
         cells = cell_table(payload, control)
