@@ -1,0 +1,84 @@
+{
+  "model": "Qwen/Qwen2.5-1.5B-Instruct",
+  "layers": [
+    7,
+    14,
+    21
+  ],
+  "embed_layer": 14,
+  "norms": {
+    "7": 1.0803136825561523,
+    "14": 1.4743926525115967,
+    "21": 3.0390875339508057
+  },
+  "stability": {
+    "7": {
+      "cosine": -0.4663698673248291,
+      "n_positive": 120,
+      "n_negative": 120
+    },
+    "14": {
+      "cosine": -0.4821297228336334,
+      "n_positive": 120,
+      "n_negative": 120
+    },
+    "21": {
+      "cosine": -0.6198974251747131,
+      "n_positive": 120,
+      "n_negative": 120
+    }
+  },
+  "consistency": {
+    "7": {
+      "mean_cosine": 0.02395489253103733,
+      "sd": 0.11018330603837967,
+      "n_prompts": 40
+    },
+    "14": {
+      "mean_cosine": 0.02329944260418415,
+      "sd": 0.11485455930233002,
+      "n_prompts": 40
+    },
+    "21": {
+      "mean_cosine": 0.015631571412086487,
+      "sd": 0.11388856917619705,
+      "n_prompts": 40
+    }
+  },
+  "n_positive": 120,
+  "n_negative": 120,
+  "meta": {
+    "extraction": {
+      "layers": "middle",
+      "pool": "mean",
+      "n_samples": 16,
+      "temperature": 0.9,
+      "top_p": 0.95,
+      "max_new_tokens": 160,
+      "hi_quantile": 0.8,
+      "lo_quantile": 0.2,
+      "min_samples": 8,
+      "embed_layer_frac": 0.5,
+      "normalize": true
+    },
+    "seed": 0,
+    "n_prompts": 40,
+    "n_generations": 640,
+    "n_positive": 120,
+    "n_negative": 120,
+    "max_length": 768,
+    "provenance": {
+      "python": "3.10.12",
+      "torch": "2.11.0+cu128",
+      "timestamp": "2026-11-09T11:07:26",
+      "transformers": "5.20.2",
+      "gpu": "NVIDIA GeForce RTX 4090",
+      "gpu_total_gb": 23.5
+    },
+    "gpu_stats": {
+      "peak_vram_gb": 3.8,
+      "seconds": 53.29,
+      "gpu_hours": 0.0148
+    }
+  }
+}
