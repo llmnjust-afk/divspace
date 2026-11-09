@@ -17,7 +17,7 @@ for MODEL in "${ARR[@]}"; do
   for CONTROL in random shuffled orthogonal; do
     GPU=$(( (i + k) % GPUS ))
     echo "[gpu${GPU}] ${CONTROL} control for ${MODEL}"
-    CUDA_VISIBLE_DEVICES="$GPU" python -m divspace.cli steer \
+    CUDA_VISIBLE_DEVICES="$GPU" "${PYTHON:-python3}" -m divspace.cli steer \
       --model "$MODEL" --device cuda:0 \
       --artifact "results/${SLUG}/directions.pt" \
       --layers "$LAYERS" --coefs $COEFS --control "$CONTROL" \

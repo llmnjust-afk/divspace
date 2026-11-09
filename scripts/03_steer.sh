@@ -18,7 +18,7 @@ for MODEL in "${ARR[@]}"; do
   LAYER_ARG=()
   if [ -n "$LAYERS" ]; then LAYER_ARG=(--layers "$LAYERS"); fi
   echo "[gpu${GPU}] steer ${MODEL}"
-  CUDA_VISIBLE_DEVICES="$GPU" python -m divspace.cli steer \
+  CUDA_VISIBLE_DEVICES="$GPU" "${PYTHON:-python3}" -m divspace.cli steer \
     --model "$MODEL" --device cuda:0 \
     --artifact "results/${SLUG}/directions.pt" \
     "${LAYER_ARG[@]}" --coefs $COEFS --n-samples "$N_SAMPLES" --include-baseline \

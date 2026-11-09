@@ -16,7 +16,7 @@ for MODEL in "${ARR[@]}"; do
   SLUG=$(echo "$MODEL" | tr '/' '_')
   mkdir -p "results/${SLUG}" "runs/extract"
   echo "[gpu${GPU}] extract ${MODEL}"
-  CUDA_VISIBLE_DEVICES="$GPU" python -m divspace.cli extract \
+  CUDA_VISIBLE_DEVICES="$GPU" "${PYTHON:-python3}" -m divspace.cli extract \
     --model "$MODEL" --device cuda:0 \
     --prompt-set "$PROMPT_SET" --n-samples "$N_SAMPLES" \
     --out "results/${SLUG}/directions.pt" \

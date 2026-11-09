@@ -14,7 +14,7 @@ for MODEL in "${ARR[@]}"; do
   GPU=$(( i % GPUS ))
   SLUG=$(echo "$MODEL" | tr '/' '_')
   echo "[gpu${GPU}] attribute ${MODEL}"
-  CUDA_VISIBLE_DEVICES="$GPU" python -m divspace.cli attribute \
+  CUDA_VISIBLE_DEVICES="$GPU" "${PYTHON:-python3}" -m divspace.cli attribute \
     --model "$MODEL" --device cuda:0 \
     --artifact "results/${SLUG}/directions.pt" \
     --n-pairs "$N_PAIRS" \

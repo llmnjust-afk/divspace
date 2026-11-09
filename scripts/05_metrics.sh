@@ -16,7 +16,7 @@ for MODEL in "${ARR[@]}"; do
     [ -f "$FILE" ] || continue
     BASE=$(basename "$FILE" .jsonl)
     echo "[gpu${GPU}] metrics ${SLUG}/${BASE}"
-    CUDA_VISIBLE_DEVICES="$GPU" python -m divspace.cli metrics \
+    CUDA_VISIBLE_DEVICES="$GPU" "${PYTHON:-python3}" -m divspace.cli metrics \
       --model "$MODEL" --device cuda:0 \
       --results "$FILE" --artifact "results/${SLUG}/directions.pt" \
       --out "results/${SLUG}/metrics_${BASE}.json" \
