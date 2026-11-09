@@ -52,6 +52,8 @@ def fit_contrast_direction(
         directions=directions,
         norms=norms,
         embed_layer=layers[0],
+        positive_pairs=[list(pair) for pair in positive],
+        negative_pairs=[list(pair) for pair in negative],
         meta={"kind": "contrast", "n_pairs": len(positive), "targets": "labelled"},
     )
 

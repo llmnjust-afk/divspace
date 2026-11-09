@@ -132,3 +132,12 @@ def test_local_run_emits_one_cell_per_condition():
     assert "localrandom_L2_c+1.00" in cells
     assert "localother_L2_c+1.00" in cells
     assert {row["prompt_id"] for row in rows} == {0, 1}
+
+
+def test_contrast_artifact_keeps_its_pairs_for_the_shuffled_control():
+    lm = build_tiny(n_layers=4)
+    positive = [[f"q{i}", "Yes"] for i in range(4)]
+    negative = [[f"q{i}", "No"] for i in range(4)]
+    artifact = fit_contrast_direction(lm, positive, negative, [2])
+    assert artifact.positive_pairs == positive
+    assert artifact.negative_pairs == negative

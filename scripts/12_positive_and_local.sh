@@ -36,7 +36,8 @@ run_model() {
       --artifact "results/${slug}/contrast.pt" --prompt-file data/yesno_test.txt \
       --coefs -4 -2 2 4 ${extra[@]+"${extra[@]}"} --include-baseline \
       --n-samples 8 --batch-size "$BATCH_SIZE" --max-new-tokens "$MAX_NEW_TOKENS" \
-      --out "results/${slug}/yesno_${control}.jsonl" >> "$log" 2>&1 || return 1
+      --out "results/${slug}/yesno_${control}.jsonl" >> "$log" 2>&1 \
+      || echo "warn: ${control} control failed for ${model}"
   done
 
   echo "[gpu${gpu}] ${model}: prompt-local steering"
