@@ -1,0 +1,326 @@
+{
+ "positive": [
+  [
+   "Is the sky blue?",
+   "Yes"
+  ],
+  [
+   "Is fire cold?",
+   "Yes"
+  ],
+  [
+   "Do fish live in water?",
+   "Yes"
+  ],
+  [
+   "Is two plus two four?",
+   "Yes"
+  ],
+  [
+   "Can birds fly?",
+   "Yes"
+  ],
+  [
+   "Is ice hot?",
+   "Yes"
+  ],
+  [
+   "Do humans need oxygen?",
+   "Yes"
+  ],
+  [
+   "Is the sun a star?",
+   "Yes"
+  ],
+  [
+   "Are cats animals?",
+   "Yes"
+  ],
+  [
+   "Is water wet?",
+   "Yes"
+  ],
+  [
+   "Does a week have seven days?",
+   "Yes"
+  ],
+  [
+   "Is the moon a planet?",
+   "Yes"
+  ],
+  [
+   "Do plants need light?",
+   "Yes"
+  ],
+  [
+   "Is a triangle round?",
+   "Yes"
+  ],
+  [
+   "Can cars swim?",
+   "Yes"
+  ],
+  [
+   "Is winter colder than summer?",
+   "Yes"
+  ],
+  [
+   "Do spiders have eight legs?",
+   "Yes"
+  ],
+  [
+   "Is gold a metal?",
+   "Yes"
+  ],
+  [
+   "Does sound travel in a vacuum?",
+   "Yes"
+  ],
+  [
+   "Is one hundred larger than ten?",
+   "Yes"
+  ],
+  [
+   "Do birds have teeth?",
+   "Yes"
+  ],
+  [
+   "Is the ocean salty?",
+   "Yes"
+  ],
+  [
+   "Are apples a fruit?",
+   "Yes"
+  ],
+  [
+   "Is a bicycle faster than a plane?",
+   "Yes"
+  ],
+  [
+   "Do mammals have hair?",
+   "Yes"
+  ],
+  [
+   "Is the earth flat?",
+   "Yes"
+  ],
+  [
+   "Does ice melt when heated?",
+   "Yes"
+  ],
+  [
+   "Are whales fish?",
+   "Yes"
+  ],
+  [
+   "Is electricity a form of energy?",
+   "Yes"
+  ],
+  [
+   "Do some animals lay eggs?",
+   "Yes"
+  ],
+  [
+   "Is a square a circle?",
+   "Yes"
+  ],
+  [
+   "Does the sun rise in the west?",
+   "Yes"
+  ],
+  [
+   "Are rocks alive?",
+   "Yes"
+  ],
+  [
+   "Is blood red?",
+   "Yes"
+  ],
+  [
+   "Do computers need electricity?",
+   "Yes"
+  ],
+  [
+   "Is a kilometer longer than a meter?",
+   "Yes"
+  ],
+  [
+   "Are all birds able to fly?",
+   "Yes"
+  ],
+  [
+   "Is sugar sweet?",
+   "Yes"
+  ],
+  [
+   "Does water freeze below zero degrees?",
+   "Yes"
+  ],
+  [
+   "Is a sponge an animal?",
+   "Yes"
+  ]
+ ],
+ "negative": [
+  [
+   "Is the sky blue?",
+   "No"
+  ],
+  [
+   "Is fire cold?",
+   "No"
+  ],
+  [
+   "Do fish live in water?",
+   "No"
+  ],
+  [
+   "Is two plus two four?",
+   "No"
+  ],
+  [
+   "Can birds fly?",
+   "No"
+  ],
+  [
+   "Is ice hot?",
+   "No"
+  ],
+  [
+   "Do humans need oxygen?",
+   "No"
+  ],
+  [
+   "Is the sun a star?",
+   "No"
+  ],
+  [
+   "Are cats animals?",
+   "No"
+  ],
+  [
+   "Is water wet?",
+   "No"
+  ],
+  [
+   "Does a week have seven days?",
+   "No"
+  ],
+  [
+   "Is the moon a planet?",
+   "No"
+  ],
+  [
+   "Do plants need light?",
+   "No"
+  ],
+  [
+   "Is a triangle round?",
+   "No"
+  ],
+  [
+   "Can cars swim?",
+   "No"
+  ],
+  [
+   "Is winter colder than summer?",
+   "No"
+  ],
+  [
+   "Do spiders have eight legs?",
+   "No"
+  ],
+  [
+   "Is gold a metal?",
+   "No"
+  ],
+  [
+   "Does sound travel in a vacuum?",
+   "No"
+  ],
+  [
+   "Is one hundred larger than ten?",
+   "No"
+  ],
+  [
+   "Do birds have teeth?",
+   "No"
+  ],
+  [
+   "Is the ocean salty?",
+   "No"
+  ],
+  [
+   "Are apples a fruit?",
+   "No"
+  ],
+  [
+   "Is a bicycle faster than a plane?",
+   "No"
+  ],
+  [
+   "Do mammals have hair?",
+   "No"
+  ],
+  [
+   "Is the earth flat?",
+   "No"
+  ],
+  [
+   "Does ice melt when heated?",
+   "No"
+  ],
+  [
+   "Are whales fish?",
+   "No"
+  ],
+  [
+   "Is electricity a form of energy?",
+   "No"
+  ],
+  [
+   "Do some animals lay eggs?",
+   "No"
+  ],
+  [
+   "Is a square a circle?",
+   "No"
+  ],
+  [
+   "Does the sun rise in the west?",
+   "No"
+  ],
+  [
+   "Are rocks alive?",
+   "No"
+  ],
+  [
+   "Is blood red?",
+   "No"
+  ],
+  [
+   "Do computers need electricity?",
+   "No"
+  ],
+  [
+   "Is a kilometer longer than a meter?",
+   "No"
+  ],
+  [
+   "Are all birds able to fly?",
+   "No"
+  ],
+  [
+   "Is sugar sweet?",
+   "No"
+  ],
+  [
+   "Does water freeze below zero degrees?",
+   "No"
+  ],
+  [
+   "Is a sponge an animal?",
+   "No"
+  ]
+ ]
+}

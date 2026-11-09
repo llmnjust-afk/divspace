@@ -28,6 +28,8 @@ from .intervene.steer import (
     run_grid,
     shuffled_direction,
 )
+from .controls import fit_contrast_direction, load_pairs, split_half_agreement
+from .local import run_local
 from .metrics.aggregate import aggregate_by_cell, mauve
 from .models import LM
 from .utils import (
@@ -82,6 +84,60 @@ def _load_model(args) -> LM:
         local_files_only=args.local_files_only,
     )
 
+
+
+def cmd_contrast(args) -> None:
+    lm = _load_model(args)
+    positive, negative = load_pairs(args.pairs)
+    layers = resolve_layers(args.layers, lm.n_layers) if args.layers else [lm.n_layers // 2]
+    with gpu_clock(lm.device) as stats:
+        artifact = fit_contrast_direction(
+            lm, positive, negative, layers,
+            batch_size=args.batch_size, max_length=args.max_length,
+        )
+        agreement = split_half_agreement(
+            lm, positive, negative, layers,
+            batch_size=args.batch_size, max_length=args.max_length,
+        )
+    artifact.stability = {layer: {"cosine": value} for layer, value in agreement.items()}
+    artifact.meta["gpu_stats"] = stats
+    artifact.save(args.out)
+    write_json(Path(args.out).with_suffix(".json"), {
+        "model": artifact.model,
+        "layers": artifact.layers,
+        "norms": {str(k): v for k, v in artifact.norms.items()},
+        "split_half": {str(k): v for k, v in agreement.items()},
+        "meta": artifact.meta,
+    })
+    for layer in layers:
+        print(f"  layer {layer:>2d}  ||d||={artifact.norms[layer]:.3f}  split-half={agreement[layer]:+.3f}")
+    print(f"{lm.name}: contrast direction over {len(positive)} pairs -> {args.out}")
+
+
+def cmd_local(args) -> None:
+    lm = _load_model(args)
+    prompts, prompt_ids = shard_with_ids(
+        resolve_prompts(args.prompt_set, args.prompt_file, args.limit),
+        args.shard_id, args.num_shards,
+    )
+    artifact = DirectionArtifact.load(args.artifact) if args.artifact else None
+    layer = args.layer if args.layer is not None else (
+        artifact.layers[len(artifact.layers) // 2] if artifact else lm.n_layers // 2
+    )
+    embed_layer = artifact.embed_layer if artifact else int(round(0.5 * (lm.n_layers - 1)))
+    with gpu_clock(lm.device) as stats:
+        rows = run_local(
+            lm, prompts, layer,
+            fit_samples=args.n_fit, eval_samples=args.n_samples,
+            coefs=args.coefs, temperature=args.temperature, top_p=args.top_p,
+            max_new_tokens=args.max_new_tokens, batch_size=args.batch_size,
+            embed_layer=embed_layer, pool=args.pool,
+            use_chat_template=not args.no_chat_template,
+            max_length=args.max_length, seed=args.seed,
+        )
+    remap_prompt_ids(rows, prompt_ids)
+    write_jsonl(args.out, rows)
+    print(f"local steering: {len(prompts)} prompts, {len(rows)} samples in {stats['seconds']}s -> {args.out}")
 
 def cmd_probe(args) -> None:
     lm = _load_model(args)
@@ -558,6 +614,36 @@ def build_parser() -> argparse.ArgumentParser:
     lens.add_argument("--layers", default="middle")
     lens.add_argument("--top-k", type=int, default=5)
     lens.set_defaults(func=cmd_lens)
+
+    contrast = sub.add_parser("contrast", help="fit a direction from labelled prompt pairs")
+    _add_model_args(contrast)
+    contrast.add_argument("--pairs", required=True,
+                          help="JSON with positive/negative [prompt, target] pairs")
+    contrast.add_argument("--layers", type=int, nargs="+", default=None)
+    contrast.add_argument("--batch-size", type=int, default=8)
+    contrast.add_argument("--max-length", type=int, default=256)
+    contrast.add_argument("--out", required=True)
+    contrast.set_defaults(func=cmd_contrast)
+
+    local = sub.add_parser("local", help="fit and steer one direction per prompt")
+    _add_model_args(local)
+    _add_prompt_args(local)
+    _add_shard_args(local)
+    local.add_argument("--artifact", default=None,
+                       help="optional artifact supplying default layer and embed layer")
+    local.add_argument("--layer", type=int, default=None)
+    local.add_argument("--pool", default="mean", choices=["mean", "last"])
+    local.add_argument("--coefs", type=float, nargs="+", default=[-2.0, 2.0])
+    local.add_argument("--n-fit", type=int, default=16)
+    local.add_argument("--n-samples", type=int, default=8)
+    local.add_argument("--temperature", type=float, default=0.9)
+    local.add_argument("--top-p", type=float, default=0.95)
+    local.add_argument("--max-new-tokens", type=int, default=160)
+    local.add_argument("--max-length", type=int, default=768)
+    local.add_argument("--batch-size", type=int, default=4)
+    local.add_argument("--seed", type=int, default=0)
+    local.add_argument("--out", required=True)
+    local.set_defaults(func=cmd_local)
 
     return parser
 

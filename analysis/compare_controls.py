@@ -13,9 +13,16 @@ METRICS = ["vendi", "pc1_ratio", "distinct_2", "participation_ratio"]
 CONTROLS = ["random", "shuffled", "orthogonal"]
 
 SETTINGS = {
-    "inject T=0.9": ("metrics_sweep.json", "metrics_control_{}.json"),
-    "ablate": ("metrics_ablate.json", "metrics_ablate_{}.json"),
-    "inject low temperature": ("metrics_sweep_lt.json", "metrics_lt_control_{}.json"),
+    "inject T=0.9": ("metrics_sweep.json", {c: f"metrics_control_{c}.json" for c in CONTROLS}),
+    "ablate": ("metrics_ablate.json", {c: f"metrics_ablate_{c}.json" for c in CONTROLS}),
+    "inject low temperature": (
+        "metrics_sweep_lt.json",
+        {c: f"metrics_lt_control_{c}.json" for c in CONTROLS},
+    ),
+    "prompt-local": (
+        "metrics_local.json",
+        {"random": "metrics_localrandom.json", "other prompt": "metrics_localother.json"},
+    ),
 }
 
 
@@ -47,7 +54,7 @@ def combine(a: dict, b: dict, metric: str) -> tuple[float, float]:
     return a[metric] - b[metric], math.sqrt(var)
 
 
-def compare(model_dir: Path, sweep_file: str, control_pattern: str) -> dict | None:
+def compare(model_dir: Path, sweep_file: str, control_files: dict[str, str]) -> dict | None:
     sweep = load(model_dir / sweep_file)
     if not sweep or "cells" not in sweep:
         return None
@@ -55,8 +62,8 @@ def compare(model_dir: Path, sweep_file: str, control_pattern: str) -> dict | No
     baseline = sweep["cells"].get("baseline", {})
     out = {"n_treated_cells": len(treated), "baseline": baseline.get("vendi"), "vs": {}}
 
-    for control in CONTROLS:
-        payload = load(model_dir / control_pattern.format(control))
+    for control, filename in control_files.items():
+        payload = load(model_dir / filename)
         if not payload:
             continue
         placebo = cell_table(payload)
@@ -87,22 +94,23 @@ def main() -> None:
     )
     everything = {}
 
-    for setting, (sweep_file, pattern) in SETTINGS.items():
+    for setting, (sweep_file, control_files) in SETTINGS.items():
         rows = []
         for model_dir in sorted(p for p in Path(args.results).iterdir() if p.is_dir()):
-            item = compare(model_dir, sweep_file, pattern)
+            item = compare(model_dir, sweep_file, control_files)
             if item and item["vs"]:
                 rows.append({"model": model_dir.name, **item})
                 everything.setdefault(setting, []).append({"model": model_dir.name, **item})
         if not rows:
             continue
         lines += ["", f"## {setting}", ""]
-        header = ["model", "baseline vendi"] + [f"vs {c}" for c in CONTROLS]
+        labels = list(control_files)
+        header = ["model", "baseline vendi"] + [f"vs {c}" for c in labels]
         lines.append("| " + " | ".join(header) + " |")
         lines.append("| " + " | ".join(["---"] * len(header)) + " |")
         for row in rows:
             cells = [row["model"], f"{row['baseline']:.3f}" if row["baseline"] else "-"]
-            for control in CONTROLS:
+            for control in labels:
                 entry = row["vs"].get(control)
                 if entry is None:
                     cells.append("-")

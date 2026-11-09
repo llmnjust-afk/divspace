@@ -11,6 +11,8 @@ from divspace.extract.pipeline import response_activations
 from divspace.extract.select import dispersion
 from divspace.hooks import capture
 from divspace.intervene.steer import orthogonalised
+from divspace.controls import fit_contrast_direction
+from divspace.local import run_local
 from divspace.models import build_tiny
 
 
@@ -95,3 +97,38 @@ def test_capture_last_position_shape():
     with capture(lm.layers, [1], store, positions="last", pool=None):
         lm.run_backbone(input_ids=ids)
     assert store[1].shape == (1, 1, lm.hidden_size)
+
+
+def test_contrast_direction_is_unit_and_reproducible(tmp_path):
+    lm = build_tiny(n_layers=4)
+    pairs = [[f"q{i}", "Yes"] for i in range(6)]
+    negative = [[f"q{i}", "No"] for i in range(6)]
+    first = fit_contrast_direction(lm, pairs, negative, [2])
+    second = fit_contrast_direction(lm, pairs, negative, [2])
+    assert first.directions[2].shape == (lm.hidden_size,)
+    assert abs(float(first.directions[2].norm()) - 1.0) < 1e-5
+    assert torch.allclose(first.directions[2], second.directions[2], atol=1e-6)
+
+
+def test_local_run_emits_one_cell_per_condition():
+    lm = build_tiny(n_layers=4)
+    rows = run_local(
+        lm,
+        ["prompt a", "prompt b"],
+        layer=2,
+        fit_samples=8,
+        eval_samples=2,
+        coefs=[-1.0, 1.0],
+        temperature=1.0,
+        top_p=0.95,
+        max_new_tokens=4,
+        batch_size=2,
+        embed_layer=2,
+        seed=0,
+    )
+    cells = {row["cell"] for row in rows}
+    assert "baseline" in cells
+    assert "local_L2_c+1.00" in cells and "local_L2_c-1.00" in cells
+    assert "localrandom_L2_c+1.00" in cells
+    assert "localother_L2_c+1.00" in cells
+    assert {row["prompt_id"] for row in rows} == {0, 1}
