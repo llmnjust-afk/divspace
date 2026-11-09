@@ -33,3 +33,10 @@ def test_block3_sweeps_layers_and_uses_the_centroid_control():
     assert "--layers $layers" in script
     assert "for control in centroid random" in script
     assert "--temperature" in script
+
+
+def test_block4_calibrates_the_positive_control_at_the_same_strengths():
+    script = (SCRIPTS / "15_calibrated_sweep.sh").read_text(encoding="utf-8")
+    assert "--coefs $COEFS" in script
+    assert script.count("--coefs $COEFS") >= 3
+    assert "yesno_cal.jsonl" in script and "sweep_cal.jsonl" in script
