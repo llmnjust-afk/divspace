@@ -2,6 +2,8 @@
 
 import math
 
+import pathlib
+
 import pytest
 import torch
 
@@ -190,3 +192,31 @@ def test_relative_strength_scales_with_the_residual_norm():
     assert torch.allclose(out["relative"] - hidden, expected_delta.expand_as(hidden), atol=1e-5)
     assert torch.allclose(out["absolute"] - hidden, (0.25 * direction).expand_as(hidden), atol=1e-5)
     assert not torch.allclose(out["relative"], out["absolute"])
+
+
+def test_degradation_analysis_flags_repetition_blowups(tmp_path):
+    import json as _json
+    import subprocess
+    import sys
+
+    base = {"vendi": 6.0, "vendi_stderr": 0.1, "mean_words": 100.0, "rep_3": 0.10, "self_bleu": 0.1}
+    dirty = {"vendi": 5.3, "vendi_stderr": 0.1, "mean_words": 70.0, "rep_3": 0.25, "self_bleu": 0.1}
+    clean = {"vendi": 5.9, "vendi_stderr": 0.1, "mean_words": 98.0, "rep_3": 0.11, "self_bleu": 0.1}
+    payload = {"cells": {"baseline": base, "steer_L4_c+8.00": dirty, "steer_L4_c+1.00": clean}}
+    run_dir = tmp_path / "model_x"
+    run_dir.mkdir()
+    (run_dir / "metrics_sweep_cal.json").write_text(_json.dumps(payload), encoding="utf-8")
+
+    out = tmp_path / "DEGRADATION.md"
+    root = pathlib.Path(__file__).resolve().parents[1]
+    subprocess.run(
+        [sys.executable, str(root / "analysis" / "degradation.py"), "--results", str(tmp_path),
+         "--out", str(out)],
+        check=True, capture_output=True, cwd=root,
+    )
+    text = out.read_text(encoding="utf-8")
+    assert text.count("degraded") >= 1
+    assert "model_x" in text
+    rows = [line for line in text.splitlines() if line.startswith("| model_x")]
+    assert any("degraded" in row for row in rows)
+    assert any("clean" in row for row in rows)

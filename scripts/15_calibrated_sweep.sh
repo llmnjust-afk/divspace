@@ -20,6 +20,20 @@ run_model() {
     "results/${slug}/directions.json" 2>/dev/null) || return 1
   [ -n "$layer" ] || return 1
 
+  if [ ! -f "results/${slug}/contrast_sweep.pt" ]; then
+    local sweep_layers
+    sweep_layers=$("$PY" -c "
+import json, sys
+L = json.load(open(sys.argv[1]))['layers']
+m = L[len(L) // 2]
+print(' '.join(str(x) for x in sorted({L[0], m, min(L[-1], m + 2)})))
+" "results/${slug}/directions.json")
+    echo "[gpu${gpu}] ${model}: contrast over layers ${sweep_layers}" | tee -a "$log"
+    "$PY" -m divspace.cli contrast --model "$model" --device cuda:0 \
+      --pairs data/yesno_fit.json --layers $sweep_layers --batch-size "$BATCH_SIZE" \
+      --out "results/${slug}/contrast_sweep.pt" >> "$log" 2>&1 || return 1
+  fi
+
   echo "[gpu${gpu}] ${model}: calibration sweep, coefs ${COEFS}, L${layer}" | tee -a "$log"
   for L in "$layer"; do
     "$PY" -m divspace.cli steer --model "$model" --device cuda:0 \
