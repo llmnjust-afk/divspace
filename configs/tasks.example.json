@@ -1,0 +1,9 @@
+{
+  "comment": "Four models on four GPUs. Each task sees exactly one card via CUDA_VISIBLE_DEVICES.",
+  "tasks": [
+    {"cmd": ["extract", "--model", "pythia-2.8b", "--device", "cuda:0", "--prompt-set", "all", "--out", "results/pythia28b/dir.pt"]},
+    {"cmd": ["extract", "--model", "qwen2.5-7b", "--device", "cuda:0", "--prompt-set", "all", "--out", "results/qwen7b/dir.pt"]},
+    {"cmd": ["extract", "--model", "olmo2-7b", "--device", "cuda:0", "--prompt-set", "all", "--out", "results/olmo7b/dir.pt"]},
+    {"cmd": ["extract", "--model", "smollm2-1.7b", "--device", "cuda:0", "--prompt-set", "all", "--out", "results/smollm17b/dir.pt"]}
+  ]
+}

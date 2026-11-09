@@ -1,0 +1,15 @@
+steering:
+  layers: null
+  coefs: [-3.0, -2.0, -1.0, 1.0, 2.0, 3.0]
+  positions: all
+  mode: inject
+
+controls:
+  random: "Gaussian direction at unit norm; isolates direction specificity"
+  shuffled: "same activations, destroyed pairing; isolates the role of the contrast"
+  orthogonal: "direction with the shared inter-layer component removed; isolates the layer-specific part"
+  ablate: "project the direction out instead of adding it; necessity test"
+
+reliability:
+  split_half_min_cosine: 0.5
+  note: "directions below this threshold are treated as noise and excluded from sweeps"

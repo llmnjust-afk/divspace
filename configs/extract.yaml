@@ -1,0 +1,21 @@
+extraction:
+  layers: middle
+  embed_layer: null
+  embed_layer_frac: 0.5
+  pool: mean
+  n_samples: 16
+  temperature: 0.9
+  top_p: 0.95
+  max_new_tokens: 96
+  hi_quantile: 0.8
+  lo_quantile: 0.2
+  min_samples: 8
+  normalize: true
+  batch_size: 8
+  max_length: 768
+  seed: 0
+
+notes:
+  layers: "int, list, 'all', 'middle', 'last', or a slice such as 4-32:4"
+  hi_quantile: "samples in the top (1 - hi_quantile) of within-prompt dispersion form the positive class"
+  pool: "mean pooling over response tokens, or last-token only"

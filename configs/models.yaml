@@ -1,0 +1,84 @@
+models:
+  pythia-410m:
+    name: EleutherAI/pythia-410m
+    short: pythia410m
+    family: pythia
+    n_layers: 24
+    hidden_size: 1024
+    gated: false
+
+  pythia-1b:
+    name: EleutherAI/pythia-1b
+    short: pythia1b
+    family: pythia
+    n_layers: 16
+    hidden_size: 2048
+    gated: false
+
+  pythia-2.8b:
+    name: EleutherAI/pythia-2.8b
+    short: pythia28b
+    family: pythia
+    n_layers: 32
+    hidden_size: 2560
+    gated: false
+
+  smollm2-1.7b:
+    name: HuggingFaceTB/SmolLM2-1.7B-Instruct
+    short: smollm17b
+    family: llama
+    n_layers: 24
+    hidden_size: 2048
+    gated: false
+
+  qwen2.5-1.5b:
+    name: Qwen/Qwen2.5-1.5B-Instruct
+    short: qwen15b
+    family: qwen2
+    n_layers: 28
+    hidden_size: 1536
+    gated: false
+
+  qwen2.5-7b:
+    name: Qwen/Qwen2.5-7B-Instruct
+    short: qwen7b
+    family: qwen2
+    n_layers: 28
+    hidden_size: 3584
+    gated: false
+
+  olmo2-7b:
+    name: allenai/OLMo-2-1124-7B-Instruct
+    short: olmo7b
+    family: olmo2
+    n_layers: 32
+    hidden_size: 4096
+    gated: false
+
+  gemma2-2b:
+    name: google/gemma-2-2b-it
+    short: gemma2b
+    family: gemma2
+    n_layers: 26
+    hidden_size: 2304
+    gated: true
+
+  llama31-8b:
+    name: meta-llama/Llama-3.1-8B-Instruct
+    short: llama8b
+    family: llama
+    n_layers: 32
+    hidden_size: 4096
+    gated: true
+
+parallel_suites:
+  ungated:
+    - pythia-1b
+    - smollm2-1.7b
+    - qwen2.5-1.5b
+    - qwen2.5-7b
+  main:
+    - pythia-2.8b
+    - qwen2.5-7b
+    - olmo2-7b
+    - llama31-8b
