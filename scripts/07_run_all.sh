@@ -15,6 +15,8 @@ export MAX_NEW_TOKENS=${MAX_NEW_TOKENS:-160}
 export PUBLISH=${PUBLISH:-1}
 export BATCH_SIZE=${BATCH_SIZE:-4}
 export COEFS=${COEFS:--3 -2 -1 1 2 3}
+export EVAL_SAMPLES=${EVAL_SAMPLES:-8}
+export CONTROL_COEFS=${CONTROL_COEFS:--2 2}
 export PYTHON=${PYTHON:-python3}
 
 mkdir -p runs results figures

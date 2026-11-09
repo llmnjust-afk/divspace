@@ -5,10 +5,12 @@ cd "$(dirname "$0")/.."
 
 MODELS_LIST=${MODELS:-"EleutherAI/pythia-2.8b Qwen/Qwen2.5-7B-Instruct allenai/OLMo-2-1124-7B-Instruct HuggingFaceTB/SmolLM2-1.7B-Instruct"}
 LAYERS=${LAYERS:-}
-COEFS=${COEFS:--2 2}
+CONTROL_COEFS=${CONTROL_COEFS:--2 2}
 N_SAMPLES=${N_SAMPLES:-8}
+EVAL_SAMPLES=${EVAL_SAMPLES:-8}
 BATCH_SIZE=${BATCH_SIZE:-4}
 MAX_NEW_TOKENS=${MAX_NEW_TOKENS:-160}
+PROMPT_SET=${PROMPT_SET:-all}
 GPUS=${GPUS:-4}
 mkdir -p runs
 
@@ -21,8 +23,8 @@ run_controls() {
     CUDA_VISIBLE_DEVICES="$gpu" "${PYTHON:-python3}" -m divspace.cli steer \
       --model "$model" --device cuda:0 \
       --artifact "results/${slug}/directions.pt" \
-      ${layer_arg[@]+"${layer_arg[@]}"} --coefs $COEFS --control "$control" \
-      --condition "$control" --n-samples "$N_SAMPLES" --batch-size "$BATCH_SIZE" --max-new-tokens "$MAX_NEW_TOKENS" \
+      ${layer_arg[@]+"${layer_arg[@]}"} --coefs $CONTROL_COEFS --control "$control" \
+      --condition "$control" --n-samples "$EVAL_SAMPLES" --prompt-set "$PROMPT_SET" --batch-size "$BATCH_SIZE" --max-new-tokens "$MAX_NEW_TOKENS" \
       --out "results/${slug}/control_${control}.jsonl" \
       > "runs/control_${control}_${slug}.log" 2>&1 || return 1
   done

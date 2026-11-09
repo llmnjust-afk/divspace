@@ -6,8 +6,10 @@ cd "$(dirname "$0")/.."
 MODELS_LIST=${MODELS:-"EleutherAI/pythia-2.8b Qwen/Qwen2.5-7B-Instruct allenai/OLMo-2-1124-7B-Instruct HuggingFaceTB/SmolLM2-1.7B-Instruct"}
 LAYERS=${LAYERS:-}
 N_SAMPLES=${N_SAMPLES:-8}
+EVAL_SAMPLES=${EVAL_SAMPLES:-8}
 BATCH_SIZE=${BATCH_SIZE:-4}
 MAX_NEW_TOKENS=${MAX_NEW_TOKENS:-160}
+PROMPT_SET=${PROMPT_SET:-all}
 GPUS=${GPUS:-4}
 mkdir -p runs
 
@@ -20,7 +22,7 @@ ablate_model() {
     --model "$model" --device cuda:0 \
     --artifact "results/${slug}/directions.pt" \
     ${layer_arg[@]+"${layer_arg[@]}"} --mode ablate \
-    --n-samples "$N_SAMPLES" --batch-size "$BATCH_SIZE" --max-new-tokens "$MAX_NEW_TOKENS" \
+    --n-samples "$EVAL_SAMPLES" --prompt-set "$PROMPT_SET" --batch-size "$BATCH_SIZE" --max-new-tokens "$MAX_NEW_TOKENS" \
     --out "results/${slug}/ablate.jsonl" \
     > "runs/ablate_${slug}.log" 2>&1
 }
