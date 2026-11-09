@@ -7,6 +7,7 @@ MODELS_LIST=${MODELS:-"EleutherAI/pythia-2.8b Qwen/Qwen2.5-7B-Instruct allenai/O
 LAYERS=${LAYERS:-}
 N_SAMPLES=${N_SAMPLES:-8}
 BATCH_SIZE=${BATCH_SIZE:-4}
+MAX_NEW_TOKENS=${MAX_NEW_TOKENS:-160}
 GPUS=${GPUS:-4}
 mkdir -p runs
 
@@ -19,7 +20,7 @@ ablate_model() {
     --model "$model" --device cuda:0 \
     --artifact "results/${slug}/directions.pt" \
     ${layer_arg[@]+"${layer_arg[@]}"} --mode ablate \
-    --n-samples "$N_SAMPLES" --batch-size "$BATCH_SIZE" \
+    --n-samples "$N_SAMPLES" --batch-size "$BATCH_SIZE" --max-new-tokens "$MAX_NEW_TOKENS" \
     --out "results/${slug}/ablate.jsonl" \
     > "runs/ablate_${slug}.log" 2>&1
 }

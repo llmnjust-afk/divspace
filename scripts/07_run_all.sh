@@ -11,6 +11,8 @@ export GPUS=${GPUS:-4}
 export PROMPT_SET=${PROMPT_SET:-all}
 export N_SAMPLES=${N_SAMPLES:-16}
 export MIN_SAMPLES=${MIN_SAMPLES:-8}
+export MAX_NEW_TOKENS=${MAX_NEW_TOKENS:-160}
+export PUBLISH=${PUBLISH:-1}
 export BATCH_SIZE=${BATCH_SIZE:-4}
 export COEFS=${COEFS:--3 -2 -1 1 2 3}
 export PYTHON=${PYTHON:-python3}
@@ -45,6 +47,8 @@ else
   echo "no attribution/metrics pairs to plot"
 fi
 
-echo "########## publish ##########"
-./scripts/06_publish.sh || echo "publish failed"
+if [ "$PUBLISH" = "1" ]; then
+  echo "########## publish ##########"
+  ./scripts/06_publish.sh || echo "publish failed"
+fi
 echo "########## finished ##########"

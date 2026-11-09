@@ -12,7 +12,6 @@ KEY_METRICS = [
     "participation_ratio",
     "distinct_2",
     "self_bleu",
-    "n_clusters",
     "completion_rate",
     "mean_words",
 ]

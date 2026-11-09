@@ -8,6 +8,7 @@ N_SAMPLES=${N_SAMPLES:-16}
 PROMPT_SET=${PROMPT_SET:-all}
 MIN_SAMPLES=${MIN_SAMPLES:-8}
 BATCH_SIZE=${BATCH_SIZE:-4}
+MAX_NEW_TOKENS=${MAX_NEW_TOKENS:-160}
 GPUS=${GPUS:-4}
 
 read -r -a ARR <<< "$MODELS_LIST"
@@ -20,7 +21,7 @@ for MODEL in "${ARR[@]}"; do
   echo "[gpu${GPU}] extract ${MODEL}"
   CUDA_VISIBLE_DEVICES="$GPU" "${PYTHON:-python3}" -m divspace.cli extract \
     --model "$MODEL" --device cuda:0 \
-    --prompt-set "$PROMPT_SET" --n-samples "$N_SAMPLES" --batch-size "$BATCH_SIZE" --min-samples "$MIN_SAMPLES" \
+    --prompt-set "$PROMPT_SET" --n-samples "$N_SAMPLES" --batch-size "$BATCH_SIZE" --max-new-tokens "$MAX_NEW_TOKENS" --min-samples "$MIN_SAMPLES" \
     --out "results/${SLUG}/directions.pt" \
     > "runs/extract/${SLUG}.log" 2>&1 &
   pids+=($!)

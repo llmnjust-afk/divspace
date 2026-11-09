@@ -8,6 +8,7 @@ LAYERS=${LAYERS:-}
 COEFS=${COEFS:--2 2}
 N_SAMPLES=${N_SAMPLES:-8}
 BATCH_SIZE=${BATCH_SIZE:-4}
+MAX_NEW_TOKENS=${MAX_NEW_TOKENS:-160}
 GPUS=${GPUS:-4}
 mkdir -p runs
 
@@ -21,7 +22,7 @@ run_controls() {
       --model "$model" --device cuda:0 \
       --artifact "results/${slug}/directions.pt" \
       ${layer_arg[@]+"${layer_arg[@]}"} --coefs $COEFS --control "$control" \
-      --condition "$control" --n-samples "$N_SAMPLES" --batch-size "$BATCH_SIZE" \
+      --condition "$control" --n-samples "$N_SAMPLES" --batch-size "$BATCH_SIZE" --max-new-tokens "$MAX_NEW_TOKENS" \
       --out "results/${slug}/control_${control}.jsonl" \
       > "runs/control_${control}_${slug}.log" 2>&1 || return 1
   done
