@@ -1,4 +1,4 @@
-"""Compare real steering against the placebo controls at matched (layer, coefficient) cells."""
+"""Compare real directions against placebo controls at matched (layer, coefficient) cells."""
 
 from __future__ import annotations
 
@@ -8,9 +8,15 @@ import math
 import re
 from pathlib import Path
 
-CELL = re.compile(r"^(?P<kind>[a-z]+)_L(?P<layer>\d+)_c(?P<coef>[+-]\d+\.\d+)$")
+CELL = re.compile(r"^(?P<kind>[a-z_]+)_L(?P<layer>\d+)_c(?P<coef>[+-]\d+\.\d+)$")
 METRICS = ["vendi", "pc1_ratio", "distinct_2", "participation_ratio"]
 CONTROLS = ["random", "shuffled", "orthogonal"]
+
+SETTINGS = {
+    "inject T=0.9": ("metrics_sweep.json", "metrics_control_{}.json"),
+    "ablate": ("metrics_ablate.json", "metrics_ablate_{}.json"),
+    "inject low temperature": ("metrics_sweep_lt.json", "metrics_lt_control_{}.json"),
+}
 
 
 def load(path: Path) -> dict | None:
@@ -27,7 +33,7 @@ def parse(cell: str) -> tuple[int, float] | None:
     return int(match["layer"]), float(match["coef"])
 
 
-def cell_table(payload: dict, kind: str) -> dict[tuple[int, float], dict]:
+def cell_table(payload: dict) -> dict[tuple[int, float], dict]:
     return {
         key: value
         for name, value in payload["cells"].items()
@@ -37,52 +43,33 @@ def cell_table(payload: dict, kind: str) -> dict[tuple[int, float], dict]:
 
 def combine(a: dict, b: dict, metric: str) -> tuple[float, float]:
     """Difference of means and its standard error, treating the two cells as independent."""
-    mean = a[metric] - b[metric]
     var = a.get(f"{metric}_stderr", 0.0) ** 2 + b.get(f"{metric}_stderr", 0.0) ** 2
-    return mean, math.sqrt(var)
+    return a[metric] - b[metric], math.sqrt(var)
 
 
-def summarise(model_dir: Path) -> dict | None:
-    sweep = load(model_dir / "metrics_sweep.json")
-    if not sweep or "baseline" not in sweep["cells"]:
+def compare(model_dir: Path, sweep_file: str, control_pattern: str) -> dict | None:
+    sweep = load(model_dir / sweep_file)
+    if not sweep or "cells" not in sweep:
         return None
-    steer = cell_table(sweep, "steer")
-    baseline = sweep["cells"]["baseline"]
-    out = {"model": model_dir.name, "n_steer_cells": len(steer), "baseline": {}, "deltas": {}}
-
-    for metric in METRICS:
-        out["baseline"][metric] = baseline[metric]
+    treated = cell_table(sweep)
+    baseline = sweep["cells"].get("baseline", {})
+    out = {"n_treated_cells": len(treated), "baseline": baseline.get("vendi"), "vs": {}}
 
     for control in CONTROLS:
-        payload = load(model_dir / f"metrics_control_{control}.json")
+        payload = load(model_dir / control_pattern.format(control))
         if not payload:
             continue
-        cells = cell_table(payload, control)
-        shared = sorted(set(cells) & set(steer))
+        placebo = cell_table(payload)
+        shared = sorted(set(placebo) & set(treated))
         if not shared:
             continue
+        entry = {"n_cells": len(shared)}
         for metric in METRICS:
-            diffs = [combine(steer[key], cells[key], metric) for key in shared]
+            diffs = [combine(treated[key], placebo[key], metric) for key in shared]
             mean = sum(d for d, _ in diffs) / len(diffs)
             se = math.sqrt(sum(s * s for _, s in diffs)) / len(diffs)
-            out["deltas"].setdefault(metric, {})[control] = {
-                "delta": mean,
-                "se": se,
-                "ci95": [mean - 1.96 * se, mean + 1.96 * se],
-                "n_cells": len(shared),
-            }
-
-    ablate = load(model_dir / "metrics_ablate.json")
-    if ablate:
-        out["deltas"].setdefault("vendi", {})["ablate"] = {
-            "delta": (
-                sum(c["vendi"] for c in ablate["cells"].values()) / len(ablate["cells"])
-                - baseline["vendi"]
-            ),
-            "se": 0.0,
-            "ci95": [0.0, 0.0],
-            "n_cells": len(ablate["cells"]),
-        }
+            entry[metric] = {"delta": mean, "ci95": [mean - 1.96 * se, mean + 1.96 * se]}
+        out["vs"][control] = entry
     return out
 
 
@@ -92,38 +79,42 @@ def main() -> None:
     parser.add_argument("--out", default="results/CONTROLS.md")
     args = parser.parse_args()
 
-    rows = []
-    for model_dir in sorted(p for p in Path(args.results).iterdir() if p.is_dir()):
-        item = summarise(model_dir)
-        if item:
-            rows.append(item)
-
     lines = ["# Real direction vs placebo controls", ""]
     lines.append(
-        "Delta = mean(steer cell) - mean(control cell) over matched (layer, coefficient) cells; "
-        "positive delta means the real direction produced *more* diversity than the placebo."
+        "Delta = mean(treated cell) - mean(placebo cell) over matched (layer, coefficient) "
+        "cells; positive means the real direction produced more diversity than the placebo. "
+        "Brackets are 95% intervals over the matched cells."
     )
-    lines.append("")
-    header = ["model", "baseline vendi", "vs random", "vs shuffled", "vs orthogonal", "ablate"]
-    lines.append("| " + " | ".join(header) + " |")
-    lines.append("| " + " | ".join(["---"] * len(header)) + " |")
+    everything = {}
 
-    for item in rows:
-        cells = [item["model"], f"{item['baseline']['vendi']:.3f}"]
-        for control in CONTROLS:
-            entry = item["deltas"].get("vendi", {}).get(control)
-            if entry is None:
-                cells.append("-")
-            else:
-                lo, hi = entry["ci95"]
-                cells.append(f"{entry['delta']:+.3f} [{lo:+.3f},{hi:+.3f}]")
-        ablate = item["deltas"].get("vendi", {}).get("ablate")
-        cells.append(f"{ablate['delta']:+.3f}" if ablate else "-")
-        lines.append("| " + " | ".join(cells) + " |")
+    for setting, (sweep_file, pattern) in SETTINGS.items():
+        rows = []
+        for model_dir in sorted(p for p in Path(args.results).iterdir() if p.is_dir()):
+            item = compare(model_dir, sweep_file, pattern)
+            if item and item["vs"]:
+                rows.append({"model": model_dir.name, **item})
+                everything.setdefault(setting, []).append({"model": model_dir.name, **item})
+        if not rows:
+            continue
+        lines += ["", f"## {setting}", ""]
+        header = ["model", "baseline vendi"] + [f"vs {c}" for c in CONTROLS]
+        lines.append("| " + " | ".join(header) + " |")
+        lines.append("| " + " | ".join(["---"] * len(header)) + " |")
+        for row in rows:
+            cells = [row["model"], f"{row['baseline']:.3f}" if row["baseline"] else "-"]
+            for control in CONTROLS:
+                entry = row["vs"].get(control)
+                if entry is None:
+                    cells.append("-")
+                else:
+                    delta = entry["vendi"]
+                    lo, hi = delta["ci95"]
+                    cells.append(f"{delta['delta']:+.3f} [{lo:+.3f},{hi:+.3f}]")
+            lines.append("| " + " | ".join(cells) + " |")
 
     out = Path(args.out)
     out.write_text("\n".join(lines) + "\n", encoding="utf-8")
-    out.with_suffix(".json").write_text(json.dumps(rows, indent=2), encoding="utf-8")
+    out.with_suffix(".json").write_text(json.dumps(everything, indent=2), encoding="utf-8")
     print(f"wrote {out}")
 
 

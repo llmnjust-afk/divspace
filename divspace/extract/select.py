@@ -69,3 +69,37 @@ def balance(highs: list[int], lows: list[int]) -> tuple[list[int], list[int]]:
     """Trim the larger group so both classes are the same size."""
     size = min(len(highs), len(lows))
     return highs[:size], lows[:size]
+
+
+def prompt_consistency(
+    acts: torch.Tensor, owner: list[int], split: int
+) -> dict[str, float]:
+    """Agreement between directions fitted on each prompt separately.
+
+    A global diversity axis should be recovered from any prompt; if per-prompt
+    directions disagree, the pooled contrast is tracking prompt identity rather
+    than dispersion.
+    """
+    by_prompt: dict[int, list[int]] = {}
+    for position, prompt_id in enumerate(owner):
+        by_prompt.setdefault(prompt_id, []).append(position)
+
+    vectors = []
+    for positions in by_prompt.values():
+        high = [p for p in positions if p < split]
+        low = [p for p in positions if p >= split]
+        if not high or not low:
+            continue
+        vectors.append(acts[high].mean(0) - acts[low].mean(0))
+    if len(vectors) < 3:
+        return {"mean_cosine": float("nan"), "n_prompts": len(vectors), "sd": float("nan")}
+
+    matrix = normalise(torch.stack(vectors))
+    similarities = matrix @ matrix.T
+    n = similarities.shape[0]
+    off_diagonal = similarities[~torch.eye(n, dtype=torch.bool)]
+    return {
+        "mean_cosine": float(off_diagonal.mean()),
+        "sd": float(off_diagonal.std()),
+        "n_prompts": n,
+    }

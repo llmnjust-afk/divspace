@@ -8,7 +8,7 @@ from divspace.extract.directions import (
     split_half_stability,
     unit,
 )
-from divspace.extract.select import dispersion, select_within_prompt
+from divspace.extract.select import prompt_consistency, dispersion, select_within_prompt
 
 
 def test_unit_normalises():
@@ -67,3 +67,31 @@ def test_cosine_bounds():
     value = cosine(a, a)
     assert abs(value - 1.0) < 1e-5
     assert -1.01 <= cosine(a, b) <= 1.01
+
+
+def test_prompt_consistency_separates_shared_from_prompt_specific():
+    torch.manual_seed(0)
+    n_prompts = 6
+
+    def build(direction_of):
+        highs, lows, high_owner, low_owner = [], [], [], []
+        for prompt in range(n_prompts):
+            direction = direction_of(prompt)
+            for _ in range(2):
+                highs.append(direction + 0.01 * torch.randn(64))
+                lows.append(-direction + 0.01 * torch.randn(64))
+            high_owner.extend([prompt] * 2)
+            low_owner.extend([prompt] * 2)
+        return torch.stack(highs + lows), high_owner + low_owner, len(highs)
+
+    shared = torch.randn(64)
+    acts, owner, split = build(lambda _: shared)
+    result = prompt_consistency(acts, owner, split)
+    assert result["n_prompts"] == n_prompts
+    assert result["mean_cosine"] > 0.99
+
+    distinct = torch.stack([torch.randn(64) for _ in range(n_prompts)])
+    acts, owner, split = build(lambda prompt: distinct[prompt])
+    result = prompt_consistency(acts, owner, split)
+    assert result["n_prompts"] == n_prompts
+    assert abs(result["mean_cosine"]) < 0.5

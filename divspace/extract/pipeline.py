@@ -15,7 +15,7 @@ from ..hooks import capture
 from ..models import LM
 from ..utils import provenance, seed_everything
 from .directions import mean_diff, split_half_stability, unit
-from .select import balance, dispersion, select_within_prompt
+from .select import balance, dispersion, prompt_consistency, select_within_prompt
 
 
 def _token_ids(tokenizer, text: str, add_special_tokens: bool = True) -> list[int]:
@@ -90,6 +90,7 @@ class DirectionArtifact:
     layers: list[int]
     directions: dict[int, torch.Tensor]
     stability: dict[int, dict] = field(default_factory=dict)
+    consistency: dict[int, dict] = field(default_factory=dict)
     norms: dict[int, float] = field(default_factory=dict)
     embed_layer: int = 0
     meta: dict = field(default_factory=dict)
@@ -110,6 +111,7 @@ class DirectionArtifact:
                 "layers": self.layers,
                 "directions": {k: v.cpu() for k, v in self.directions.items()},
                 "stability": self.stability,
+                "consistency": self.consistency,
                 "norms": self.norms,
                 "embed_layer": self.embed_layer,
                 "meta": self.meta,
@@ -187,22 +189,28 @@ def extract_directions(
         lm, selected, layers, batch_size=batch_size, max_length=max_length, pool=cfg.pool
     )
 
+    # Which prompt each selected sample came from, in the order used for `acts`.
+    owner = [rows[i]["prompt_id"] for i in highs + lows]
+    split = len(highs)
+
     directions: dict[int, torch.Tensor] = {}
     stability: dict[int, dict] = {}
     norms: dict[int, float] = {}
-    split = len(highs)
+    consistency: dict[int, dict] = {}
     for layer in layers:
         positive, negative = acts[layer][:split], acts[layer][split:]
         raw = mean_diff(positive, negative)
         norms[layer] = float(raw.norm())
         directions[layer] = unit(raw) if cfg.normalize else raw
         stability[layer] = split_half_stability(positive, negative, seed=seed)
+        consistency[layer] = prompt_consistency(acts[layer], owner, split)
 
     if verbose:
         for layer in layers:
             print(
                 f"  layer {layer:>2d}  ||d||={norms[layer]:7.3f}  "
-                f"split-half cos={stability[layer]['cosine']:.3f}"
+                f"split-half cos={stability[layer]['cosine']:.3f}  "
+                f"prompt-consistency={consistency[layer]['mean_cosine']:+.3f}"
             )
 
     return DirectionArtifact(
@@ -210,6 +218,7 @@ def extract_directions(
         layers=layers,
         directions=directions,
         stability=stability,
+        consistency=consistency,
         norms=norms,
         embed_layer=embed,
         meta={

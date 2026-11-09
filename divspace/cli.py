@@ -191,6 +191,7 @@ def cmd_extract(args) -> None:
             "embed_layer": artifact.embed_layer,
             "norms": {str(k): v for k, v in artifact.norms.items()},
             "stability": {str(k): v for k, v in artifact.stability.items()},
+            "consistency": {str(k): v for k, v in artifact.consistency.items()},
             "n_positive": len(artifact.positive_pairs),
             "n_negative": len(artifact.negative_pairs),
             "meta": artifact.meta,
