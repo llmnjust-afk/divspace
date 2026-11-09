@@ -39,17 +39,28 @@ def plot_attribution(files: list[Path], out: Path) -> None:
     print(f"wrote {out}")
 
 
+def _parse_cell(cell: str) -> tuple[int | None, float | None]:
+    """Parse names like 'steer_L12_c+1.00' or 'baseline'."""
+    if cell == "baseline":
+        return None, 0.0
+    layer = coef = None
+    for piece in cell.split("_"):
+        if piece.startswith("L") and piece[1:].isdigit():
+            layer = int(piece[1:])
+        elif piece.startswith("c") and not piece.startswith("cell"):
+            try:
+                coef = float(piece[1:])
+            except ValueError:
+                coef = None
+    return layer, coef
+
+
 def plot_coefficient_response(metrics_path: Path, out: Path, layer: int | None = None) -> None:
     payload = json.loads(metrics_path.read_text(encoding="utf-8"))
     points = []
     for cell, entry in payload["cells"].items():
-        if not cell.startswith("steer_"):
-            continue
-        parts = dict(piece.split("L") if piece.startswith("L") else ("coef", piece) for piece in cell.split("_")[1:])
-        try:
-            cell_layer = int(parts["L"])
-            coef = float(parts["coef"])
-        except (KeyError, ValueError):
+        cell_layer, coef = _parse_cell(cell)
+        if coef is None:
             continue
         if layer is not None and cell_layer != layer:
             continue
