@@ -1,0 +1,22 @@
+{
+  "model": "EleutherAI/pythia-1b",
+  "layers": [
+    8
+  ],
+  "norms": {
+    "8": 27.01590919494629
+  },
+  "split_half": {
+    "8": 0.9962268471717834
+  },
+  "meta": {
+    "kind": "contrast",
+    "n_pairs": 40,
+    "targets": "labelled",
+    "gpu_stats": {
+      "peak_vram_gb": 1.9,
+      "seconds": 0.84,
+      "gpu_hours": 0.0002
+    }
+  }
+}
