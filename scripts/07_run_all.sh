@@ -29,10 +29,18 @@ echo "########## 05 metrics ##########"
 
 echo "########## summary ##########"
 PYTHONPATH=. "$PYTHON" analysis/summarise.py --results results --out results/SUMMARY.md || true
-PYTHONPATH=. "$PYTHON" analysis/plot_pareto.py \
-  --attribution results/*/attribution.json \
-  --metrics results/*/metrics_sweep.json \
-  --out-dir figures || true
+shopt -s nullglob
+attr_files=(results/*/attribution.json)
+metric_files=(results/*/metrics_sweep.json)
+shopt -u nullglob
+if [ ${#attr_files[@]} -gt 0 ] && [ ${#metric_files[@]} -gt 0 ]; then
+  PYTHONPATH=. "$PYTHON" analysis/plot_pareto.py \
+    --attribution "${attr_files[@]}" \
+    --metrics "${metric_files[@]}" \
+    --out-dir figures || true
+else
+  echo "no attribution/metrics pairs to plot"
+fi
 
 echo "########## publish ##########"
 ./scripts/06_publish.sh || echo "publish failed"

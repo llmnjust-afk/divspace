@@ -29,6 +29,7 @@ pids=()
 for MODEL in "${ARR[@]}"; do
   GPU=$(( i % GPUS ))
   SLUG=$(echo "$MODEL" | tr '/' '_')
+  if [ ! -d "results/${SLUG}" ]; then echo "skip ${MODEL}: no results"; continue; fi
   score_model "$MODEL" "$GPU" "$SLUG" &
   pids+=($!)
   i=$(( i + 1 ))

@@ -17,6 +17,7 @@ pids=()
 for MODEL in "${ARR[@]}"; do
   GPU=$(( i % GPUS ))
   SLUG=$(echo "$MODEL" | tr '/' '_')
+  if [ ! -f "results/${SLUG}/directions.pt" ]; then echo "skip ${MODEL}: no direction artifact"; continue; fi
   LAYER_ARG=()
   if [ -n "$LAYERS" ]; then LAYER_ARG=(--layers "$LAYERS"); fi
   echo "[gpu${GPU}] steer ${MODEL}"

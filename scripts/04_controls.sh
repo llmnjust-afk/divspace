@@ -33,6 +33,7 @@ pids=()
 for MODEL in "${ARR[@]}"; do
   GPU=$(( i % GPUS ))
   SLUG=$(echo "$MODEL" | tr '/' '_')
+  if [ ! -f "results/${SLUG}/directions.pt" ]; then echo "skip ${MODEL}: no direction artifact"; continue; fi
   run_controls "$MODEL" "$GPU" "$SLUG" &
   pids+=($!)
   i=$(( i + 1 ))

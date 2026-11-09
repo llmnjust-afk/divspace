@@ -14,6 +14,7 @@ pids=()
 for MODEL in "${ARR[@]}"; do
   GPU=$(( i % GPUS ))
   SLUG=$(echo "$MODEL" | tr '/' '_')
+  if [ ! -f "results/${SLUG}/directions.pt" ]; then echo "skip ${MODEL}: no direction artifact"; continue; fi
   echo "[gpu${GPU}] attribute ${MODEL}"
   CUDA_VISIBLE_DEVICES="$GPU" "${PYTHON:-python3}" -m divspace.cli attribute \
     --model "$MODEL" --device cuda:0 \
