@@ -27,7 +27,7 @@ def t_interval(values: list[float]) -> tuple[float, float]:
         return (math.nan, math.nan)
     mean = statistics.mean(values)
     half = float(stats.t.ppf(0.975, n - 1)) * statistics.stdev(values) / math.sqrt(n)
-    return (mean - half, mean + half)
+    return (float(mean - half), float(mean + half))
 
 
 def main() -> None:
