@@ -140,6 +140,22 @@ halves of the contrast set and reports their cosine. A direction whose halves
 disagree is a sampling artefact, not an axis, and should be dropped before any
 sweep is interpreted.
 
+**Placebo arms.** `random` is a unit vector at matched norm. `shuffled` re-draws
+which responses belong to the high and low class while preserving both class sizes,
+because a difference of means is invariant to re-pairing the classes and a pairing
+shuffle is therefore a no-op. `centroid` is the unit mean response activation and
+`pca1` the leading principal direction of the response activations, which is the
+control that asks whether *any* dominant direction suffices. Every arm is a unit
+vector, so an absolute coefficient means the same thing in each.
+
+**Budget-matched stability.** `stability-suite` measures the split-half cosine three
+ways from a single generation pass: within a prompt, pooled over `m` prompts at a
+fixed per-arm budget, and between prompts (cosine between the pooled direction and a
+direction fitted from prompt-level mean dispersion). The `m = 1` point of the budget
+curve is the within-prompt case, so the curve separates prompt mixing from sample
+size. `analysis/stability_suite.py` and `analysis/pairwise_consistency.py` turn the
+JSON into tables.
+
 **Attribution.** Two forward passes and one backward pass. The gradient is taken
 at the low-dispersion run and multiplied by the clean-minus-corrupt activation
 difference, summed over response-token positions. This is the first-order
@@ -205,6 +221,13 @@ publishable output.
 manifest, and pushes. The token is read from `PAT_FILE` (default
 `/data/lab/.divspace/pat`) through a temporary credential helper, so it never
 enters `.git/config` or the branch. Set `PAT_FILE` or `BRANCH` to override.
+
+`scripts/16_stability_suite.sh` runs the budget-matched suite on every model and
+then writes `results/STABILITY_SUITE.md` and `results/PAIRWISE.md`:
+
+```bash
+MODELS="EleutherAI/pythia-1b Qwen/Qwen2.5-7B-Instruct" GPUS=2 bash scripts/16_stability_suite.sh
+```
 
 `analysis/summarise.py` writes `results/SUMMARY.md`: the baseline and the best
 intervention per file, the top attributed layers, and the split-half stability of

@@ -27,6 +27,13 @@ from .intervene.steer import (
     run_grid,
 )
 from .controls import fit_contrast_direction, load_pairs, split_half_agreement
+from .budget import (
+    between_prompt_direction,
+    collect,
+    pooled_budget_cosines,
+    prompt_directions,
+    within_prompt_cosines,
+)
 from .local import run_local
 from .stability import within_prompt_stability
 from .metrics.aggregate import aggregate_by_cell, mauve
@@ -149,6 +156,77 @@ def cmd_local_stability(args) -> None:
         mean = sum(cosines) / len(cosines)
         print(f"{len(rows)} prompts, mean within-prompt split-half cosine {mean:+.3f}")
     write_jsonl(args.out, rows)
+
+
+def cmd_stability_suite(args) -> None:
+    lm = _load_model(args)
+    prompts, _ = shard_with_ids(
+        resolve_prompts(args.prompt_set, args.prompt_file, args.limit),
+        args.shard_id, args.num_shards,
+    )
+    layers = resolve_layers(args.layers, lm.n_layers)
+    embed_layer = layers[len(layers) // 2]
+    if args.artifact:
+        artifact = DirectionArtifact.load(args.artifact)
+        layers = artifact.layers
+        embed_layer = artifact.embed_layer
+    primary = layers[len(layers) // 2]
+    cfg = SamplingConfig(
+        n_samples=args.n_samples,
+        temperature=args.temperature,
+        top_p=args.top_p,
+        max_new_tokens=args.max_new_tokens,
+        batch_size=args.batch_size,
+        seed=args.seed,
+    )
+    samples = collect(
+        lm,
+        prompts,
+        layers,
+        embed_layer,
+        cfg,
+        pool=args.pool,
+        use_chat_template=not args.no_chat_template,
+        max_length=args.max_length,
+    )
+    sizes = [int(part) for part in args.sizes.split(",") if part.strip()]
+    payload = {
+        "model": lm.name,
+        "layers": list(layers),
+        "embed_layer": embed_layer,
+        "primary_layer": primary,
+        "n_prompts": len(samples),
+        "n_samples": args.n_samples,
+        "k_per_arm": args.k,
+        "seed": args.seed,
+        "within": {},
+        "budget": {},
+        "between": {},
+        "prompt_directions": {},
+    }
+    for layer in layers:
+        cosines = within_prompt_cosines(samples, layer, seed=args.seed, k=args.k)
+        payload["within"][str(layer)] = cosines
+        pair = between_prompt_direction(samples, layer, quantile=args.quantile)
+        if pair is not None:
+            between, pooled = pair
+            payload["between"][str(layer)] = float(torch.dot(between, pooled).clamp(-1.0, 1.0))
+        payload["prompt_directions"][str(layer)] = prompt_directions(samples, layer, k=args.k)
+    payload["budget"] = {
+        str(size): values
+        for size, values in pooled_budget_cosines(
+            samples, primary, sizes, reps=args.reps, seed=args.seed, k=args.k
+        ).items()
+    }
+    Path(args.out).parent.mkdir(parents=True, exist_ok=True)
+    Path(args.out).write_text(json.dumps(payload, indent=1), encoding="utf-8")
+    mean = sum(payload["within"][str(primary)]) / max(1, len(payload["within"][str(primary)]))
+    print(f"{len(samples)} prompts, within-prompt cosine {mean:+.3f} at layer {primary}")
+    print("budget curve: " + ", ".join(
+        f"m={size}:{sum(values)/max(1,len(values)):+.3f}"
+        for size, values in payload["budget"].items()
+    ))
+    print(f"between-prompt cosine {payload['between'].get(str(primary), float('nan')):+.3f}")
 
 
 def cmd_local(args) -> None:
@@ -576,7 +654,7 @@ def build_parser() -> argparse.ArgumentParser:
     steer.add_argument("--layers", default=None)
     steer.add_argument("--coefs", type=float, nargs="+", default=[-2.0, -1.0, 1.0, 2.0])
     steer.add_argument("--positions", default="all")
-    steer.add_argument("--control", default="none", choices=["none", "random", "shuffled", "orthogonal"])
+    steer.add_argument("--control", default="none", choices=["none", "random", "shuffled", "orthogonal", "centroid", "pca1"])
     steer.add_argument("--condition", default="steer")
     steer.add_argument("--mode", default="inject", choices=["inject", "ablate"])
     steer.add_argument(
@@ -686,6 +764,30 @@ def build_parser() -> argparse.ArgumentParser:
     stab.add_argument("--seed", type=int, default=0)
     stab.add_argument("--out", required=True)
     stab.set_defaults(func=cmd_local_stability)
+
+    suite = sub.add_parser(
+        "stability-suite",
+        help="within-prompt, budget-matched pooled and between-prompt stability in one run",
+    )
+    _add_model_args(suite)
+    _add_prompt_args(suite)
+    _add_shard_args(suite)
+    suite.add_argument("--artifact", default=None)
+    suite.add_argument("--layers", default="middle")
+    suite.add_argument("--pool", default="mean", choices=["mean", "last"])
+    suite.add_argument("--n-samples", type=int, default=32)
+    suite.add_argument("--k", type=int, default=3, help="responses per class per prompt per half")
+    suite.add_argument("--sizes", default="1,2,4,8,20,40")
+    suite.add_argument("--reps", type=int, default=20)
+    suite.add_argument("--quantile", type=float, default=0.2)
+    suite.add_argument("--temperature", type=float, default=0.9)
+    suite.add_argument("--top-p", type=float, default=0.95)
+    suite.add_argument("--max-new-tokens", type=int, default=160)
+    suite.add_argument("--max-length", type=int, default=768)
+    suite.add_argument("--batch-size", type=int, default=4)
+    suite.add_argument("--seed", type=int, default=0)
+    suite.add_argument("--out", required=True)
+    suite.set_defaults(func=cmd_stability_suite)
 
     return parser
 

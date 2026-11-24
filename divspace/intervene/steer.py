@@ -8,6 +8,7 @@ from typing import Iterable, Sequence
 import torch
 
 from ..config import SamplingConfig
+from ..extract.directions import pca_basis, unit
 from ..generate.sampler import GenerationResult, sample
 from ..models import LM
 
@@ -21,12 +22,22 @@ def random_direction(hidden: int, seed: int = 0) -> torch.Tensor:
 def shuffled_direction(
     positive: torch.Tensor, negative: torch.Tensor, seed: int = 0
 ) -> torch.Tensor:
-    """Same activations, destroyed pairing: isolates the role of the contrast itself."""
+    """Same activations, randomised class labels: isolates the role of the contrast.
+
+    The contrast is a difference of class means, so permuting one class against the
+    other leaves the means, and therefore the direction, exactly unchanged. The
+    placebo has to re-draw which responses belong to the high and low class while
+    preserving both class sizes; only then does it ask whether the dispersion
+    assignment itself carries information.
+    """
     generator = torch.Generator().manual_seed(seed)
-    perm = torch.randperm(negative.shape[0], generator=generator)
-    shuffled = negative[perm]
-    size = min(positive.shape[0], shuffled.shape[0])
-    vector = positive[:size].mean(0) - shuffled[:size].mean(0)
+    pool = torch.cat([positive, negative], dim=0)
+    perm = torch.randperm(pool.shape[0], generator=generator)
+    shuffled = pool[perm]
+    n_pos, n_neg = positive.shape[0], negative.shape[0]
+    if min(n_pos, n_neg) < 1:
+        raise ValueError("both classes need at least one activation")
+    vector = shuffled[:n_pos].mean(0) - shuffled[n_pos : n_pos + n_neg].mean(0)
     return vector / vector.norm().clamp_min(1e-8)
 
 
@@ -44,7 +55,7 @@ def control_directions(
     seed: int = 0,
     activations=None,
 ) -> dict[int, torch.Tensor]:
-    """Build the placebo arm: random, pairing-shuffled, orthogonalised, or centroid."""
+    """Build the placebo arm: random, label-shuffled, orthogonalised, centroid or pca1."""
     if control in (None, "none"):
         return directions
     if control == "random":
@@ -56,17 +67,27 @@ def control_directions(
     if activations is None:
         raise SystemExit("activations are required for this control")
     layer_list = list(directions)
-    positive = activations([tuple(pair) for pair in artifact.positive_pairs[:32]], layer_list)
-    negative = activations([tuple(pair) for pair in artifact.negative_pairs[:32]], layer_list)
+    # Controls must be built from exactly the activations the real direction was
+    # fitted on; truncating one class would confound the placebo with sample size.
+    positive = activations([tuple(pair) for pair in artifact.positive_pairs], layer_list)
+    negative = activations([tuple(pair) for pair in artifact.negative_pairs], layer_list)
     if control == "shuffled":
         return {
             layer: shuffled_direction(positive[layer], negative[layer], seed=seed)
             for layer in layer_list
         }
-    if control == "centroid":
+    if control in ("centroid", "pca1"):
+        pooled = {
+            layer: torch.cat([positive[layer], negative[layer]], 0) for layer in layer_list
+        }
+        if control == "centroid":
+            # A placebo has to be a unit vector like the real one; an unnormalised
+            # mean activation is orders of magnitude larger than the arm it controls.
+            return {layer: unit(pooled[layer].mean(0)) for layer in layer_list}
+        # Principal direction of the response activations: tests whether ablating or
+        # injecting any dominant direction suffices, with no contrast at all.
         return {
-            layer: torch.cat([positive[layer], negative[layer]], 0).mean(0)
-            for layer in layer_list
+            layer: unit(pca_basis(pooled[layer], 1)[0]) for layer in layer_list
         }
     if control == "orthogonal":
         keys = list(directions)

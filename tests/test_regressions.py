@@ -151,7 +151,8 @@ def test_contrast_artifact_keeps_its_pairs_for_the_shuffled_control():
     assert artifact.negative_pairs == negative
 
 
-def test_centroid_control_is_the_mean_response_activation():
+def test_centroid_control_is_the_unit_mean_response_activation():
+    """The placebo has to share the real arm's norm, so the mean is normalised."""
     lm = build_tiny(n_layers=4)
     artifact = fit_contrast_direction(
         lm, [[f"q{i}", "Yes"] for i in range(4)], [[f"q{i}", "No"] for i in range(4)], [2]
@@ -159,6 +160,7 @@ def test_centroid_control_is_the_mean_response_activation():
     pos = response_activations(lm, [tuple(p) for p in artifact.positive_pairs], [2])
     neg = response_activations(lm, [tuple(p) for p in artifact.negative_pairs], [2])
     expected = torch.cat([pos[2], neg[2]], 0).mean(0)
+    expected = expected / expected.norm()
     chosen = control_directions(
         lm,
         artifact,
@@ -233,3 +235,104 @@ def test_within_prompt_stability_reports_a_cosine_per_prompt():
     for row in rows:
         assert -1.0 <= row["cosine"] <= 1.0
         assert row["n_samples"] >= 8
+
+
+def test_within_prompt_direction_recovers_a_planted_axis(monkeypatch):
+    """Regression: the kept set must stay ordered by class, not by sample index.
+
+    With the classes interleaved, the fitted direction is a random-sign version of
+    the true axis, so two independent halves of the same prompt disagree no matter
+    how clean the signal is.
+    """
+    import divspace.stability as stability
+
+    hidden, per_half = 32, 8
+    cosines = []
+    for seed in range(20):
+        generator = torch.Generator().manual_seed(seed)
+        directions = []
+        for _ in range(2):
+            plant = torch.linspace(-1.0, 1.0, per_half)[
+                torch.randperm(per_half, generator=generator)
+            ]
+            acts = torch.zeros(per_half, hidden)
+            acts[:, 0] = plant
+            embed = torch.zeros(per_half, hidden)
+            embed[:, 0] = torch.arange(per_half).float()
+
+            def fake(lm, pairs, layers, **_):
+                index = [pair[1] for pair in pairs]
+                return {layers[0]: embed[index] if layers[0] == -1 else acts[index]}
+
+            monkeypatch.setattr(stability, "response_activations", fake)
+            monkeypatch.setattr(
+                stability,
+                "dispersion",
+                lambda embeddings, plant=plant: torch.tensor(
+                    [float(plant[int(i)]) for i in embeddings[:, 0]]
+                ),
+            )
+            directions.append(
+                stability._direction_from(
+                    None,
+                    [(None, index) for index in range(per_half)],
+                    layer=5,
+                    embed_layer=-1,
+                    hi=0.8,
+                    lo=0.2,
+                    batch_size=4,
+                    max_length=32,
+                    pool="mean",
+                )
+            )
+        cosines.append(float(directions[0] @ directions[1]))
+    assert min(cosines) > 0.9, f"planted axis not recovered: {cosines}"
+
+
+def test_shuffled_control_keeps_the_norm_and_drops_the_contrast():
+    """Regression: permuting one class against the other left the direction unchanged.
+
+    A difference of class means is invariant to re-pairing the two classes, so the
+    old placebo returned the real direction exactly. With labels that carry no
+    information the two constructions must now be independent.
+    """
+    from divspace.intervene.steer import shuffled_direction
+
+    generator = torch.Generator().manual_seed(0)
+    positive = torch.randn(32, 48, generator=generator)
+    negative = torch.randn(32, 48, generator=generator)
+    real = positive.mean(0) - negative.mean(0)
+    real = real / real.norm()
+    shuffled = shuffled_direction(positive, negative, seed=0)
+    assert math.isclose(float(shuffled.norm()), 1.0, rel_tol=1e-5)
+    assert abs(float(real @ shuffled)) < 0.6
+    other = shuffled_direction(positive, negative, seed=1)
+    assert float(shuffled @ other) < 0.99
+
+
+def test_every_placebo_arm_is_a_unit_vector():
+    """Regression: the centroid arm used to be an unnormalised mean activation."""
+    import types
+
+    from divspace.intervene.steer import control_directions
+
+    torch.manual_seed(0)
+    positive = torch.randn(8, 16) + 1.0
+    negative = torch.randn(8, 16) - 1.0
+    artifact = types.SimpleNamespace(
+        positive_pairs=[("p", "a")] * 8,
+        negative_pairs=[("p", "b")] * 8,
+    )
+    real = {3: unit(torch.randn(16))}
+    activations = lambda pairs, layers: {layers[0]: positive if pairs[0][1] == "a" else negative}
+    for control in ("random", "shuffled", "centroid", "pca1"):
+        arm = control_directions(
+            types.SimpleNamespace(hidden_size=16),
+            artifact,
+            real,
+            control,
+            activations=activations,
+            seed=0,
+        )
+        for vector in arm.values():
+            assert math.isclose(float(vector.norm()), 1.0, rel_tol=1e-4), control

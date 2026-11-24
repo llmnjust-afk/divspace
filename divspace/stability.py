@@ -41,11 +41,14 @@ def _direction_from(
     n_lo = max(1, int(round(lo * n)))
     highs = order[-n_hi:].tolist()
     lows = order[:n_lo].tolist()
-    keep = sorted(set(highs) | set(lows))
-    split = len([i for i in keep if i in set(highs)])
+    # High-dispersion responses must stay ahead of low-dispersion ones: ordering the
+    # kept set by sample index would mix the two classes and make the contrast a
+    # comparison of two arbitrary index ranges.
+    ordered = highs + lows
+    split = len(highs)
     acts = response_activations(
         lm,
-        [pairs[i] for i in keep],
+        [pairs[i] for i in ordered],
         [layer],
         batch_size=batch_size,
         max_length=max_length,
